@@ -117,7 +117,7 @@ describe(@"MKStackLayout", ^{
         [sublayout addSubview:subview1];
         [layout addSublayout:sublayout];
         
-           [layout layout];
+        [layout layout];
         
         expect(0.0f).to.equal(subview1.frame.origin.x);
         expect(0.0f).to.equal(subview1.frame.origin.y);
@@ -134,7 +134,7 @@ describe(@"MKStackLayout", ^{
         
         [layout addSublayout:sublayout];
         
-           [layout layout];
+        [layout layout];
         
         expect(0.0f + 10.0f).to.equal(subview1.frame.origin.x);
         expect(0.0f + 10.0f).to.equal(subview1.frame.origin.y);
