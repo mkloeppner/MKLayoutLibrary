@@ -13,16 +13,30 @@
 - (void)layoutBounds:(CGRect)bounds
 {
     for (int i = 0; i < self.items.count; i++) {
-        MKLayoutItem *layoutItem = self.items[i];
+        MKStackLayoutItem *layoutItem = self.items[i];
         
         CGRect rect = UIEdgeInsetsInsetRect(bounds, layoutItem.margin);
         
-        if (layoutItem.view) {
-            layoutItem.view.frame = rect;
+        if (layoutItem.subview) {
+            layoutItem.subview.frame = rect;
         } else if (layoutItem.sublayout) {
             [layoutItem.sublayout layoutBounds:rect];
         }
     }
+}
+
+- (MKStackLayoutItem *)addSubview:(UIView *)subview
+{
+    MKStackLayoutItem *stackLayoutItem = [[MKStackLayoutItem alloc] initWithLayout:self subview:subview];
+    [self addLayoutItem:stackLayoutItem];
+    return stackLayoutItem;
+}
+
+- (MKStackLayoutItem *)addSublayout:(MKLayout *)sublayout
+{
+    MKStackLayoutItem *stackLayoutItem = [[MKStackLayoutItem alloc] initWithLayout:self sublayout:sublayout];
+    [self addLayoutItem:stackLayoutItem];
+    return stackLayoutItem;
 }
 
 @end

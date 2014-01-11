@@ -22,7 +22,6 @@ describe(@"MKStackLayout", ^{
     
     __block UIView *subview1;
     __block UIView *subview2;
-    __block UIView *subview3;
     
     beforeEach(^{
         container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 100.0)];
@@ -30,7 +29,6 @@ describe(@"MKStackLayout", ^{
         
         subview1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         subview2 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
-        subview3 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
     });
     
     it(@"should stack a view", ^{
@@ -65,14 +63,14 @@ describe(@"MKStackLayout", ^{
         
         // draw order
         expect(layout.items.count).to.equal(2);
-        expect(subview1).to.equal([layout.items[0] view]);
-        expect(subview2).to.equal([layout.items[1] view]);
+        expect(subview1).to.equal([layout.items[0] subview]);
+        expect(subview2).to.equal([layout.items[1] subview]);
         
     });
     
     it(@"should insert a margin for a view its specified", ^{
         
-        MKLayoutItem *layoutItem1 = [layout addSubview:subview1];
+        MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
         layoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         [layout layout];
@@ -86,8 +84,8 @@ describe(@"MKStackLayout", ^{
     
     it(@"should insert different margins for different views", ^{
         
-        MKLayoutItem *layoutItem1 = [layout addSubview:subview1];
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
+        MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
         
         layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         layoutItem2.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
@@ -106,8 +104,8 @@ describe(@"MKStackLayout", ^{
         
         // draw order
         expect(layout.items.count).to.equal(2);
-        expect(subview1).to.equal([layout.items[0] view]);
-        expect(subview2).to.equal([layout.items[1] view]);
+        expect(subview1).to.equal([layout.items[0] subview]);
+        expect(subview2).to.equal([layout.items[1] subview]);
         
     });
     
@@ -129,7 +127,7 @@ describe(@"MKStackLayout", ^{
     it(@"should apply margin of sublayout", ^{
         
         MKStackLayout *sublayout = [[MKStackLayout alloc] initWithView:container];
-        MKLayoutItem *layoutItem1 = [sublayout addSubview:subview1];
+        MKStackLayoutItem *layoutItem1 = [sublayout addSubview:subview1];
         layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
         [layout addSublayout:sublayout];
@@ -146,8 +144,8 @@ describe(@"MKStackLayout", ^{
     it(@"should apply margin with a depth of hirarchy of two", ^{
         
         MKStackLayout *stackLayout = [[MKStackLayout alloc] initWithView:container];
-        MKLayoutItem *layoutItem1 = [stackLayout addSubview:subview1];
-        MKLayoutItem *layoutItem2 = [layout addSublayout:stackLayout];
+        MKStackLayoutItem *layoutItem1 = [stackLayout addSubview:subview1];
+        MKStackLayoutItem *layoutItem2 = [layout addSublayout:stackLayout];
         
         layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         layoutItem2.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);

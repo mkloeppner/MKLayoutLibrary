@@ -7,7 +7,11 @@
 //
 
 #import "MKLayout.h"
+#import "MKStackLayoutItem.h"
 
 @interface MKStackLayout : MKLayout
+
+- (MKStackLayoutItem *)addSublayout:(MKLayout *)sublayout;
+- (MKStackLayoutItem *)addSubview:(UIView *)subview;
 
 @end

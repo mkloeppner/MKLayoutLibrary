@@ -42,7 +42,7 @@ describe(@"MKLinearLayout", ^{
     
     // Absolute layouting
     it(@"should layout a view horinzontally with the specified width", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -56,10 +56,10 @@ describe(@"MKLinearLayout", ^{
     
     it(@"should layout two views horinzontally with specified widths", ^{
         
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.points = 70.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -78,7 +78,7 @@ describe(@"MKLinearLayout", ^{
     });
     
     it(@"should layout a view horinzontally with the specified width", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -92,10 +92,10 @@ describe(@"MKLinearLayout", ^{
     
     it(@"should layout two views vertically with specified widths", ^{
         
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.points = 70.0f;
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -116,7 +116,7 @@ describe(@"MKLinearLayout", ^{
     
     // Relative layouting
     it(@"should layout a view horizontally with specified weight", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -129,10 +129,10 @@ describe(@"MKLinearLayout", ^{
     });
     
     it(@"should layout two views horizontally with specified weights", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -150,10 +150,10 @@ describe(@"MKLinearLayout", ^{
     });
     
     it(@"should layout two views horizontally with different weights", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 2.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -171,7 +171,7 @@ describe(@"MKLinearLayout", ^{
     });
     
     it(@"should layout a view vertically with specified weight", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -184,10 +184,10 @@ describe(@"MKLinearLayout", ^{
     });
     
     it(@"should layout two views vertically with specified weights", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -205,10 +205,10 @@ describe(@"MKLinearLayout", ^{
     });
     
     it(@"should layout two views vertically with different weights", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 2.0f;
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -227,10 +227,10 @@ describe(@"MKLinearLayout", ^{
     
     // Mixed layouting
     it(@"should layout two views horizontally with one absolute and the other with relative size specified", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -248,13 +248,13 @@ describe(@"MKLinearLayout", ^{
     });
     
     it(@"should layout three views horizontally with one absolute and the others with relative size specified", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         
-        MKLayoutItem *layoutItem3 = [layout addSubview:subview3];
+        MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -278,13 +278,13 @@ describe(@"MKLinearLayout", ^{
     });
     
     it(@"should layout three views horizontally with one absolute and the others with different relative sizes specified", ^{
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
-        MKLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         
-        MKLayoutItem *layoutItem3 = [layout addSubview:subview3];
+        MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 2.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -314,11 +314,11 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
         sublayout.orientation = MKLinearLayoutOrientationHorizontal;
         
-        MKLayoutItem *sublayoutItem = [sublayout addSubview:subview1];
+        MKLinearLayoutItem *sublayoutItem = [sublayout addSubview:subview1];
         sublayoutItem.weight = 1.0f;
         // Ends creation
         
-        MKLayoutItem *layoutItem = [layout addSublayout:sublayout];
+        MKLinearLayoutItem *layoutItem = [layout addSublayout:sublayout];
         layoutItem.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -332,18 +332,18 @@ describe(@"MKLinearLayout", ^{
     
     it(@"should layout the sublayout views with contentBounds of the sublayout item regarding position and available space", ^{
         
-        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
         // Creation of sublayout
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
         sublayout.orientation = MKLinearLayoutOrientationHorizontal;
         
-        MKLayoutItem *sublayoutItem = [sublayout addSubview:subview2];
+        MKLinearLayoutItem *sublayoutItem = [sublayout addSubview:subview2];
         sublayoutItem.weight = 1.0f;
         // Ends creation
         
-        MKLayoutItem *layoutItem2 = [layout addSublayout:sublayout];
+        MKLinearLayoutItem *layoutItem2 = [layout addSublayout:sublayout];
         layoutItem2.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
