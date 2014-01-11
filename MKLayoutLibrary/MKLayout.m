@@ -27,25 +27,24 @@
     return self;
 }
 
-- (MKViewLayoutItem *)addSubview:(UIView *)subview
+- (MKLayoutItem *)addSubview:(UIView *)subview
 {
-    MKViewLayoutItem *layoutItem = [[MKViewLayoutItem alloc] initWithLayout:self view:subview];
+    MKLayoutItem *layoutItem = [[MKLayoutItem alloc] initWithLayout:self view:subview];
     [self addLayoutItem:layoutItem];
     return layoutItem;
 }
 
-- (MKSublayoutLayoutItem *)addSublayout:(MKLayout *)sublayout
+- (MKLayoutItem *)addSublayout:(MKLayout *)sublayout
 {
-    MKSublayoutLayoutItem *layoutItem = [[MKSublayoutLayoutItem alloc] initWithLayout:self sublayout:sublayout];
+    MKLayoutItem *layoutItem = [[MKLayoutItem alloc] initWithLayout:self sublayout:sublayout];
     [self addLayoutItem:layoutItem];
     return layoutItem;
 }
 
 - (void)addLayoutItem:(MKLayoutItem *)layoutItem
 {
-    if ([layoutItem isKindOfClass:[MKViewLayoutItem class]]) {
-        MKViewLayoutItem * layoutItemView = (MKViewLayoutItem *)layoutItem;
-        [self.view addSubview:layoutItemView.view];
+    if (layoutItem.view) {
+        [self.view addSubview:layoutItem.view];
     }
     [self.mutableItems addObject:layoutItem];
 }

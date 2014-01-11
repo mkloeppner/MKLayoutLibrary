@@ -318,7 +318,7 @@ describe(@"MKLinearLayout", ^{
         sublayoutItem.weight = 1.0f;
         // Ends creation
         
-        MKSublayoutLayoutItem *layoutItem = [layout addSublayout:sublayout];
+        MKLayoutItem *layoutItem = [layout addSublayout:sublayout];
         layoutItem.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -343,7 +343,7 @@ describe(@"MKLinearLayout", ^{
         sublayoutItem.weight = 1.0f;
         // Ends creation
         
-        MKSublayoutLayoutItem *layoutItem2 = [layout addSublayout:sublayout];
+        MKLayoutItem *layoutItem2 = [layout addSublayout:sublayout];
         layoutItem2.weight = 1.0f;
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;

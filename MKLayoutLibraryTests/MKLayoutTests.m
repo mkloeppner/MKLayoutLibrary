@@ -53,7 +53,7 @@ describe(@"MKLayout", ^{
     
     it(@"should return an layout reference object to identify the childViews associated layout parameters", ^{
         UIView *childView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
-        MKViewLayoutItem *layoutItem = [layout addSubview:childView];
+        MKLayoutItem *layoutItem = [layout addSubview:childView];
         
         expect(layoutItem).toNot.beNil;
         expect(layoutItem.view).to.equal(childView);
@@ -76,7 +76,7 @@ describe(@"MKLayout", ^{
         UIView *childView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         
         MKLayout *sublayout = [[MKLayout alloc] initWithView:container];
-        MKViewLayoutItem *layoutItem = [sublayout addSubview:childView];
+        MKLayoutItem *layoutItem = [sublayout addSubview:childView];
         [layout addSublayout:sublayout];
         
         expect(layoutItem).toNot.beNil;
@@ -91,7 +91,7 @@ describe(@"MKLayout", ^{
         
         MKLayout *sublayout = [[MKLayout alloc] initWithView:container];
         [sublayout addSubview:childView];
-        MKSublayoutLayoutItem *sublayoutItem = [layout addSublayout:sublayout];
+        MKLayoutItem *sublayoutItem = [layout addSublayout:sublayout];
         
         [sublayoutItem removeFromLayout];
         

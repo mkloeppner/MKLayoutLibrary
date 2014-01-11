@@ -17,12 +17,10 @@
         
         CGRect rect = UIEdgeInsetsInsetRect(bounds, layoutItem.margin);
         
-        if ([layoutItem isKindOfClass:[MKViewLayoutItem class]]) {
-            MKViewLayoutItem *viewLayoutItem = (MKViewLayoutItem *)layoutItem;
-            viewLayoutItem.view.frame = rect;
-        } else if ([layoutItem isKindOfClass:[MKSublayoutLayoutItem class]]) {
-            MKSublayoutLayoutItem *sublayoutItem = (MKSublayoutLayoutItem *)layoutItem;
-            [sublayoutItem.sublayout layoutBounds:rect];
+        if (layoutItem.view) {
+            layoutItem.view.frame = rect;
+        } else if (layoutItem.sublayout) {
+            [layoutItem.sublayout layoutBounds:rect];
         }
     }
 }

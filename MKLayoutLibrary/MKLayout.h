@@ -23,8 +23,8 @@
 
 - (instancetype)initWithView:(UIView *)view;
 
-- (MKViewLayoutItem *)addSubview:(UIView *)subview;
-- (MKSublayoutLayoutItem *)addSublayout:(MKLayout *)sublayout;
+- (MKLayoutItem *)addSubview:(UIView *)subview;
+- (MKLayoutItem *)addSublayout:(MKLayout *)sublayout;
 
 - (void)addLayoutItem:(MKLayoutItem *)layoutItem;
 

@@ -28,11 +28,10 @@
     
     for (int i = 0; i < self.items.count; i++) {
         MKLayoutItem *item = self.items[i];
-        MKViewLayoutItem *viewLayoutItem = (MKViewLayoutItem *)item;
-        if (viewLayoutItem.usesRelativeSize) {
-            overallWeight += viewLayoutItem.weight;
+        if (item.usesRelativeSize) {
+            overallWeight += item.weight;
         } else {
-            overallPoints += viewLayoutItem.points;
+            overallPoints += item.points;
         }
     }
     
@@ -52,12 +51,10 @@
         rect.origin.x += bounds.origin.x;
         rect.origin.y += bounds.origin.y;
         
-        if ([item isKindOfClass:[MKViewLayoutItem class]]) {
-            MKViewLayoutItem *viewLayoutItem = (MKViewLayoutItem *)item;
-            viewLayoutItem.view.frame = rect;
-        } else if ([item isKindOfClass:[MKSublayoutLayoutItem class]]) {
-            MKSublayoutLayoutItem *sublayoutItem = (MKSublayoutLayoutItem *)item;
-            [sublayoutItem.sublayout layoutBounds:rect];
+        if (item.view) {
+            item.view.frame = rect;
+        } else if (item.sublayout) {
+            [item.sublayout layoutBounds:rect];
         }
         
         currentPos += currentStep;

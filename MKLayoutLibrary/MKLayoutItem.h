@@ -12,7 +12,8 @@
 
 @interface MKLayoutItem : NSObject
 
-- (instancetype)initWithLayout:(MKLayout *)layout;
+- (instancetype)initWithLayout:(MKLayout *)layout view:(UIView *)view;
+- (instancetype)initWithLayout:(MKLayout *)layout sublayout:(MKLayout *)sublayout;
 
 @property (weak, nonatomic, readonly) MKLayout *layout;
 
@@ -48,24 +49,9 @@
  */
 @property (assign, nonatomic, readonly) BOOL usesRelativeSize;
 
-- (void)removeFromLayout;
-
-@end
-
-
-@interface MKViewLayoutItem : MKLayoutItem
-
-- (instancetype)initWithLayout:(MKLayout *)layout view:(UIView *)view;
-
 @property (strong, nonatomic, readonly) UIView *view;
-
-@end
-
-
-@interface MKSublayoutLayoutItem : MKLayoutItem
-
-- (instancetype)initWithLayout:(MKLayout *)layout sublayout:(MKLayout *)sublayout;
-
 @property (strong, nonatomic, readonly) MKLayout *sublayout;
+
+- (void)removeFromLayout;
 
 @end

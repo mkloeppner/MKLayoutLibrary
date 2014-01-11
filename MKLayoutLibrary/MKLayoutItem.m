@@ -19,6 +19,9 @@
 
 @property (weak, nonatomic) MKLayout *layout;
 @property (assign, nonatomic) BOOL usesRelativeSize;
+@property (strong, nonatomic, readwrite) UIView *view;
+@property (strong, nonatomic, readwrite) MKLayout *sublayout;
+
 
 @end
 
@@ -34,9 +37,33 @@
     return self;
 }
 
+- (instancetype)initWithLayout:(MKLayout *)layout sublayout:(MKLayout *)sublayout
+{
+    MKLayoutItem *item = [self initWithLayout:layout];
+    item.sublayout = sublayout;
+    return item;
+}
+
+- (instancetype)initWithLayout:(MKLayout *)layout view:(UIView *)view
+{
+    MKLayoutItem *item = [self initWithLayout:layout];
+    item.view = view;
+    return item;
+}
+
 - (void)removeFromLayout
 {
+    [self removeAssociatedViews];
     [self.layout removeLayoutItem:self];
+}
+
+- (void)removeAssociatedViews
+{
+    [self.view removeFromSuperview];
+    
+    for (MKLayoutItem *item in self.sublayout.items) {
+        [item removeFromLayout];
+    }
 }
 
 - (void)setPoints:(CGFloat)points
@@ -49,61 +76,6 @@
 {
     _weight = weight;
     self.usesRelativeSize = YES;
-}
-
-@end
-
-
-
-@interface MKViewLayoutItem ()
-
-@property (strong, nonatomic) UIView *view;
-
-@end
-
-@implementation MKViewLayoutItem
-
-- (instancetype)initWithLayout:(MKLayout *)layout view:(UIView *)view
-{
-    self = [super initWithLayout:layout];
-    if (self) {
-        self.view = view;
-    }
-    return self;
-}
-
-- (void)removeFromLayout
-{
-    [self.view removeFromSuperview];
-    [super removeFromLayout];
-}
-
-@end
-
-
-@interface MKSublayoutLayoutItem ()
-
-@property (strong, nonatomic) MKLayout *sublayout;
-
-@end
-
-@implementation MKSublayoutLayoutItem
-
-- (instancetype)initWithLayout:(MKLayout *)layout sublayout:(MKLayout *)sublayout
-{
-    self = [super initWithLayout:layout];
-    if (self) {
-        self.sublayout = sublayout;
-    }
-    return self;
-}
-
-- (void)removeFromLayout
-{
-    for (MKLayoutItem *item in self.sublayout.items) {
-        [item removeFromLayout];
-    }
-    [super removeFromLayout];
 }
 
 @end
