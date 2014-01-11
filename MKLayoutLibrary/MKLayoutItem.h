@@ -12,12 +12,12 @@
 
 @interface MKLayoutItem : NSObject
 
-- (instancetype)initWithLayout:(MKLayout *)layout view:(UIView *)view;
+- (instancetype)initWithLayout:(MKLayout *)layout subview:(UIView *)view;
 - (instancetype)initWithLayout:(MKLayout *)layout sublayout:(MKLayout *)sublayout;
 
 @property (weak, nonatomic, readonly) MKLayout *layout;
 
-@property (strong, nonatomic, readonly) UIView *view;
+@property (strong, nonatomic, readonly) UIView *subview;
 
 @property (strong, nonatomic, readonly) MKLayout *sublayout;
 

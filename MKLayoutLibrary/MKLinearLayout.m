@@ -21,7 +21,7 @@
 
 - (MKLinearLayoutItem *)addSubview:(UIView *)subview
 {
-    MKLinearLayoutItem *item = [[MKLinearLayoutItem alloc] initWithLayout:self view:subview];
+    MKLinearLayoutItem *item = [[MKLinearLayoutItem alloc] initWithLayout:self subview:subview];
     [self addLayoutItem:item];
     return item;
 }
@@ -65,8 +65,8 @@
         rect.origin.x += bounds.origin.x;
         rect.origin.y += bounds.origin.y;
         
-        if (item.view) {
-            item.view.frame = rect;
+        if (item.subview) {
+            item.subview.frame = rect;
         } else if (item.sublayout) {
             [item.sublayout layoutBounds:rect];
         }

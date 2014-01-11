@@ -29,7 +29,7 @@
 
 - (MKLayoutItem *)addSubview:(UIView *)subview
 {
-    MKLayoutItem *layoutItem = [[MKLayoutItem alloc] initWithLayout:self view:subview];
+    MKLayoutItem *layoutItem = [[MKLayoutItem alloc] initWithLayout:self subview:subview];
     [self addLayoutItem:layoutItem];
     return layoutItem;
 }
@@ -43,8 +43,8 @@
 
 - (void)addLayoutItem:(MKLayoutItem *)layoutItem
 {
-    if (layoutItem.view) {
-        [self.view addSubview:layoutItem.view];
+    if (layoutItem.subview) {
+        [self.view addSubview:layoutItem.subview];
     }
     [self.mutableItems addObject:layoutItem];
 }

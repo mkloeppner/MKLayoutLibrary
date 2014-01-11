@@ -56,7 +56,7 @@ describe(@"MKLayout", ^{
         MKLayoutItem *layoutItem = [layout addSubview:childView];
         
         expect(layoutItem).toNot.beNil;
-        expect(layoutItem.view).to.equal(childView);
+        expect(layoutItem.subview).to.equal(childView);
         expect(layoutItem.layout).to.equal(layout);
     });
     
@@ -80,7 +80,7 @@ describe(@"MKLayout", ^{
         [layout addSublayout:sublayout];
         
         expect(layoutItem).toNot.beNil;
-        expect(layoutItem.view).to.equal(childView);
+        expect(layoutItem.subview).to.equal(childView);
         expect(layoutItem.layout).to.equal(sublayout);
         
     });

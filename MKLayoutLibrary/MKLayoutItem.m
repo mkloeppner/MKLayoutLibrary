@@ -18,7 +18,7 @@
 @interface MKLayoutItem ()
 
 @property (weak, nonatomic) MKLayout *layout;
-@property (strong, nonatomic, readwrite) UIView *view;
+@property (strong, nonatomic, readwrite) UIView *subview;
 @property (strong, nonatomic, readwrite) MKLayout *sublayout;
 
 
@@ -42,10 +42,10 @@
     return item;
 }
 
-- (instancetype)initWithLayout:(MKLayout *)layout view:(UIView *)view
+- (instancetype)initWithLayout:(MKLayout *)layout subview:(UIView *)view
 {
     MKLayoutItem *item = [self initWithLayout:layout];
-    item.view = view;
+    item.subview = view;
     return item;
 }
 
@@ -57,7 +57,7 @@
 
 - (void)removeAssociatedViews
 {
-    [self.view removeFromSuperview];
+    [self.subview removeFromSuperview];
     
     for (MKLayoutItem *item in self.sublayout.items) {
         [item removeFromLayout];

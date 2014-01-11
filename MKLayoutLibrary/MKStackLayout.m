@@ -17,8 +17,8 @@
         
         CGRect rect = UIEdgeInsetsInsetRect(bounds, layoutItem.margin);
         
-        if (layoutItem.view) {
-            layoutItem.view.frame = rect;
+        if (layoutItem.subview) {
+            layoutItem.subview.frame = rect;
         } else if (layoutItem.sublayout) {
             [layoutItem.sublayout layoutBounds:rect];
         }
@@ -27,7 +27,7 @@
 
 - (MKStackLayoutItem *)addSubview:(UIView *)subview
 {
-    MKStackLayoutItem *stackLayoutItem = [[MKStackLayoutItem alloc] initWithLayout:self view:subview];
+    MKStackLayoutItem *stackLayoutItem = [[MKStackLayoutItem alloc] initWithLayout:self subview:subview];
     [self addLayoutItem:stackLayoutItem];
     return stackLayoutItem;
 }
