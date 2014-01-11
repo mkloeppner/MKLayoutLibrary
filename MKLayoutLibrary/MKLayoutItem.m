@@ -18,7 +18,6 @@
 @interface MKLayoutItem ()
 
 @property (weak, nonatomic) MKLayout *layout;
-@property (assign, nonatomic) BOOL usesRelativeSize;
 @property (strong, nonatomic, readwrite) UIView *view;
 @property (strong, nonatomic, readwrite) MKLayout *sublayout;
 
@@ -32,7 +31,6 @@
     self = [super init];
     if (self) {
         self.layout = layout;
-        self.usesRelativeSize = NO;
     }
     return self;
 }
@@ -64,18 +62,6 @@
     for (MKLayoutItem *item in self.sublayout.items) {
         [item removeFromLayout];
     }
-}
-
-- (void)setPoints:(CGFloat)points
-{
-    _points = points;
-    self.usesRelativeSize = NO;
-}
-
-- (void)setWeight:(CGFloat)weight
-{
-    _weight = weight;
-    self.usesRelativeSize = YES;
 }
 
 @end

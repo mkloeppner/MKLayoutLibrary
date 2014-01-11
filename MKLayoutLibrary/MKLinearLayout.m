@@ -19,6 +19,20 @@
     return self;
 }
 
+- (MKLinearLayoutItem *)addSubview:(UIView *)subview
+{
+    MKLinearLayoutItem *item = [[MKLinearLayoutItem alloc] initWithLayout:self view:subview];
+    [self addLayoutItem:item];
+    return item;
+}
+
+- (MKLinearLayoutItem *)addSublayout:(MKLayout *)sublayout
+{
+    MKLinearLayoutItem *item = [[MKLinearLayoutItem alloc] initWithLayout:self sublayout:sublayout];
+    [self addLayoutItem:item];
+    return item;
+}
+
 - (void)layoutBounds:(CGRect)bounds
 {
     float currentPos = 0.0f;
@@ -27,7 +41,7 @@
     float contentSize = self.orientation == MKLinearLayoutOrientationHorizontal ? bounds.size.width : bounds.size.height;
     
     for (int i = 0; i < self.items.count; i++) {
-        MKLayoutItem *item = self.items[i];
+        MKLinearLayoutItem *item = self.items[i];
         if (item.usesRelativeSize) {
             overallWeight += item.weight;
         } else {
@@ -37,7 +51,7 @@
     
     for (int i = 0; i < self.items.count; i++) {
         
-        MKLayoutItem *item = self.items[i];
+        MKLinearLayoutItem *item = self.items[i];
         
         float currentStep = item.points;
         if (item.usesRelativeSize) {
