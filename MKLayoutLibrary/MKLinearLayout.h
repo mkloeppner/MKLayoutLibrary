@@ -7,6 +7,7 @@
 //
 
 #import "MKLayout.h"
+#import "MKLinearLayoutItem.h"
 
 typedef enum {
     MKLinearLayoutOrientationHorizontal,
@@ -16,5 +17,8 @@ typedef enum {
 @interface MKLinearLayout : MKLayout
 
 @property (assign, nonatomic) MKLinearLayoutOrientation orientation;
+
+- (MKLinearLayoutItem *)addSublayout:(MKLayout *)sublayout;
+- (MKLinearLayoutItem *)addSubview:(UIView *)subview;
 
 @end

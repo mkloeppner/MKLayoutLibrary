@@ -19,6 +19,20 @@
     return self;
 }
 
+- (MKLinearLayoutItem *)addSubview:(UIView *)subview
+{
+    MKLinearLayoutItem *item = [[MKLinearLayoutItem alloc] initWithLayout:self subview:subview];
+    [self addLayoutItem:item];
+    return item;
+}
+
+- (MKLinearLayoutItem *)addSublayout:(MKLayout *)sublayout
+{
+    MKLinearLayoutItem *item = [[MKLinearLayoutItem alloc] initWithLayout:self sublayout:sublayout];
+    [self addLayoutItem:item];
+    return item;
+}
+
 - (void)layoutBounds:(CGRect)bounds
 {
     float currentPos = 0.0f;
@@ -27,18 +41,17 @@
     float contentSize = self.orientation == MKLinearLayoutOrientationHorizontal ? bounds.size.width : bounds.size.height;
     
     for (int i = 0; i < self.items.count; i++) {
-        MKLayoutItem *item = self.items[i];
-        MKViewLayoutItem *viewLayoutItem = (MKViewLayoutItem *)item;
-        if (viewLayoutItem.usesRelativeSize) {
-            overallWeight += viewLayoutItem.weight;
+        MKLinearLayoutItem *item = self.items[i];
+        if (item.usesRelativeSize) {
+            overallWeight += item.weight;
         } else {
-            overallPoints += viewLayoutItem.points;
+            overallPoints += item.points;
         }
     }
     
     for (int i = 0; i < self.items.count; i++) {
         
-        MKLayoutItem *item = self.items[i];
+        MKLinearLayoutItem *item = self.items[i];
         
         float currentStep = item.points;
         if (item.usesRelativeSize) {
@@ -52,12 +65,10 @@
         rect.origin.x += bounds.origin.x;
         rect.origin.y += bounds.origin.y;
         
-        if ([item isKindOfClass:[MKViewLayoutItem class]]) {
-            MKViewLayoutItem *viewLayoutItem = (MKViewLayoutItem *)item;
-            viewLayoutItem.view.frame = rect;
-        } else if ([item isKindOfClass:[MKSublayoutLayoutItem class]]) {
-            MKSublayoutLayoutItem *sublayoutItem = (MKSublayoutLayoutItem *)item;
-            [sublayoutItem.sublayout layoutBounds:rect];
+        if (item.subview) {
+            item.subview.frame = rect;
+        } else if (item.sublayout) {
+            [item.sublayout layoutBounds:rect];
         }
         
         currentPos += currentStep;

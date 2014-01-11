@@ -18,7 +18,9 @@
 @interface MKLayoutItem ()
 
 @property (weak, nonatomic) MKLayout *layout;
-@property (assign, nonatomic) BOOL usesRelativeSize;
+@property (strong, nonatomic, readwrite) UIView *subview;
+@property (strong, nonatomic, readwrite) MKLayout *sublayout;
+
 
 @end
 
@@ -29,81 +31,37 @@
     self = [super init];
     if (self) {
         self.layout = layout;
-        self.usesRelativeSize = NO;
     }
     return self;
 }
-
-- (void)removeFromLayout
-{
-    [self.layout removeLayoutItem:self];
-}
-
-- (void)setPoints:(CGFloat)points
-{
-    _points = points;
-    self.usesRelativeSize = NO;
-}
-
-- (void)setWeight:(CGFloat)weight
-{
-    _weight = weight;
-    self.usesRelativeSize = YES;
-}
-
-@end
-
-
-
-@interface MKViewLayoutItem ()
-
-@property (strong, nonatomic) UIView *view;
-
-@end
-
-@implementation MKViewLayoutItem
-
-- (instancetype)initWithLayout:(MKLayout *)layout view:(UIView *)view
-{
-    self = [super initWithLayout:layout];
-    if (self) {
-        self.view = view;
-    }
-    return self;
-}
-
-- (void)removeFromLayout
-{
-    [self.view removeFromSuperview];
-    [super removeFromLayout];
-}
-
-@end
-
-
-@interface MKSublayoutLayoutItem ()
-
-@property (strong, nonatomic) MKLayout *sublayout;
-
-@end
-
-@implementation MKSublayoutLayoutItem
 
 - (instancetype)initWithLayout:(MKLayout *)layout sublayout:(MKLayout *)sublayout
 {
-    self = [super initWithLayout:layout];
-    if (self) {
-        self.sublayout = sublayout;
-    }
-    return self;
+    MKLayoutItem *item = [self initWithLayout:layout];
+    item.sublayout = sublayout;
+    return item;
+}
+
+- (instancetype)initWithLayout:(MKLayout *)layout subview:(UIView *)view
+{
+    MKLayoutItem *item = [self initWithLayout:layout];
+    item.subview = view;
+    return item;
 }
 
 - (void)removeFromLayout
 {
+    [self removeAssociatedViews];
+    [self.layout removeLayoutItem:self];
+}
+
+- (void)removeAssociatedViews
+{
+    [self.subview removeFromSuperview];
+    
     for (MKLayoutItem *item in self.sublayout.items) {
         [item removeFromLayout];
     }
-    [super removeFromLayout];
 }
 
 @end
