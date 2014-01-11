@@ -77,8 +77,8 @@ describe(@"MKStackLayout", ^{
         
         [layout layout];
         
-        expect(0.0f).to.equal(subview1.frame.origin.x + 5.0f);
-        expect(0.0f).to.equal(subview1.frame.origin.y + 5.0f);
+        expect(0.0f + 5.0f).to.equal(subview1.frame.origin.x);
+        expect(0.0f + 5.0f).to.equal(subview1.frame.origin.y);
         expect(container.frame.size.width - 10.0f).to.equal(subview1.frame.size.width);
         expect(container.frame.size.height - 10.0f).to.equal(subview1.frame.size.height);
         
@@ -94,8 +94,8 @@ describe(@"MKStackLayout", ^{
         
         [layout layout];
         
-        expect(0.0f).to.equal(subview1.frame.origin.x + 10.0f);
-        expect(0.0f).to.equal(subview1.frame.origin.y + 10.0f);
+        expect(0.0f + 10.0f).to.equal(subview1.frame.origin.x);
+        expect(0.0f + 10.0f).to.equal(subview1.frame.origin.y);
         expect(container.frame.size.width - 20.0f).to.equal(subview1.frame.size.width);
         expect(container.frame.size.height - 20.0f).to.equal(subview1.frame.size.height);
         
@@ -117,6 +117,8 @@ describe(@"MKStackLayout", ^{
         [sublayout addSubview:subview1];
         [layout addSublayout:sublayout];
         
+           [layout layout];
+        
         expect(0.0f).to.equal(subview1.frame.origin.x);
         expect(0.0f).to.equal(subview1.frame.origin.y);
         expect(container.frame.size.width).to.equal(subview1.frame.size.width);
@@ -131,6 +133,8 @@ describe(@"MKStackLayout", ^{
         layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
         [layout addSublayout:sublayout];
+        
+           [layout layout];
         
         expect(0.0f + 10.0f).to.equal(subview1.frame.origin.x);
         expect(0.0f + 10.0f).to.equal(subview1.frame.origin.y);
