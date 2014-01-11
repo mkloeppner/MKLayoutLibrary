@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		844A25ECF66148B2AFFEEFAC /* libPods-MKLayoutLibraryTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A155B8C241DF483C9A2BE48D /* libPods-MKLayoutLibraryTests.a */; };
 		B582414F1881929A008A472F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B582414E1881929A008A472F /* Foundation.framework */; };
 		B58241541881929A008A472F /* MKLayoutLibrary.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B58241531881929A008A472F /* MKLayoutLibrary.h */; };
 		B58241561881929A008A472F /* MKLayoutLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = B58241551881929A008A472F /* MKLayoutLibrary.m */; };
@@ -16,6 +17,12 @@
 		B58241631881929A008A472F /* libMKLayoutLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B582414B1881929A008A472F /* libMKLayoutLibrary.a */; };
 		B58241691881929A008A472F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B58241671881929A008A472F /* InfoPlist.strings */; };
 		B582416B1881929A008A472F /* MKLayoutLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B582416A1881929A008A472F /* MKLayoutLibraryTests.m */; };
+		B582417A188192B3008A472F /* MKLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B5824175188192B3008A472F /* MKLayout.m */; };
+		B582417B188192B3008A472F /* MKLayoutItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B5824177188192B3008A472F /* MKLayoutItem.m */; };
+		B582417C188192B3008A472F /* MKLinearLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B5824179188192B3008A472F /* MKLinearLayout.m */; };
+		B582417F188192C7008A472F /* MKLayoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B582417D188192C7008A472F /* MKLayoutTests.m */; };
+		B5824180188192C7008A472F /* MKLinearLayoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B582417E188192C7008A472F /* MKLinearLayoutTests.m */; };
+		B58241821881937E008A472F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B58241811881937E008A472F /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +49,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A155B8C241DF483C9A2BE48D /* libPods-MKLayoutLibraryTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MKLayoutLibraryTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B582414B1881929A008A472F /* libMKLayoutLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMKLayoutLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B582414E1881929A008A472F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B58241521881929A008A472F /* MKLayoutLibrary-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MKLayoutLibrary-Prefix.pch"; sourceTree = "<group>"; };
@@ -53,6 +61,16 @@
 		B58241661881929A008A472F /* MKLayoutLibraryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MKLayoutLibraryTests-Info.plist"; sourceTree = "<group>"; };
 		B58241681881929A008A472F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B582416A1881929A008A472F /* MKLayoutLibraryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKLayoutLibraryTests.m; sourceTree = "<group>"; };
+		B5824174188192B3008A472F /* MKLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLayout.h; sourceTree = "<group>"; };
+		B5824175188192B3008A472F /* MKLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLayout.m; sourceTree = "<group>"; };
+		B5824176188192B3008A472F /* MKLayoutItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLayoutItem.h; sourceTree = "<group>"; };
+		B5824177188192B3008A472F /* MKLayoutItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLayoutItem.m; sourceTree = "<group>"; };
+		B5824178188192B3008A472F /* MKLinearLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLinearLayout.h; sourceTree = "<group>"; };
+		B5824179188192B3008A472F /* MKLinearLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLinearLayout.m; sourceTree = "<group>"; };
+		B582417D188192C7008A472F /* MKLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLayoutTests.m; sourceTree = "<group>"; };
+		B582417E188192C7008A472F /* MKLinearLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLinearLayoutTests.m; sourceTree = "<group>"; };
+		B58241811881937E008A472F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E17CAFEC62B04BF7A8718C6A /* Pods-MKLayoutLibraryTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKLayoutLibraryTests.xcconfig"; path = "Pods/Pods-MKLayoutLibraryTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B58241821881937E008A472F /* UIKit.framework in Frameworks */,
 				B582414F1881929A008A472F /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,6 +91,7 @@
 				B58241631881929A008A472F /* libMKLayoutLibrary.a in Frameworks */,
 				B58241601881929A008A472F /* UIKit.framework in Frameworks */,
 				B582415E1881929A008A472F /* Foundation.framework in Frameworks */,
+				844A25ECF66148B2AFFEEFAC /* libPods-MKLayoutLibraryTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +105,7 @@
 				B58241641881929A008A472F /* MKLayoutLibraryTests */,
 				B582414D1881929A008A472F /* Frameworks */,
 				B582414C1881929A008A472F /* Products */,
+				E17CAFEC62B04BF7A8718C6A /* Pods-MKLayoutLibraryTests.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,9 +121,11 @@
 		B582414D1881929A008A472F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B58241811881937E008A472F /* UIKit.framework */,
 				B582414E1881929A008A472F /* Foundation.framework */,
 				B582415C1881929A008A472F /* XCTest.framework */,
 				B582415F1881929A008A472F /* UIKit.framework */,
+				A155B8C241DF483C9A2BE48D /* libPods-MKLayoutLibraryTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,6 +135,12 @@
 			children = (
 				B58241531881929A008A472F /* MKLayoutLibrary.h */,
 				B58241551881929A008A472F /* MKLayoutLibrary.m */,
+				B5824174188192B3008A472F /* MKLayout.h */,
+				B5824175188192B3008A472F /* MKLayout.m */,
+				B5824176188192B3008A472F /* MKLayoutItem.h */,
+				B5824177188192B3008A472F /* MKLayoutItem.m */,
+				B5824178188192B3008A472F /* MKLinearLayout.h */,
+				B5824179188192B3008A472F /* MKLinearLayout.m */,
 				B58241511881929A008A472F /* Supporting Files */,
 			);
 			path = MKLayoutLibrary;
@@ -128,6 +157,8 @@
 		B58241641881929A008A472F /* MKLayoutLibraryTests */ = {
 			isa = PBXGroup;
 			children = (
+				B582417D188192C7008A472F /* MKLayoutTests.m */,
+				B582417E188192C7008A472F /* MKLinearLayoutTests.m */,
 				B582416A1881929A008A472F /* MKLayoutLibraryTests.m */,
 				B58241651881929A008A472F /* Supporting Files */,
 			);
@@ -167,9 +198,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B58241711881929A008A472F /* Build configuration list for PBXNativeTarget "MKLayoutLibraryTests" */;
 			buildPhases = (
+				CCD75652A81E4806ACE77768 /* Check Pods Manifest.lock */,
 				B58241571881929A008A472F /* Sources */,
 				B58241581881929A008A472F /* Frameworks */,
 				B58241591881929A008A472F /* Resources */,
+				DC35B696CFAC415BBBA34D43 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -219,12 +252,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CCD75652A81E4806ACE77768 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DC35B696CFAC415BBBA34D43 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-MKLayoutLibraryTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B58241471881929A008A472F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B582417C188192B3008A472F /* MKLinearLayout.m in Sources */,
+				B582417B188192B3008A472F /* MKLayoutItem.m in Sources */,
 				B58241561881929A008A472F /* MKLayoutLibrary.m in Sources */,
+				B582417A188192B3008A472F /* MKLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +302,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B582416B1881929A008A472F /* MKLayoutLibraryTests.m in Sources */,
+				B582417F188192C7008A472F /* MKLayoutTests.m in Sources */,
+				B5824180188192C7008A472F /* MKLinearLayoutTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +425,7 @@
 		};
 		B58241721881929A008A472F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E17CAFEC62B04BF7A8718C6A /* Pods-MKLayoutLibraryTests.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -375,6 +447,7 @@
 		};
 		B58241731881929A008A472F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E17CAFEC62B04BF7A8718C6A /* Pods-MKLayoutLibraryTests.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -409,6 +482,7 @@
 				B58241701881929A008A472F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B58241711881929A008A472F /* Build configuration list for PBXNativeTarget "MKLayoutLibraryTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +491,7 @@
 				B58241731881929A008A472F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
