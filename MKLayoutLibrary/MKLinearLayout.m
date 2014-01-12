@@ -65,6 +65,8 @@
         rect.origin.x += bounds.origin.x;
         rect.origin.y += bounds.origin.y;
         
+        rect = UIEdgeInsetsInsetRect(rect, item.margin);
+        
         if (item.subview) {
             item.subview.frame = rect;
         } else if (item.sublayout) {
