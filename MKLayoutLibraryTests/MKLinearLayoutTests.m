@@ -77,7 +77,7 @@ describe(@"MKLinearLayout", ^{
         
     });
     
-    it(@"should layout a view horinzontally with the specified width", ^{
+    it(@"should layout a view vertically with the specified width", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.points = 30.0f;
         
@@ -113,6 +113,83 @@ describe(@"MKLinearLayout", ^{
         
     });
     
+    it(@"should layout a view horizontally with margin specified", ^{
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.points = 30.0f;
+        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.points - 10.0f);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height - 10.0f);
+    });
+    
+    it(@"should layout two views horizontally with margin specified", ^{
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.points = 30.0f;
+        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.points = 70.0f;
+        layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.points - 10.0f);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height - 10.0f);
+        
+        expect(subview2.frame.origin.x).to.equal(layoutItem.points + 5.0f);
+        expect(subview2.frame.origin.y).to.equal(0.0f + 5.0f);
+        expect(subview2.frame.size.width).to.equal(layoutItem2.points - 10.0f);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height - 10.0f);
+        
+    });
+    
+    it(@"should layout a view vertically with margin specified", ^{
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.points = 30.0f;
+        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        
+        layout.orientation = MKLinearLayoutOrientationVertical;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f);
+        expect(subview1.frame.size.height).to.equal(layoutItem.points - 10.0f);
+    });
+    
+    it(@"should layout two views vertically with margin specified", ^{
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.points = 30.0f;
+        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.points = 70.0f;
+        layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        
+        layout.orientation = MKLinearLayoutOrientationVertical;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f );
+        expect(subview1.frame.size.height).to.equal(layoutItem.points - 10.0f);
+        
+        expect(subview2.frame.origin.x).to.equal(0.0f + 5.0f);
+        expect(subview2.frame.origin.y).to.equal(layoutItem.points + 5.0f);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width - 10.0f);
+        expect(subview2.frame.size.height).to.equal(layoutItem2.points - 10.0f);
+        
+    });
     
     // Relative layouting
     it(@"should layout a view horizontally with specified weight", ^{
