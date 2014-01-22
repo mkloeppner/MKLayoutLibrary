@@ -21,6 +21,8 @@
 
 @property (strong, nonatomic, readonly) MKLayout *sublayout;
 
+@property (strong, nonatomic) NSDictionary *userInfo;
+
 - (void)removeFromLayout;
 
 @end

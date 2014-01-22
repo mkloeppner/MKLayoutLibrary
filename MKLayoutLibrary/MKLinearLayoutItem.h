@@ -30,6 +30,11 @@
 @property (assign, nonatomic) CGFloat weight;
 
 /**
+ * A spacing surrounding the layout items view.
+ */
+@property (assign, nonatomic) UIEdgeInsets margin;
+
+/**
  * Specifies whenever points or weight has been set the last time.
  * to determinate if layoutItems associated views size should be calculate
  * absolute or relative.

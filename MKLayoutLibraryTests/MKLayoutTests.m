@@ -122,6 +122,17 @@ describe(@"MKLayout", ^{
         [layout layoutBounds:layout.view.bounds];
     });
     
+    it(@"should return a specified userInfo for meta data", ^{
+        UIView *childView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
+        MKLayoutItem *layoutItem = [layout addSubview:childView];
+        NSDictionary *userInfo = @{@"name": @"layoutItem"};
+        layoutItem.userInfo = userInfo;
+        
+        expect(layout.items.count).to.equal(1);
+        expect(layout.items[0]).to.equal(layoutItem);
+        expect(layoutItem.userInfo).to.equal(userInfo);
+    });
+    
 });
 
 SpecEnd

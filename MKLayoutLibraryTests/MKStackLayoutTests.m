@@ -144,8 +144,9 @@ describe(@"MKStackLayout", ^{
     it(@"should apply margin with a depth of hirarchy of two", ^{
         
         MKStackLayout *stackLayout = [[MKStackLayout alloc] initWithView:container];
-        MKStackLayoutItem *layoutItem1 = [stackLayout addSubview:subview1];
-        MKStackLayoutItem *layoutItem2 = [layout addSublayout:stackLayout];
+        MKStackLayoutItem *layoutItem1 = [layout addSublayout:stackLayout];
+        
+        MKStackLayoutItem *layoutItem2 = [stackLayout addSubview:subview1];
         
         layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         layoutItem2.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
@@ -158,6 +159,32 @@ describe(@"MKStackLayout", ^{
         expect(container.frame.size.height - 20.0f - 30.0f).to.equal(subview1.frame.size.height);
         
         
+    });
+    
+    it(@"should apply margin with a depth of hirarchy of three", ^{
+    
+        MKStackLayout *stackLayout = [[MKStackLayout alloc] initWithView:container];
+        MKStackLayoutItem *stackLayoutItem1 = [layout addSublayout:stackLayout];
+        
+        MKStackLayout *stackLayout2 = [[MKStackLayout alloc] initWithView:container];
+        MKStackLayoutItem *stackLayoutItem2 = [stackLayout addSublayout:stackLayout2];
+        
+        MKStackLayoutItem *viewLayoutItem = [stackLayout2 addSubview:subview1];
+        
+        stackLayoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        stackLayoutItem2.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        viewLayoutItem.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
+        
+        stackLayoutItem1.userInfo = @{@"name" : @"stackLayoutItem1"};
+        stackLayoutItem2.userInfo = @{@"name" : @"stackLayoutItem2"};
+        viewLayoutItem.userInfo = @{@"name" : @"viewLayoutItem"};
+        
+        [layout layout];
+        
+        expect(5.0f + 10.0f + 15.0f).to.equal(subview1.frame.origin.x);
+        expect(5.0f + 10.0f + 15.0f).to.equal(subview1.frame.origin.y);
+        expect(container.frame.size.width - 10.0f - 20.0f - 30.0f).to.equal(subview1.frame.size.width);
+        expect(container.frame.size.height - 10.0f - 20.0f - 30.0f).to.equal(subview1.frame.size.height);
     });
     
 });
