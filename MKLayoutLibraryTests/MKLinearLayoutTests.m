@@ -43,43 +43,43 @@ describe(@"MKLinearLayout", ^{
     // Absolute layouting
     it(@"should layout a view horinzontally with the specified width", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.points);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height);
     });
     
     it(@"should layout two views horinzontally with specified widths", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
-        layoutItem2.points = 70.0f;
+        layoutItem2.size = CGSizeMake(70.0f, kMKLinearLayoutSizeValueMatchParent);
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.points);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height);
         
-        expect(subview2.frame.origin.x).to.equal(layoutItem.points);
+        expect(subview2.frame.origin.x).to.equal(layoutItem.size.width);
         expect(subview2.frame.origin.y).to.equal(0.0f);
-        expect(subview2.frame.size.width).to.equal(layoutItem2.points);
+        expect(subview2.frame.size.width).to.equal(layoutItem2.size.width);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height);
         
     });
     
     it(@"should layout a view vertically with the specified width", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
         
         layout.orientation = MKLinearLayoutOrientationVertical;
         [layout layout];
@@ -87,16 +87,16 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width);
-        expect(subview1.frame.size.height).to.equal(layoutItem.points);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height);
     });
     
     it(@"should layout two views vertically with specified widths", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
-        layoutItem2.points = 70.0f;
+        layoutItem2.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 70.0f);
         
         layout.orientation = MKLinearLayoutOrientationVertical;
         [layout layout];
@@ -104,18 +104,18 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width);
-        expect(subview1.frame.size.height).to.equal(layoutItem.points);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height);
         
         expect(subview2.frame.origin.x).to.equal(0.0f);
-        expect(subview2.frame.origin.y).to.equal(layoutItem.points);
+        expect(subview2.frame.origin.y).to.equal(layoutItem.size.height);
         expect(subview2.frame.size.width).to.equal(container.frame.size.width);
-        expect(subview2.frame.size.height).to.equal(layoutItem2.points);
+        expect(subview2.frame.size.height).to.equal(layoutItem2.size.height);
         
     });
     
     it(@"should layout a view horizontally with margin specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -123,18 +123,18 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.points - 10.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width - 10.0f);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - 10.0f);
     });
     
     it(@"should layout two views horizontally with margin specified", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);;
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
-        layoutItem2.points = 70.0f;
+        layoutItem2.size = CGSizeMake(70.0f, kMKLinearLayoutSizeValueMatchParent);
         layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -142,19 +142,19 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.points - 10.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width - 10.0f);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - 10.0f);
         
-        expect(subview2.frame.origin.x).to.equal(layoutItem.points + 5.0f);
+        expect(subview2.frame.origin.x).to.equal(layoutItem.size.width + 5.0f);
         expect(subview2.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview2.frame.size.width).to.equal(layoutItem2.points - 10.0f);
+        expect(subview2.frame.size.width).to.equal(layoutItem2.size.width - 10.0f);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height - 10.0f);
         
     });
     
     it(@"should layout a view vertically with margin specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -163,17 +163,17 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f);
-        expect(subview1.frame.size.height).to.equal(layoutItem.points - 10.0f);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height - 10.0f);
     });
     
     it(@"should layout two views vertically with margin specified", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
-        layoutItem2.points = 70.0f;
+        layoutItem2.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 70.0f);
         layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -182,12 +182,12 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f );
-        expect(subview1.frame.size.height).to.equal(layoutItem.points - 10.0f);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height - 10.0f);
         
         expect(subview2.frame.origin.x).to.equal(0.0f + 5.0f);
-        expect(subview2.frame.origin.y).to.equal(layoutItem.points + 5.0f);
+        expect(subview2.frame.origin.y).to.equal(layoutItem.size.height + 5.0f);
         expect(subview2.frame.size.width).to.equal(container.frame.size.width - 10.0f);
-        expect(subview2.frame.size.height).to.equal(layoutItem2.points - 10.0f);
+        expect(subview2.frame.size.height).to.equal(layoutItem2.size.height - 10.0f);
         
     });
     
@@ -426,7 +426,7 @@ describe(@"MKLinearLayout", ^{
     // Mixed layouting
     it(@"should layout two views horizontally with one absolute and the other with relative size specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
@@ -436,18 +436,18 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.points);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height);
         
-        expect(subview2.frame.origin.x).to.equal(layoutItem.points);
+        expect(subview2.frame.origin.x).to.equal(layoutItem.size.width);
         expect(subview2.frame.origin.y).to.equal(0.0f);
-        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.points);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.size.width);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height);
     });
     
     it(@"should layout three views horizontally with one absolute and the others with relative size specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+               layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
@@ -460,24 +460,24 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.points);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height);
         
-        expect(subview2.frame.origin.x).to.equal(layoutItem.points);
+        expect(subview2.frame.origin.x).to.equal(layoutItem.size.width);
         expect(subview2.frame.origin.y).to.equal(0.0f);
-        expect(subview2.frame.size.width).to.equal((container.frame.size.width - layoutItem.points) / 2.0f);
+        expect(subview2.frame.size.width).to.equal((container.frame.size.width - layoutItem.size.width) / 2.0f);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height);
         
         expect(subview3.frame.origin.x).to.equal(subview2.frame.origin.x + subview2.frame.size.width);
         expect(subview3.frame.origin.y).to.equal(0.0f);
-        expect(subview3.frame.size.width).to.equal((container.frame.size.width - layoutItem.points) / 2.0f);
+        expect(subview3.frame.size.width).to.equal((container.frame.size.width - layoutItem.size.width) / 2.0f);
         expect(subview3.frame.size.height).to.equal(container.frame.size.height);
         
     });
     
     it(@"should layout three views horizontally with one absolute and the others with different relative sizes specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
@@ -490,17 +490,17 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.points);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height);
         
-        expect(subview2.frame.origin.x).to.equal(layoutItem.points);
+        expect(subview2.frame.origin.x).to.equal(layoutItem.size.width);
         expect(subview2.frame.origin.y).to.equal(0.0f);
-        expect(subview2.frame.size.width).to.equal((container.frame.size.width - layoutItem.points) * 1.0f / 3.0f);
+        expect(subview2.frame.size.width).to.equal((container.frame.size.width - layoutItem.size.width) * 1.0f / 3.0f);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height);
         
         expect(subview3.frame.origin.x).to.equal(subview2.frame.origin.x + subview2.frame.size.width);
         expect(subview3.frame.origin.y).to.equal(0.0f);
-        expect(subview3.frame.size.width).to.equal((container.frame.size.width - layoutItem.points) * 2.0f / 3.0f);
+        expect(subview3.frame.size.width).to.equal((container.frame.size.width - layoutItem.size.width) * 2.0f / 3.0f);
         expect(subview3.frame.size.height).to.equal(container.frame.size.height);
         
     });
@@ -557,7 +557,7 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout the sublayout views with contentBounds of the sublayout item regarding position and available space", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.points = 30.0f;
+        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
         
         // Creation of sublayout
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
@@ -575,12 +575,12 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.points);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height);
         
-        expect(subview2.frame.origin.x).to.equal(layoutItem.points);
+        expect(subview2.frame.origin.x).to.equal(layoutItem.size.width);
         expect(subview2.frame.origin.y).to.equal(0.0f);
-        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.points);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.size.width);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height);
     });
     

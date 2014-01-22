@@ -42,10 +42,10 @@
     
     for (int i = 0; i < self.items.count; i++) {
         MKLinearLayoutItem *item = self.items[i];
-        if (item.usesRelativeSize) {
+        if (item.weight != kMKLinearLayoutWeightInvalid) {
             overallWeight += item.weight;
         } else {
-            overallPoints += item.points;
+            overallPoints += [self pointsForOrientationFromItem:item];
         }
     }
     
@@ -53,8 +53,8 @@
         
         MKLinearLayoutItem *item = self.items[i];
         
-        float currentStep = item.points;
-        if (item.usesRelativeSize) {
+        float currentStep = [self pointsForOrientationFromItem:item];
+        if (item.weight != kMKLinearLayoutWeightInvalid) {
             float percent = item.weight / overallWeight;
             
             float boundsWithoutAbsoluteSizes = contentSize - overallPoints;
@@ -75,6 +75,11 @@
         
         currentPos += currentStep;
     }
+}
+
+- (CGFloat)pointsForOrientationFromItem:(MKLinearLayoutItem *)item
+{
+    return self.orientation == MKLinearLayoutOrientationHorizontal ? item.size.width : item.size.height;
 }
 
 /**

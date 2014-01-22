@@ -8,12 +8,15 @@
 
 #import "MKLayoutItem.h"
 
+FOUNDATION_EXPORT const CGFloat kMKLinearLayoutSizeValueMatchParent;
+FOUNDATION_EXPORT const CGFloat kMKLinearLayoutWeightInvalid;
+
 @interface MKLinearLayoutItem : MKLayoutItem
 
 /**
  * An absolute size within a layout
  */
-@property (assign, nonatomic) CGFloat points;
+@property (assign, nonatomic) CGSize size;
 
 /**
  * An relative size within a layout
@@ -33,12 +36,5 @@
  * A spacing surrounding the layout items view.
  */
 @property (assign, nonatomic) UIEdgeInsets margin;
-
-/**
- * Specifies whenever points or weight has been set the last time.
- * to determinate if layoutItems associated views size should be calculate
- * absolute or relative.
- */
-@property (assign, nonatomic, readonly) BOOL usesRelativeSize;
 
 @end
