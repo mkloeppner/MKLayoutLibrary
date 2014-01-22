@@ -59,13 +59,13 @@
         CGRect rect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
         
         // Apply current position]
-    
         if (self.orientation == MKLinearLayoutOrientationHorizontal) {
             rect.origin.x = currentPos;
         } else {
             rect.origin.y = currentPos;
         }
         
+        // Calculate absolute size
         rect.size.width = [self lengthForItem:item orientation:MKLinearLayoutOrientationHorizontal overallWeight:overallWeight overallLength:overallLength contentLength:contentLength];
         rect.size.height = [self lengthForItem:item orientation:MKLinearLayoutOrientationVertical overallWeight:overallWeight overallLength:overallLength contentLength:contentLength];
         
@@ -75,7 +75,7 @@
         
         currentPos += [self lengthFromRect:rect orientation:self.orientation];
         
-        // Apply the margin
+        // Apply the margin in order to achive spacings around the item view
         rect = UIEdgeInsetsInsetRect(rect, item.margin);
         
         if (item.subview) {
