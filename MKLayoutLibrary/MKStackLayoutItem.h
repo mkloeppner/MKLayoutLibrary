@@ -11,7 +11,7 @@
 @interface MKStackLayoutItem : MKLayoutItem
 
 /**
- * The offset between the border and the surrounding elements
+ * The offset between the parent and the layout items view
  */
 @property (assign, nonatomic) UIEdgeInsets margin;
 
