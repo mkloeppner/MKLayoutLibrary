@@ -73,6 +73,7 @@
         rect.origin.x += bounds.origin.x;
         rect.origin.y += bounds.origin.y;
         
+        // Move the cursor in order to reserve the whole rectance for the current item view.
         currentPos += [self lengthFromRect:rect orientation:self.orientation];
         
         // Apply the margin in order to achive spacings around the item view
@@ -92,6 +93,10 @@
 - (CGFloat)lengthForItem:(MKLinearLayoutItem *)item orientation:(MKLinearLayoutOrientation)orientation overallWeight:(CGFloat)overallWeight overallLength:(CGFloat)overallLength contentLength:(CGFloat)contentLength
 {
     float itemLength = [self pointsForOrientation:orientation fromItem:item];
+    
+    // Weight is used to achieve the arrangement in a linear layout horizontal or vertical.
+    // A linear layout is not capable to arrange items both horizontal and vertical. If its neccessary to align views, please use the corrensponding alignment properties.
+    // So just calculate the size by weight if the orientation fits.
     if (orientation == self.orientation) {
         if (item.weight != kMKLinearLayoutWeightInvalid) {
             float percent = item.weight / overallWeight;
@@ -103,6 +108,18 @@
     return itemLength;
 }
 
+/**
+ * Gathers the total weights and the total points in order to achieve relative layouting
+ *
+ * @discussion
+ *
+ * Obviously, the overall weight is used to calculate the total amount of relative layout items. The percentage of the space beeing used for an item
+ * is the total space minus the available space.
+ *
+ * Available space is all the space that is not reserved for absolute sized layout items.
+ *
+ * Therefore it is also neccessary to gather the total amount of space used by all layout items using the total size.
+ */
 - (void)calculateOverallWeight:(CGFloat *)overallWeight overallLength:(CGFloat *)overallPoints
 {
     for (int i = 0; i < self.items.count; i++) {
@@ -115,7 +132,13 @@
     }
 }
 
-// TODO: Return the real points. item.size can contain flags as match_parent
+/**
+ * Extract flags for absolute sizes and replaces them with their point pendants
+ *
+ * @discussion
+ *
+ * Extract all your flags, such as match_parent and gets the length for it.
+ */
 - (CGFloat)pointsForOrientation:(MKLinearLayoutOrientation)orientation fromItem:(MKLinearLayoutItem *)item
 {
     CGFloat points =  orientation == MKLinearLayoutOrientationHorizontal ? item.size.width : item.size.height;
