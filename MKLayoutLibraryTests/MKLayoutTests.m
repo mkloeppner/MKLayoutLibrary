@@ -145,7 +145,7 @@ describe(@"MKLayout", ^{
         
     });
     
-    it(@"should apply a gravity for rect within another rect horizontally", ^{
+    it(@"should apply a gravity for rect within another rect horizontally (center)", ^{
         
         CGRect rect = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
@@ -156,7 +156,7 @@ describe(@"MKLayout", ^{
         
     });
     
-    it(@"should apply a gravity for rect within another rect vertically", ^{
+    it(@"should apply a gravity for rect within another rect vertically (center)", ^{
         
         CGRect rect = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
@@ -167,7 +167,7 @@ describe(@"MKLayout", ^{
         
     });
     
-    it(@"should apply a gravity for rect within another rect horizontally and vertically", ^{
+    it(@"should apply a gravity for rect within another rect horizontally and vertically (center)", ^{
         
         CGRect rect = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
@@ -199,6 +199,105 @@ describe(@"MKLayout", ^{
         expect(resultVerticalOnly).to.equal(CGRectMake(itemRect.origin.x, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
     });
     
+    it(@"should apply a gravity for rect within another rect to topleft", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityTop | MKLayoutGravityLeft withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.origin.x, rect.origin.y, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to topright", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityTop | MKLayoutGravityRight withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width, rect.origin.y, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to top and horizontalcenter", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityTop | MKLayoutGravityCenterHorizontal withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f, rect.origin.y, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to bottomleft", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityBottom | MKLayoutGravityLeft withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.origin.x, rect.size.height - itemRect.size.height, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to bottomright", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityBottom | MKLayoutGravityRight withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width, rect.size.height - itemRect.size.height, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to bottom and horizontalcenter", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityBottom | MKLayoutGravityCenterHorizontal withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f, rect.size.height - itemRect.size.height, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to vericalcenter left", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterVertical | MKLayoutGravityLeft withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.origin.x, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to verticalcenter right", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterVertical | MKLayoutGravityRight withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to horizontalcenter top", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityTop withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f, rect.origin.y, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should apply a gravity for rect within another rect to horizontalcenter bottom", ^{
+        
+        CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
+        CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
+        
+        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityBottom withRect:itemRect withinRect:rect];
+        
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f, rect.size.height - itemRect.size.height, itemRect.size.width, itemRect.size.height));
+    });
     
 });
 
