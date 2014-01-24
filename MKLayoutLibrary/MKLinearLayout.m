@@ -83,8 +83,11 @@
         rect = UIEdgeInsetsInsetRect(rect, item.margin);
         reservedItemSpace = UIEdgeInsetsInsetRect(reservedItemSpace, item.margin);
         
+        // Apply gravity
+        rect = [self applyGravity:item.gravity withRect:rect withinRect:reservedItemSpace];
+        
         if (item.subview) {
-            item.subview.frame = [self applyGravity:item.gravity withRect:rect withinRect:reservedItemSpace];;
+            item.subview.frame = rect;
         } else if (item.sublayout) {
             [item.sublayout layoutBounds:rect];
         }
