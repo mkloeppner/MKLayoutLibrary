@@ -39,6 +39,19 @@ describe(@"MKLinearLayout", ^{
         subview6 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
     });
     
+    it(@"should layout a view with the specified size", ^{
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.size = CGSizeMake(30.0f, 40.0f);
+        
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height);
+    });
+    
     
     // Absolute layouting
     it(@"should layout a view horinzontally with the specified width", ^{

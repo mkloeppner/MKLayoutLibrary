@@ -19,7 +19,7 @@ const CGFloat kMKLinearLayoutWeightInvalid = -2.0f;
 {
     MKLinearLayoutItem *layoutItem = [super initWithLayout:layout];
     layoutItem.weight = kMKLinearLayoutWeightInvalid;
-    layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 10);
+    layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, kMKLinearLayoutSizeValueMatchParent);
     return layoutItem;
 }
 
