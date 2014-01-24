@@ -76,7 +76,7 @@
         // Move the cursor in order to reserve the whole rectance for the current item view.
         currentPos += [self lengthFromRect:rect orientation:self.orientation];
         
-        // TODO: Get the full reserved space for inner layout of items
+        // Get the total reserved item frame in order to apply inner gravity without nesting subviews 
         CGRect reservedItemSpace = [self reservedTotalSpaceForRect:rect];
         
         // Apply the margin in order to achive spacings around the item view
