@@ -90,6 +90,31 @@ describe(@"MKLinearLayout", ^{
         
     });
     
+    it(@"should layout two views horinzontally with specified sizes and uses outer gravity", ^{
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.size = CGSizeMake(30.0f, 10.0f);
+        layoutItem.gravity = MKLayoutGravityCenterVertical;
+        
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.size = CGSizeMake(70.0f, 20.0f);
+        layoutItem2.gravity = MKLayoutGravityCenterVertical;
+        
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(container.bounds.size.height / 2.0f - layoutItem.size.height / 2.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height);
+        
+        expect(subview2.frame.origin.x).to.equal(layoutItem.size.width);
+        expect(subview2.frame.origin.y).to.equal(container.bounds.size.height / 2.0f - layoutItem2.size.height / 2.0f);
+        expect(subview2.frame.size.width).to.equal(layoutItem2.size.width);
+        expect(subview2.frame.size.height).to.equal(layoutItem2.size.height);
+        
+    });
+    
     it(@"should layout a view vertically with the specified width", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
