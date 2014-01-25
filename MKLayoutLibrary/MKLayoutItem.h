@@ -27,7 +27,7 @@ typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
 *
 * @discussion
 *
-* MKLayoutItem extends UIView via compositon. It is the base class for all kind of layouts.
+* MKLayoutItem extends UIView via composition. It is the base class for all kind of layouts.
 *
 * Every layout has to support size, margin, gravity, subviews and sublayouts.
 *

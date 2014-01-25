@@ -111,7 +111,7 @@ describe(@"MKStackLayout", ^{
 
     it(@"should apply outer margin", ^{
 
-        MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
+        [layout addSubview:subview1];
 
         layout.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
         [layout layout];

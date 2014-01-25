@@ -20,7 +20,7 @@
 {
     self.bounds = UIEdgeInsetsInsetRect(bounds, self.margin);
     
-    for (int i = 0; i < self.items.count; i++) {
+    for (NSUInteger i = 0; i < self.items.count; i++) {
         MKStackLayoutItem *layoutItem = self.items[i];
         
         CGRect rect = [self rectForItem:layoutItem];

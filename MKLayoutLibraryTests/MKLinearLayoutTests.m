@@ -23,9 +23,6 @@ describe(@"MKLinearLayout", ^{
     __block UIView *subview1;
     __block UIView *subview2;
     __block UIView *subview3;
-    __block UIView *subview4;
-    __block UIView *subview5;
-    __block UIView *subview6;
     
     beforeEach(^{
         container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 100.0)];
@@ -34,9 +31,6 @@ describe(@"MKLinearLayout", ^{
         subview1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         subview2 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         subview3 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
-        subview4 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
-        subview5 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
-        subview6 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
     });
     
     it(@"should layout a view with the specified size", ^{
