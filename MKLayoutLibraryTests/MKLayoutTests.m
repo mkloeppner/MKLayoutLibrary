@@ -216,7 +216,7 @@ describe(@"MKLayout", ^{
         
         CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityTop | MKLayoutGravityRight withRect:itemRect withinRect:rect];
         
-        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width, rect.origin.y, itemRect.size.width, itemRect.size.height));
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width + rect.origin.x, rect.origin.y, itemRect.size.width, itemRect.size.height));
     });
     
     it(@"should apply a gravity for rect within another rect to top and horizontalcenter", ^{
@@ -246,7 +246,7 @@ describe(@"MKLayout", ^{
         
         CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityBottom | MKLayoutGravityRight withRect:itemRect withinRect:rect];
         
-        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width, rect.size.height - itemRect.size.height, itemRect.size.width, itemRect.size.height));
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width + rect.origin.x, rect.size.height - itemRect.size.height + rect.origin.y, itemRect.size.width, itemRect.size.height));
     });
     
     it(@"should apply a gravity for rect within another rect to bottom and horizontalcenter", ^{
@@ -276,7 +276,7 @@ describe(@"MKLayout", ^{
         
         CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterVertical | MKLayoutGravityRight withRect:itemRect withinRect:rect];
         
-        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
+        expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width + rect.origin.x, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
     });
     
     it(@"should apply a gravity for rect within another rect to horizontalcenter top", ^{
