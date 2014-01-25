@@ -73,7 +73,7 @@
         rect.origin.x += self.bounds.origin.x;
         rect.origin.y += self.bounds.origin.y;
         
-        // Move the cursor in order to reserve the whole rectance for the current item view.
+        // Move the cursor in order to reserve the whole rectanglee for the current item view.
         currentPos += [self lengthFromRect:rect orientation:self.orientation];
         
         // Get the total reserved item frame in order to apply inner gravity without nesting subviews 

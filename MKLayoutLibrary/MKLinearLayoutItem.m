@@ -10,7 +10,6 @@
 #import "MKLayoutItem_SubclassAccessors.h"
 
 const CGFloat kMKLinearLayoutSizeValueMatchParent = -1.0f;
-
 const CGFloat kMKLinearLayoutWeightInvalid = -2.0f;
 
 @implementation MKLinearLayoutItem
