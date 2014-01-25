@@ -56,7 +56,7 @@ describe(@"MKLinearLayout", ^{
     // Absolute layouting
     it(@"should layout a view horinzontally with the specified width", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
         [layout layout];
@@ -70,10 +70,10 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout two views horinzontally with specified widths", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
-        layoutItem2.size = CGSizeMake(70.0f, kMKLinearLayoutSizeValueMatchParent);
+        layoutItem2.size = CGSizeMake(70.0f, kMKLayoutItemSizeValueMatchParent);
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
         [layout layout];
@@ -117,7 +117,7 @@ describe(@"MKLinearLayout", ^{
     
     it(@"should layout a view vertically with the specified width", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
+        layoutItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
         
         layout.orientation = MKLinearLayoutOrientationVertical;
         [layout layout];
@@ -131,10 +131,10 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout two views vertically with specified widths", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
+        layoutItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
-        layoutItem2.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 70.0f);
+        layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 70.0f);
         
         layout.orientation = MKLinearLayoutOrientationVertical;
         [layout layout];
@@ -153,7 +153,7 @@ describe(@"MKLinearLayout", ^{
     
     it(@"should layout a view horizontally with margin specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -168,11 +168,11 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout two views horizontally with margin specified", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);;
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);;
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
-        layoutItem2.size = CGSizeMake(70.0f, kMKLinearLayoutSizeValueMatchParent);
+        layoutItem2.size = CGSizeMake(70.0f, kMKLayoutItemSizeValueMatchParent);
         layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -192,7 +192,7 @@ describe(@"MKLinearLayout", ^{
     
     it(@"should layout a view vertically with margin specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
+        layoutItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -207,11 +207,11 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout two views vertically with margin specified", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 30.0f);
+        layoutItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
-        layoutItem2.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, 70.0f);
+        layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 70.0f);
         layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -464,7 +464,7 @@ describe(@"MKLinearLayout", ^{
     // Mixed layouting
     it(@"should layout two views horizontally with one absolute and the other with relative size specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
@@ -485,7 +485,7 @@ describe(@"MKLinearLayout", ^{
     
     it(@"should layout three views horizontally with one absolute and the others with relative size specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-               layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
+               layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
@@ -515,7 +515,7 @@ describe(@"MKLinearLayout", ^{
     
     it(@"should layout three views horizontally with one absolute and the others with different relative sizes specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);;
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
@@ -595,7 +595,7 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout the sublayout views with contentBounds of the sublayout item regarding position and available space", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
-        layoutItem.size = CGSizeMake(30.0f, kMKLinearLayoutSizeValueMatchParent);
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         
         // Creation of sublayout
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];

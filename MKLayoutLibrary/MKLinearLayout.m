@@ -172,7 +172,7 @@
 - (CGFloat)pointsForOrientation:(MKLinearLayoutOrientation)orientation fromItem:(MKLinearLayoutItem *)item
 {
     CGFloat points =  orientation == MKLinearLayoutOrientationHorizontal ? item.size.width : item.size.height;
-    if (points == kMKLinearLayoutSizeValueMatchParent) {
+    if (points == kMKLayoutItemSizeValueMatchParent) {
         points = [self lengthForOrientation:orientation];
     }
     return points;

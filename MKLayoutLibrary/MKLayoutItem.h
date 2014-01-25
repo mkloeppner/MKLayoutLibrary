@@ -10,6 +10,8 @@
 
 @class MKLayout;
 
+FOUNDATION_EXPORT const CGFloat kMKLayoutItemSizeValueMatchParent;
+
 typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
     MKLayoutGravityTop = 1 << 0,
     MKLayoutGravityBottom = 1 << 1,
@@ -25,10 +27,22 @@ typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
 - (instancetype)initWithLayout:(MKLayout *)layout subview:(UIView *)view;
 - (instancetype)initWithLayout:(MKLayout *)layout sublayout:(MKLayout *)sublayout;
 
+/**
+* The parent layout of the current layout item
+*/
 @property (weak, nonatomic, readonly) MKLayout *layout;
 
-@property (strong, nonatomic, readonly) UIView *subview;
+/**
+ * An absolute size within a layout
+ */
+@property (assign, nonatomic) CGSize size;
 
+/**
+ * A spacing surrounding the layout items view.
+ */
+@property (assign, nonatomic) UIEdgeInsets margin;
+
+@property (strong, nonatomic, readonly) UIView *subview;
 @property (strong, nonatomic, readonly) MKLayout *sublayout;
 
 @property (assign, nonatomic) MKLayoutGravity gravity;

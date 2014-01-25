@@ -67,6 +67,33 @@ describe(@"MKStackLayout", ^{
         expect(subview2).to.equal([layout.items[1] subview]);
         
     });
+
+    it(@"should stack two views with match parent size", ^{
+
+        MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
+        MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
+
+        layoutItem1.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
+        layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
+
+        [layout layout];
+
+        expect(0.0f).to.equal(subview1.frame.origin.x);
+        expect(0.0f).to.equal(subview1.frame.origin.y);
+        expect(container.frame.size.width).to.equal(subview1.frame.size.width);
+        expect(container.frame.size.height).to.equal(subview1.frame.size.height);
+
+        expect(0.0f).to.equal(subview2.frame.origin.x);
+        expect(0.0f).to.equal(subview2.frame.origin.y);
+        expect(container.frame.size.width).to.equal(subview2.frame.size.width);
+        expect(container.frame.size.height).to.equal(subview2.frame.size.height);
+
+        // draw order
+        expect(layout.items.count).to.equal(2);
+        expect(subview1).to.equal([layout.items[0] subview]);
+        expect(subview2).to.equal([layout.items[1] subview]);
+
+    });
     
     it(@"should insert a margin for a view its specified", ^{
         
@@ -192,8 +219,8 @@ describe(@"MKStackLayout", ^{
         MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
         MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
         
-        layoutItem1.size = CGSizeMake(kMKStackLayoutSizeValueMatchParent, kMKStackLayoutSizeValueMatchParent);
-        layoutItem2.size = CGSizeMake(kMKStackLayoutSizeValueMatchParent, kMKStackLayoutSizeValueMatchParent);
+        layoutItem1.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
+        layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
         
         [layout layout];
         

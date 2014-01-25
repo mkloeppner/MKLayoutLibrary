@@ -8,15 +8,9 @@
 
 #import "MKLayoutItem.h"
 
-FOUNDATION_EXPORT const CGFloat kMKLinearLayoutSizeValueMatchParent;
 FOUNDATION_EXPORT const CGFloat kMKLinearLayoutWeightInvalid;
 
 @interface MKLinearLayoutItem : MKLayoutItem
-
-/**
- * An absolute size within a layout
- */
-@property (assign, nonatomic) CGSize size;
 
 /**
  * An relative size within a layout
@@ -31,10 +25,5 @@ FOUNDATION_EXPORT const CGFloat kMKLinearLayoutWeightInvalid;
  * This prevents items to expand over the available layouts space.
  */
 @property (assign, nonatomic) CGFloat weight;
-
-/**
- * A spacing surrounding the layout items view.
- */
-@property (assign, nonatomic) UIEdgeInsets margin;
 
 @end

@@ -54,7 +54,7 @@
 
 - (CGFloat)widthForItem:(MKStackLayoutItem *)item
 {
-    if (item.size.width == kMKStackLayoutSizeValueMatchParent) {
+    if (item.size.width == kMKLayoutItemSizeValueMatchParent) {
         return self.bounds.size.width;
     }
     return item.size.width;
@@ -62,7 +62,7 @@
 
 - (CGFloat)heightForItem:(MKStackLayoutItem *)item
 {
-    if (item.size.height == kMKStackLayoutSizeValueMatchParent) {
+    if (item.size.height == kMKLayoutItemSizeValueMatchParent) {
         return self.bounds.size.height;
     }
     return item.size.height;
