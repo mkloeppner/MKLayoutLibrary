@@ -7,7 +7,17 @@
 //
 
 #import "MKStackLayoutItem.h"
+#import "MKLayoutItem_SubclassAccessors.h"
+
+const CGFloat kMKStackLayoutSizeValueMatchParent = -1.0;
 
 @implementation MKStackLayoutItem
+
+- (instancetype)initWithLayout:(MKLayout *)layout
+{
+    MKStackLayoutItem *layoutItem = [super initWithLayout:layout];
+    layoutItem.size = CGSizeMake(kMKStackLayoutSizeValueMatchParent, kMKStackLayoutSizeValueMatchParent);
+    return layoutItem;
+}
 
 @end

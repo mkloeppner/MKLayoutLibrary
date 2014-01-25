@@ -70,14 +70,21 @@
         rect.size.height = [self lengthForItem:item orientation:MKLinearLayoutOrientationVertical overallWeight:overallWeight overallLength:overallLength contentLength:contentLength];
         
         // Apply offset for recursive layout calls in order to achieve sublayouts
-        rect.origin.x += bounds.origin.x;
-        rect.origin.y += bounds.origin.y;
+        rect.origin.x += self.bounds.origin.x;
+        rect.origin.y += self.bounds.origin.y;
         
-        // Move the cursor in order to reserve the whole rectance for the current item view.
+        // Move the cursor in order to reserve the whole rectanglee for the current item view.
         currentPos += [self lengthFromRect:rect orientation:self.orientation];
+        
+        // Get the total reserved item frame in order to apply inner gravity without nesting subviews 
+        CGRect reservedItemSpace = [self reservedTotalSpaceForRect:rect];
         
         // Apply the margin in order to achive spacings around the item view
         rect = UIEdgeInsetsInsetRect(rect, item.margin);
+        reservedItemSpace = UIEdgeInsetsInsetRect(reservedItemSpace, item.margin);
+        
+        // Apply gravity
+        rect = [self applyGravity:item.gravity withRect:rect withinRect:reservedItemSpace];
         
         if (item.subview) {
             item.subview.frame = rect;
@@ -88,6 +95,29 @@
     }
     
     self.bounds = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+}
+
+- (CGRect)reservedTotalSpaceForRect:(CGRect)rect
+{
+    MKLinearLayoutOrientation orientation = MKLinearLayoutOrientationVertical;
+    
+    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+        orientation = MKLinearLayoutOrientationVertical;
+    } else if (self.orientation == MKLinearLayoutOrientationVertical) {
+        orientation = MKLinearLayoutOrientationHorizontal;
+    } else {
+        [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", orientation];
+    }
+    
+    if (orientation == MKLinearLayoutOrientationHorizontal) {
+        rect.size.width = self.bounds.size.width;
+    } else if (orientation == MKLinearLayoutOrientationVertical) {
+        rect.size.height = self.bounds.size.height;
+    } else {
+        [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", orientation];
+    }
+    
+    return rect;
 }
 
 - (CGFloat)lengthForItem:(MKLinearLayoutItem *)item orientation:(MKLinearLayoutOrientation)orientation overallWeight:(CGFloat)overallWeight overallLength:(CGFloat)overallLength contentLength:(CGFloat)contentLength

@@ -69,4 +69,69 @@
     
 }
 
+// Layout helper
+- (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect
+{
+    if (MKLayoutGravityNone == gravity) {
+        return rect;
+    }
+    
+    // Can be both, centered horizontally and vertically at the same time
+    if ((gravity & MKLayoutGravityCenterHorizontal) == MKLayoutGravityCenterHorizontal) {
+        rect = CGRectMake(outerRect.size.width / 2.0f - rect.size.width / 2.0f,
+                          rect.origin.y,
+                          rect.size.width,
+                          rect.size.height);
+    }
+    if ((gravity & MKLayoutGravityCenterVertical) == MKLayoutGravityCenterVertical) {
+        rect = CGRectMake(rect.origin.x,
+                          outerRect.size.height / 2.0f - rect.size.height / 2.0f,
+                          rect.size.width,
+                          rect.size.height);
+    }
+    
+    if (((gravity & MKLayoutGravityCenterHorizontal) != MKLayoutGravityCenterHorizontal)) {
+        
+        if ((gravity & MKLayoutGravityLeft) == MKLayoutGravityLeft) {
+            
+            rect = CGRectMake(outerRect.origin.x,
+                              rect.origin.y,
+                              rect.size.width,
+                              rect.size.height);
+            
+        } else if ((gravity & MKLayoutGravityRight) == MKLayoutGravityRight) {
+            
+            rect = CGRectMake(outerRect.size.width - rect.size.width,
+                              rect.origin.y,
+                              rect.size.width,
+                              rect.size.height);
+            
+        }
+        
+    }
+    
+    if (((gravity & MKLayoutGravityCenterVertical) != MKLayoutGravityCenterVertical)) {
+        
+        if ((gravity & MKLayoutGravityTop) == MKLayoutGravityTop) {
+
+            rect = CGRectMake(rect.origin.x,
+                              outerRect.origin.y,
+                              rect.size.width,
+                              rect.size.height);
+            
+        } else if ((gravity & MKLayoutGravityBottom) == MKLayoutGravityBottom) {
+            
+            rect = CGRectMake(rect.origin.x,
+                              outerRect.size.height - rect.size.height,
+                              rect.size.width,
+                              rect.size.height);
+            
+        }
+        
+    }
+    
+    
+    return rect;
+}
+
 @end

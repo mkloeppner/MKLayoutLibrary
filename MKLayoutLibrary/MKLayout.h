@@ -32,4 +32,6 @@
 
 - (void)layoutBounds:(CGRect)bounds;
 
+- (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect;
+
 @end

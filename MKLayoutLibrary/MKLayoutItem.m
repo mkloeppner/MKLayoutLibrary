@@ -31,6 +31,7 @@
     self = [super init];
     if (self) {
         self.layout = layout;
+        _gravity = MKLayoutGravityNone;
     }
     return self;
 }
