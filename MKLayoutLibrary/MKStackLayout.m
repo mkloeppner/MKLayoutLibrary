@@ -28,8 +28,10 @@
         rect.origin.x += bounds.origin.x;
         rect.origin.y += bounds.origin.y;
         
+        // In order to generate the inner margins we already reduced the size of the inner rect
         rect = UIEdgeInsetsInsetRect(rect, layoutItem.margin);
         
+        // Now we move the view to the edges of the outer rectange so we have to apply the margin on the outer rect too
         rect = [self applyGravity:layoutItem.gravity withRect:rect withinRect:UIEdgeInsetsInsetRect(bounds, layoutItem.margin)];
         
         if (layoutItem.subview) {
