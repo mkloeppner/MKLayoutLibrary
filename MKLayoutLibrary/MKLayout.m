@@ -78,14 +78,14 @@
     
     // Can be both, centered horizontally and vertically at the same time
     if ((gravity & MKLayoutGravityCenterHorizontal) == MKLayoutGravityCenterHorizontal) {
-        rect = CGRectMake(outerRect.size.width / 2.0f - rect.size.width / 2.0f,
+        rect = CGRectMake(outerRect.size.width / 2.0f - rect.size.width / 2.0f + outerRect.origin.x,
                           rect.origin.y,
                           rect.size.width,
                           rect.size.height);
     }
     if ((gravity & MKLayoutGravityCenterVertical) == MKLayoutGravityCenterVertical) {
         rect = CGRectMake(rect.origin.x,
-                          outerRect.size.height / 2.0f - rect.size.height / 2.0f,
+                          outerRect.size.height / 2.0f - rect.size.height / 2.0f + outerRect.origin.y,
                           rect.size.width,
                           rect.size.height);
     }
