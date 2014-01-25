@@ -9,31 +9,17 @@
 #import "MKLinearLayoutItem.h"
 #import "MKLayoutItem_SubclassAccessors.h"
 
-@interface MKLinearLayoutItem ()
-
-@property (assign, nonatomic) BOOL usesRelativeSize;
-
-@end
+const CGFloat kMKLinearLayoutSizeValueMatchParent = -1.0f;
+const CGFloat kMKLinearLayoutWeightInvalid = -2.0f;
 
 @implementation MKLinearLayoutItem
 
 - (instancetype)initWithLayout:(MKLayout *)layout
 {
     MKLinearLayoutItem *layoutItem = [super initWithLayout:layout];
-    layoutItem.usesRelativeSize = NO;
+    layoutItem.weight = kMKLinearLayoutWeightInvalid;
+    layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, kMKLinearLayoutSizeValueMatchParent);
     return layoutItem;
-}
-
-- (void)setPoints:(CGFloat)points
-{
-    _points = points;
-    self.usesRelativeSize = NO;
-}
-
-- (void)setWeight:(CGFloat)weight
-{
-    _weight = weight;
-    self.usesRelativeSize = YES;
 }
 
 @end

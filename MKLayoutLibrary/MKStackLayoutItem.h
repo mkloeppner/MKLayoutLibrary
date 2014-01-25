@@ -8,10 +8,17 @@
 
 #import "MKLayoutItem.h"
 
+FOUNDATION_EXPORT const CGFloat kMKStackLayoutSizeValueMatchParent;
+
 @interface MKStackLayoutItem : MKLayoutItem
 
 /**
- * The offset between the border and the surrounding elements
+ * An absolute size within a layout
+ */
+@property (assign, nonatomic) CGSize size;
+
+/**
+ * The offset between the parent and the layout items view
  */
 @property (assign, nonatomic) UIEdgeInsets margin;
 
