@@ -23,6 +23,8 @@
         self.view = view;
         
         self.mutableItems = [[NSMutableArray alloc] init];
+
+        self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     }
     return self;
 }

@@ -42,7 +42,7 @@
 
 - (void)layoutBounds:(CGRect)bounds
 {
-    self.bounds = bounds;
+    self.bounds = UIEdgeInsetsInsetRect(bounds, self.margin);
     
     float currentPos = 0.0f;
     float overallWeight = 0.0f;

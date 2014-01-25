@@ -150,7 +150,36 @@ describe(@"MKLinearLayout", ^{
         expect(subview2.frame.size.height).to.equal(layoutItem2.size.height);
         
     });
-    
+
+    it(@"should apply outer margin", ^{
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
+
+        layout.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+
+        expect(subview1.frame.origin.x).to.equal(0.0f + 10.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f + 10.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height - 20.0f);
+    });
+
+    it(@"should apply outer margin and item margin", ^{
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
+        layoutItem.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
+
+        layout.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+
+        expect(subview1.frame.origin.x).to.equal(0.0f + 10.0f + 3.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f + 10.0f + 3.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width - 6.0f);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height - 20.0f - 6.0f);
+    });
+
     it(@"should layout a view horizontally with margin specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
