@@ -101,7 +101,7 @@
             
         } else if ((gravity & MKLayoutGravityRight) == MKLayoutGravityRight) {
             
-            rect = CGRectMake(outerRect.size.width - rect.size.width,
+            rect = CGRectMake(outerRect.origin.x + outerRect.size.width - rect.size.width,
                               rect.origin.y,
                               rect.size.width,
                               rect.size.height);
@@ -113,7 +113,7 @@
     if (((gravity & MKLayoutGravityCenterVertical) != MKLayoutGravityCenterVertical)) {
         
         if ((gravity & MKLayoutGravityTop) == MKLayoutGravityTop) {
-
+            
             rect = CGRectMake(rect.origin.x,
                               outerRect.origin.y,
                               rect.size.width,
@@ -122,7 +122,7 @@
         } else if ((gravity & MKLayoutGravityBottom) == MKLayoutGravityBottom) {
             
             rect = CGRectMake(rect.origin.x,
-                              outerRect.size.height - rect.size.height,
+                              outerRect.origin.y + outerRect.size.height - rect.size.height,
                               rect.size.width,
                               rect.size.height);
             

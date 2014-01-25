@@ -277,10 +277,10 @@ describe(@"MKStackLayout", ^{
         MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
         
         layoutItem1.size = CGSizeMake(57.0f, 57.0f);
-        layoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem1.margin = UIEdgeInsetsMake(7.0f, 5.0f, 5.0f, 5.0f);
         layoutItem1.gravity = MKLayoutGravityTop | MKLayoutGravityLeft;
         layoutItem2.size = CGSizeMake(31.0f, 25.0f);
-        layoutItem2.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
+        layoutItem2.margin = UIEdgeInsetsMake(6.0f, 4.0f, 3.0f, 3.0f);
         layoutItem2.gravity = MKLayoutGravityBottom | MKLayoutGravityRight;
         
         [layout layout];
@@ -290,8 +290,8 @@ describe(@"MKStackLayout", ^{
         expect(layoutItem1.size.width - layoutItem1.margin.left - layoutItem1.margin.right).to.equal(subview1.frame.size.width);
         expect(layoutItem1.size.height - layoutItem1.margin.top - layoutItem1.margin.bottom).to.equal(subview1.frame.size.height);
         
-        expect(container.frame.size.width - layoutItem2.size.width ).to.equal(subview2.frame.origin.x);
-        expect(container.frame.size.height - layoutItem2.size.height).to.equal(subview2.frame.origin.y);
+        expect(container.frame.size.width - layoutItem2.size.width + layoutItem2.margin.left).to.equal(subview2.frame.origin.x);
+        expect(container.frame.size.height - layoutItem2.size.height + layoutItem2.margin.top).to.equal(subview2.frame.origin.y);
         expect(layoutItem2.size.width - layoutItem2.margin.left - layoutItem2.margin.right).to.equal(subview2.frame.size.width);
         expect(layoutItem2.size.height - layoutItem2.margin.top - layoutItem2.margin.bottom).to.equal(subview2.frame.size.height);
         
