@@ -21,6 +21,9 @@
  */
 @property (strong, nonatomic, readonly) NSArray *items;
 
+/**
+* @param view The root layouts view or the view that needs to be layouted
+*/
 - (instancetype)initWithView:(UIView *)view;
 
 - (MKLayoutItem *)addSubview:(UIView *)subview;
@@ -32,6 +35,11 @@
 
 - (void)layoutBounds:(CGRect)bounds;
 
+/**
+* Moves an rect within an other rect and uses the gravity to align it within.
+*
+* Note: If gravity is MKLayoutGravityNone the method exits immediately with return the rect param.
+*/
 - (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect;
 
 @end
