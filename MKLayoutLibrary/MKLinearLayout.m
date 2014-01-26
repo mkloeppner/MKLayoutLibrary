@@ -42,7 +42,7 @@
 
 - (void)layoutBounds:(CGRect)bounds
 {
-    self.bounds = bounds;
+    self.bounds = UIEdgeInsetsInsetRect(bounds, self.margin);
     
     float currentPos = 0.0f;
     float overallWeight = 0.0f;
@@ -52,7 +52,7 @@
     
     float contentLength = [self lengthForOrientation:self.orientation];
     
-    for (int i = 0; i < self.items.count; i++) {
+    for (NSUInteger i = 0; i < self.items.count; i++) {
         
         MKLinearLayoutItem *item = self.items[i];
         
@@ -73,13 +73,13 @@
         rect.origin.x += self.bounds.origin.x;
         rect.origin.y += self.bounds.origin.y;
         
-        // Move the cursor in order to reserve the whole rectanglee for the current item view.
+        // Move the cursor in order to reserve the whole rectangle for the current item view.
         currentPos += [self lengthFromRect:rect orientation:self.orientation];
         
         // Get the total reserved item frame in order to apply inner gravity without nesting subviews 
         CGRect reservedItemSpace = [self reservedTotalSpaceForRect:rect];
         
-        // Apply the margin in order to achive spacings around the item view
+        // Apply the margin in order to achieve spacings around the item view
         rect = UIEdgeInsetsInsetRect(rect, item.margin);
         reservedItemSpace = UIEdgeInsetsInsetRect(reservedItemSpace, item.margin);
         
@@ -125,7 +125,7 @@
     float itemLength = [self pointsForOrientation:orientation fromItem:item];
     
     // Weight is used to achieve the arrangement in a linear layout horizontal or vertical.
-    // A linear layout is not capable to arrange items both horizontal and vertical. If its neccessary to align views, please use the corrensponding alignment properties.
+    // A linear layout is not capable to arrange items both horizontal and vertical. If its necessary to align views, please use the corresponding alignment properties.
     // So just calculate the size by weight if the orientation fits.
     if (orientation == self.orientation) {
         if (item.weight != kMKLinearLayoutWeightInvalid) {
@@ -143,16 +143,16 @@
  *
  * @discussion
  *
- * Obviously, the overall weight is used to calculate the total amount of relative layout items. The percentage of the space beeing used for an item
+ * Obviously, the overall weight is used to calculate the total amount of relative layout items. The percentage of the space being used for an item
  * is the total space minus the available space.
  *
  * Available space is all the space that is not reserved for absolute sized layout items.
  *
- * Therefore it is also neccessary to gather the total amount of space used by all layout items using the total size.
+ * Therefore it is also necessary to gather the total amount of space used by all layout items using the total size.
  */
 - (void)calculateOverallWeight:(CGFloat *)overallWeight overallLength:(CGFloat *)overallPoints
 {
-    for (int i = 0; i < self.items.count; i++) {
+    for (NSUInteger i = 0; i < self.items.count; i++) {
         MKLinearLayoutItem *item = self.items[i];
         if (item.weight != kMKLinearLayoutWeightInvalid) {
             *overallWeight += item.weight;
@@ -188,7 +188,6 @@
     switch (orientation) {
         case MKLinearLayoutOrientationHorizontal:
             return rect.size.width;
-            break;
         case MKLinearLayoutOrientationVertical:
             return rect.size.height;
             
