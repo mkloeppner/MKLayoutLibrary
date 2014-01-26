@@ -83,8 +83,8 @@
         CGRect outerRect = [self reservedTotalSpaceForRect:rect];
 
         // Reduce sizes in order to achieve the padding for the borders
-        rect = [self applyPadding:[self.separatorDelegate separatorThicknessForLayout:self] forRect:rect firstItem:(i == 0)];
-        outerRect = [self applyPadding:[self.separatorDelegate separatorThicknessForLayout:self] forRect:outerRect firstItem:(i == 0)];
+        rect = [self applyPadding:[self.separatorDelegate separatorThicknessForLinearLayout:self] forRect:rect firstItem:(i == 0)];
+        outerRect = [self applyPadding:[self.separatorDelegate separatorThicknessForLinearLayout:self] forRect:outerRect firstItem:(i == 0)];
 
         // Apply the margin in order to achieve spacings around the item view
         rect = UIEdgeInsetsInsetRect(rect, item.margin);
@@ -108,14 +108,14 @@
 {
     if (self.orientation == MKLinearLayoutOrientationHorizontal) {
         if (!firstItem) {
-            rect.origin.x = rect.origin.x + [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+            rect.origin.x = rect.origin.x + [self.separatorDelegate separatorThicknessForLinearLayout:self] / 2.0f;
         }
-        rect.size.width = rect.size.width - [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+        rect.size.width = rect.size.width - [self.separatorDelegate separatorThicknessForLinearLayout:self] / 2.0f;
     } else if (self.orientation == MKLinearLayoutOrientationVertical) {
         if (!firstItem) {
-            rect.origin.y = rect.origin.y + [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+            rect.origin.y = rect.origin.y + [self.separatorDelegate separatorThicknessForLinearLayout:self] / 2.0f;
         }
-        rect.size.height = rect.size.height - [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+        rect.size.height = rect.size.height - [self.separatorDelegate separatorThicknessForLinearLayout:self] / 2.0f;
     } else {
         [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", self.orientation];
     }

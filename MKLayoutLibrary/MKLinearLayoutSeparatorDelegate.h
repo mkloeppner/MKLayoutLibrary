@@ -4,14 +4,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MKLinearLayoutOrientation.h"
 
 @class MKLinearLayout;
 
 @protocol MKLinearLayoutSeparatorDelegate <NSObject>
 
-- (CGFloat)separatorThicknessForLayout:(MKLinearLayout *)layout;
-- (UIEdgeInsets)separatorIntersectionOffsetsForLayout:(MKLinearLayout *)layout;
-- (UIImage *)horizontalSeparatorImageForLayout:(MKLinearLayout *)layout;
-- (UIImage *)verticalSeparatorImageForLayout:(MKLinearLayout *)layout;
+- (CGFloat)separatorThicknessForLinearLayout:(MKLinearLayout *)layout;
+
+@optional
+- (UIEdgeInsets)separatorIntersectionOffsetsForLinearLayout:(MKLinearLayout *)layout;
+
+- (void)linearLayout:(MKLinearLayout *)linearLayout separatorRect:(CGRect)rect type:(MKLinearLayoutOrientation)type;
 
 @end

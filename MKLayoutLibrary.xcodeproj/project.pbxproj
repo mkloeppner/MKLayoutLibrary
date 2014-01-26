@@ -58,6 +58,7 @@
 		716A81934CC93AE43B71E2E9 /* MKLinearLayoutSeparatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLinearLayoutSeparatorDelegate.h; sourceTree = "<group>"; };
 		716A8A5D8CF61F87F32FCC2F /* MKLinearLayoutSeparatorImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLinearLayoutSeparatorImpl.m; sourceTree = "<group>"; };
 		716A8BE2BC22CB16D37CDA36 /* MKLinearLayoutSeparatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLinearLayoutSeparatorImpl.h; sourceTree = "<group>"; };
+		716A8EC837FBFC2FDDFC1F8A /* MKLinearLayoutOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLinearLayoutOrientation.h; sourceTree = "<group>"; };
 		A155B8C241DF483C9A2BE48D /* libPods-MKLayoutLibraryTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MKLayoutLibraryTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54D407C1881C5B0007270DB /* MKStackLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStackLayout.h; sourceTree = "<group>"; };
 		B54D407D1881C5B0007270DB /* MKStackLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStackLayout.m; sourceTree = "<group>"; };
@@ -132,6 +133,7 @@
 				B54D407C1881C5B0007270DB /* MKStackLayout.h */,
 				B54D407D1881C5B0007270DB /* MKStackLayout.m */,
 				716A81934CC93AE43B71E2E9 /* MKLinearLayoutSeparatorDelegate.h */,
+				716A8EC837FBFC2FDDFC1F8A /* MKLinearLayoutOrientation.h */,
 			);
 			name = Layouts;
 			sourceTree = "<group>";

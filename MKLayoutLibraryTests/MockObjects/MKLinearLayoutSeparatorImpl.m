@@ -6,42 +6,49 @@
 #import "MKLinearLayoutSeparatorImpl.h"
 #import "MKLinearLayout.h"
 
+NSString *const kSeparatorsDictionaryKeyRect = @"kSeparatorsDictionaryKeyRect";
+NSString *const kSeparatorsDictionaryKeyType = @"kSeparatorsDictionaryKeyType";
+
+@interface MKLinearLayoutSeparatorImpl ()
+
+@property (strong, nonatomic, readwrite) NSMutableArray *separators;
+
+@end
 
 @implementation MKLinearLayoutSeparatorImpl
 
-- (instancetype)initWithSeparatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets horizontalSeparatorImage:(UIImage *)horizontalSeparatorImage verticalSeparatorImage:(UIImage *)verticalSeparatorImage {
+- (instancetype)initWithSeparatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets {
     self = [super init];
     if (self) {
         self.separatorThickness = separatorThickness;
         self.separatorIntersectionOffsets = separatorIntersectionOffsets;
-        self.horizontalSeparatorImage = horizontalSeparatorImage;
-        self.verticalSeparatorImage = verticalSeparatorImage;
+        self.separators = [[NSMutableArray alloc] init];
     }
 
     return self;
 }
 
-+ (instancetype)separatorWithSeparatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets horizontalSeparatorImage:(UIImage *)horizontalSeparatorImage verticalSeparatorImage:(UIImage *)verticalSeparatorImage {
-    return [[self alloc] initWithSeparatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets horizontalSeparatorImage:horizontalSeparatorImage verticalSeparatorImage:verticalSeparatorImage];
++ (instancetype)separatorWithSeparatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets {
+    return [[self alloc] initWithSeparatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets];
 }
 
-
-- (CGFloat)separatorThicknessForLayout:(MKLinearLayout *)layout {
+- (CGFloat)separatorThicknessForLinearLayout:(MKLinearLayout *)layout {
     return self.separatorThickness;
 }
 
-- (UIEdgeInsets)separatorIntersectionOffsetsForLayout:(MKLinearLayout *)layout {
-    UIEdgeInsets result;
+- (UIEdgeInsets)separatorIntersectionOffsetsForLinearLayout:(MKLinearLayout *)layout
+{
     return self.separatorIntersectionOffsets;
 }
 
-- (UIImage *)horizontalSeparatorImageForLayout:(MKLinearLayout *)layout {
-    return self.horizontalSeparatorImage;
-}
+- (void)linearLayout:(MKLinearLayout *)linearLayout separatorRect:(CGRect)rect type:(MKLinearLayoutOrientation)type {
+    NSValue *separatorRect = [NSValue valueWithCGRect:rect];
+    NSNumber *separatorType = @(type);
 
-- (UIImage *)verticalSeparatorImageForLayout:(MKLinearLayout *)layout {
-    return self.verticalSeparatorImage;
+    [self.separators addObject:@{
+            kSeparatorsDictionaryKeyRect : separatorRect,
+            kSeparatorsDictionaryKeyType : separatorType
+    }];
 }
-
 
 @end

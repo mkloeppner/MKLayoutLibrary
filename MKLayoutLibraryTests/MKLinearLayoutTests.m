@@ -685,10 +685,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
 
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
-                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
-                                                                  horizontalSeparatorImage:nil
-                                                                    verticalSeparatorImage:nil];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 
         layout.separatorDelegate = separatorDefinition;
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -717,10 +714,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
 
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
-                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
-                                                                  horizontalSeparatorImage:nil
-                                                                    verticalSeparatorImage:nil];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 
         layout.separatorDelegate = separatorDefinition;
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -751,10 +745,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
 
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
-                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
-                                                                  horizontalSeparatorImage:nil
-                                                                    verticalSeparatorImage:nil];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 
         layout.separatorDelegate = separatorDefinition;
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -783,10 +774,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
 
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
-                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
-                                                                  horizontalSeparatorImage:nil
-                                                                    verticalSeparatorImage:nil];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 
         container.frame = CGRectMake(0.0f, 0.0f, 300.0f, 300.f);
 
@@ -822,10 +810,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
 
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
-                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
-                                                                  horizontalSeparatorImage:nil
-                                                                    verticalSeparatorImage:nil];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 
         layout.separatorDelegate = separatorDefinition;
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -857,10 +842,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem3.weight = 1.0f;
         layoutItem3.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
 
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
-                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
-                                                                  horizontalSeparatorImage:nil
-                                                                    verticalSeparatorImage:nil];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 
         layout.separatorDelegate = separatorDefinition;
         layout.orientation = MKLinearLayoutOrientationHorizontal;
@@ -893,10 +875,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
 
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
-                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
-                                                                  horizontalSeparatorImage:nil
-                                                                    verticalSeparatorImage:nil];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 
         layout.separatorDelegate = separatorDefinition;
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -928,10 +907,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem3.weight = 1.0f;
         layoutItem3.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
 
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
-                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
-                                                                  horizontalSeparatorImage:nil
-                                                                    verticalSeparatorImage:nil];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 
         container.frame = CGRectMake(0.0f, 0.0f, 300.0f, 300.f);
 

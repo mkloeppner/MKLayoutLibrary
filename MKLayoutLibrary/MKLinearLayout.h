@@ -8,13 +8,9 @@
 
 #import "MKLayout.h"
 #import "MKLinearLayoutItem.h"
+#import "MKLinearLayoutOrientation.h"
 
 @protocol MKLinearLayoutSeparatorDelegate;
-
-typedef enum {
-    MKLinearLayoutOrientationHorizontal,
-    MKLinearLayoutOrientationVertical
-} MKLinearLayoutOrientation;
 
 @interface MKLinearLayout : MKLayout
 
