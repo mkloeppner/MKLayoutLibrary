@@ -9,7 +9,3 @@
 #import <Foundation/Foundation.h>
 #import "MKLinearLayout.h"
 #import "MKStackLayout.h"
-
-@interface MKLayoutLibrary : NSObject
-
-@end
