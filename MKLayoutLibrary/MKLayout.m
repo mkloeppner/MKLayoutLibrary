@@ -10,6 +10,8 @@
 
 @interface MKLayout ()
 
+@property (strong, nonatomic, readwrite) MKLayoutItem *item;
+
 @property (strong, nonatomic) NSMutableArray *mutableItems;
 
 @end
@@ -47,6 +49,9 @@
 {
     if (layoutItem.subview) {
         [self.view addSubview:layoutItem.subview];
+    }
+    if (layoutItem.sublayout) {
+        layoutItem.sublayout.item = layoutItem;
     }
     [self.mutableItems addObject:layoutItem];
 }

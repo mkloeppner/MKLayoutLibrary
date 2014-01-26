@@ -25,6 +25,11 @@
 @interface MKLayout : NSObject
 
 /**
+ * The parent layout item if layout is a sublayout
+ */
+@property (strong, nonatomic, readonly) MKLayoutItem *item;
+
+/**
 * Adds spacing all around the layout contents
 */
 @property (assign, nonatomic) UIEdgeInsets margin;
