@@ -83,7 +83,8 @@
 
         // Get the total reserved item frame in order to apply inner gravity without nesting subviews 
         CGRect outerRect = [self reservedTotalSpaceForRect:rect];
-
+        CGRect rootRect = outerRect;
+        
         // Reduce sizes in order to achieve the padding for the borders
         rect = [self applyPadding:separatorThickness forRect:rect firstItem:(i == 0)];
         outerRect = [self applyPadding:separatorThickness forRect:outerRect firstItem:(i == 0)];
@@ -103,16 +104,16 @@
                 MKLinearLayoutOrientation separatorOrientation = MKLinearLayoutOrientationVertical;
 
                 if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-                    separatorRect = CGRectMake(outerRect.size.width,
-                                               outerRect.origin.y,
+                    separatorRect = CGRectMake(rootRect.size.width - separatorThickness / 2.0f + self.margin.left,
+                                               rootRect.origin.y,
                                                separatorThickness,
-                                               outerRect.size.height);
-                    separatorOrientation = MKLinearLayoutOrientationHorizontal;
+                                               rootRect.size.height);
+                    separatorOrientation = MKLinearLayoutOrientationVertical;
                 } else if (self.orientation == MKLinearLayoutOrientationVertical) {
 
-                    separatorRect = CGRectMake(outerRect.origin.x,
-                                               outerRect.size.height,
-                                               outerRect.size.width,
+                    separatorRect = CGRectMake(bounds.origin.x,
+                                               rootRect.size.height - separatorThickness / 2.0f + self.margin.top,
+                                               bounds.size.width,
                                                separatorThickness);
                     separatorOrientation = MKLinearLayoutOrientationHorizontal;
 

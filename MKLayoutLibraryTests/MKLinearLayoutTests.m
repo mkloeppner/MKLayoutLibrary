@@ -932,8 +932,36 @@ describe(@"MKLinearLayout", ^{
         
     });
     
+    it(@"should create separator information horizontally", ^{
+        
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+        
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.weight = 1.0f;
+        
+        layout.separatorDelegate = separatorDefinition;
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(separatorDefinition.separators.count).to.equal(2);
+        
+        NSDictionary *separator1 = separatorDefinition.separators[0];
+        NSValue *separator1RectValue = separator1[kSeparatorsDictionaryKeyRect];
+        CGRect separator1Rect = separator1RectValue.CGRectValue;
+        
+        expect(separator1Rect.origin.x).to.equal(container.frame.size.width / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator1Rect.origin.y).to.equal(0.0f);
+        expect(separator1Rect.size.width).to.equal(separatorDefinition.separatorThickness);
+        expect(separator1Rect.size.height).to.equal(container.frame.size.height);
+        
+        NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
+        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationVertical);
+    });
     
-    it(@"should create separators information, the rect and the type", ^{
+    it(@"should create separators information, the rect and the type vertically", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
@@ -962,7 +990,7 @@ describe(@"MKLinearLayout", ^{
         expect([orientation intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
     });
     
-    it(@"should create separators information, the rect and the type", ^{
+    it(@"should create separators information, the rect and the type with margin", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
@@ -991,6 +1019,79 @@ describe(@"MKLinearLayout", ^{
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
         expect([orientation intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
+    });
+    
+    it(@"should create separators information, the rect and the type with margin and layout margin", ^{
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+        layoutItem.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.weight = 1.0f;
+        layoutItem2.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        
+        layout.separatorDelegate = separatorDefinition;
+        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
+        [layout layout];
+        
+        expect(separatorDefinition.separators.count).to.equal(1);
+        
+        NSDictionary *separator1 = separatorDefinition.separators[0];
+        NSValue *separator1RectValue = separator1[kSeparatorsDictionaryKeyRect];
+        CGRect separator1Rect = separator1RectValue.CGRectValue;
+        
+        expect(separator1Rect.origin.x).to.equal(0.0f);
+        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator1Rect.size.width).to.equal(container.frame.size.width);
+        expect(separator1Rect.size.height).to.equal(separatorDefinition.separatorThickness);
+        
+        NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
+        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
+    });
+    
+    it(@"should create separator information with margin and layout margin for a layout hirarchy of two", ^{
+        
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+        
+        MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
+        sublayout.separatorDelegate = separatorDefinition;
+        sublayout.orientation = MKLinearLayoutOrientationVertical;
+        
+            MKLinearLayoutItem *layoutItem1 = [sublayout addSubview:subview2];
+            layoutItem1.weight = 1.0f;
+        
+            MKLinearLayoutItem *layoutItem2 = [sublayout addSubview:subview3];
+            layoutItem2.weight = 1.0f;
+        
+        MKLinearLayoutItem *layoutItemSublayout = [layout addSublayout:sublayout];
+        layoutItemSublayout.weight = 1.0f;
+        
+        layout.separatorDelegate = separatorDefinition;
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(separatorDefinition.separators.count).to.equal(2);
+        
+        NSDictionary *separator1 = separatorDefinition.separators[0];
+        NSValue *separator1RectValue = separator1[kSeparatorsDictionaryKeyRect];
+        CGRect separator1Rect = separator1RectValue.CGRectValue;
+        
+        expect(separator1Rect.origin.x).to.equal(container.frame.size.width / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator1Rect.origin.y).to.equal(0.0f);
+        expect(separator1Rect.size.width).to.equal(separatorDefinition.separatorThickness);
+        expect(separator1Rect.size.height).to.equal(container.frame.size.height);
+        
+        NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
+        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationVertical);
+        
+        // TODO: Check vertical information
     });
     
 });
