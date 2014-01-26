@@ -946,7 +946,7 @@ describe(@"MKLinearLayout", ^{
         layout.orientation = MKLinearLayoutOrientationHorizontal;
         [layout layout];
         
-        expect(separatorDefinition.separators.count).to.equal(2);
+        expect(separatorDefinition.separators.count).to.equal(1);
         
         NSDictionary *separator1 = separatorDefinition.separators[0];
         NSValue *separator1RectValue = separator1[kSeparatorsDictionaryKeyRect];
