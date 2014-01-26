@@ -7,6 +7,7 @@
 //
 
 #import "MKLinearLayout.h"
+#import "MKLinearLayoutSeparatorDelegate.h"
 
 @interface MKLinearLayout ()
 
@@ -82,7 +83,21 @@
         // Apply the margin in order to achieve spacings around the item view
         rect = UIEdgeInsetsInsetRect(rect, item.margin);
         reservedItemSpace = UIEdgeInsetsInsetRect(reservedItemSpace, item.margin);
-        
+
+        // Reduce sizes in order to achieve the padding for the borders
+        if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+            if (i != 0) {
+               rect.origin.x = rect.origin.x + [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+            }
+            rect.size.width = rect.size.width - [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+        } else {
+            if (i != 0) {
+                rect.origin.y = rect.origin.y + [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+            }
+            rect.size.height = rect.size.height - [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+        }
+
+
         // Apply gravity
         rect = [self applyGravity:item.gravity withRect:rect withinRect:reservedItemSpace];
         
