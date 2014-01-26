@@ -8,15 +8,14 @@
 
 #import "MKLayout.h"
 #import "MKLinearLayoutItem.h"
+#import "MKLinearLayoutOrientation.h"
 
-typedef enum {
-    MKLinearLayoutOrientationHorizontal,
-    MKLinearLayoutOrientationVertical
-} MKLinearLayoutOrientation;
+@protocol MKLinearLayoutSeparatorDelegate;
 
 @interface MKLinearLayout : MKLayout
 
 @property (assign, nonatomic) MKLinearLayoutOrientation orientation;
+@property (assign, nonatomic) id<MKLinearLayoutSeparatorDelegate> separatorDelegate;
 
 - (MKLinearLayoutItem *)addSublayout:(MKLayout *)sublayout;
 - (MKLinearLayoutItem *)addSubview:(UIView *)subview;

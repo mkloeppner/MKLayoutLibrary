@@ -7,6 +7,7 @@
 //
 
 #import "MKLinearLayout.h"
+#import "MKLinearLayoutSeparatorDelegate.h"
 
 @interface MKLinearLayout ()
 
@@ -58,11 +59,15 @@
         
         CGRect rect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
         
-        // Apply current position]
+        CGFloat separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
+        
+        // Apply current position
         if (self.orientation == MKLinearLayoutOrientationHorizontal) {
             rect.origin.x = currentPos;
-        } else {
+        } else if (self.orientation == MKLinearLayoutOrientationVertical) {
             rect.origin.y = currentPos;
+        } else {
+            [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", self.orientation];
         }
         
         // Calculate absolute size
@@ -76,25 +81,98 @@
         // Move the cursor in order to reserve the whole rectangle for the current item view.
         currentPos += [self lengthFromRect:rect orientation:self.orientation];
         
-        // Get the total reserved item frame in order to apply inner gravity without nesting subviews 
-        CGRect reservedItemSpace = [self reservedTotalSpaceForRect:rect];
+        // Get the total reserved item frame in order to apply inner gravity without nesting subviews
+        CGRect outerRect = [self reservedTotalSpaceForRect:rect];
+        CGRect rootRect = outerRect;
+        
+        // Reduce sizes in order to achieve the padding for the borders
+        rect = [self applyPadding:separatorThickness forRect:rect firstItem:(i == 0)];
+        outerRect = [self applyPadding:separatorThickness forRect:outerRect firstItem:(i == 0)];
         
         // Apply the margin in order to achieve spacings around the item view
         rect = UIEdgeInsetsInsetRect(rect, item.margin);
-        reservedItemSpace = UIEdgeInsetsInsetRect(reservedItemSpace, item.margin);
+        outerRect = UIEdgeInsetsInsetRect(outerRect, item.margin);
         
         // Apply gravity
-        rect = [self applyGravity:item.gravity withRect:rect withinRect:reservedItemSpace];
+        rect = [self applyGravity:item.gravity withRect:rect withinRect:outerRect];
         
+        
+        // TODO: Imporove separator frame calculation
+        if (i != self.items.count - 1.0f) {
+            
+            UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+            if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
+                separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
+            }
+            
+            if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
+                
+                CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+                MKLinearLayoutOrientation separatorOrientation = MKLinearLayoutOrientationVertical;
+                
+                if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+                    separatorRect = CGRectMake(outerRect.origin.x + outerRect.size.width,
+                                               rootRect.origin.y - self.margin.top - separatorIntersectionOffsets.top,
+                                               separatorThickness,
+                                               rootRect.size.height + self.margin.top + self.margin.bottom + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
+                    separatorOrientation = MKLinearLayoutOrientationVertical;
+                } else if (self.orientation == MKLinearLayoutOrientationVertical) {
+                    
+                    separatorRect = CGRectMake(rootRect.origin.x - self.margin.left - separatorIntersectionOffsets.left,
+                                               outerRect.origin.y + outerRect.size.height,
+                                               rootRect.size.width + self.margin.left + self.margin.right + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
+                                               separatorThickness);
+                    separatorOrientation = MKLinearLayoutOrientationHorizontal;
+                    
+                } else {
+                    [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", self.orientation];
+                }
+                
+                if ([self.item.layout isKindOfClass:[MKLinearLayout class]]) {
+                    MKLinearLayout *parentLayout = (MKLinearLayout *)self.item.layout;
+                    if (parentLayout.orientation != self.orientation) {
+                        if (parentLayout.orientation == MKLinearLayoutOrientationHorizontal) {
+                            separatorRect.origin.y += parentLayout.margin.top;
+                            separatorRect.size.width += parentLayout.margin.left;
+                        } else if (parentLayout.orientation == MKLinearLayoutOrientationVertical) {
+                            separatorRect.origin.x += parentLayout.margin.left;
+                            separatorRect.size.height += parentLayout.margin.top;
+                        }
+                    }
+                }
+                
+                [self.separatorDelegate linearLayout:self separatorRect:separatorRect type:separatorOrientation];
+            }
+        }
         if (item.subview) {
             item.subview.frame = rect;
         } else if (item.sublayout) {
             [item.sublayout layoutBounds:rect];
         }
-    
+        
     }
     
     self.bounds = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+}
+
+- (CGRect)applyPadding:(CGFloat)padding forRect:(CGRect)rect firstItem:(BOOL)firstItem
+{
+    CGFloat separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
+    
+    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+        if (!firstItem) {
+            rect.origin.x = rect.origin.x + separatorThickness / 2.0f;
+        }
+        rect.size.width = rect.size.width - separatorThickness / 2.0f;
+    } else if (self.orientation == MKLinearLayoutOrientationVertical) {
+        if (!firstItem) {
+            rect.origin.y = rect.origin.y + separatorThickness / 2.0f;
+        }
+        rect.size.height = rect.size.height - separatorThickness / 2.0f;
+    } else {
+        [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", self.orientation];
+    }
+    return rect;
 }
 
 - (CGRect)reservedTotalSpaceForRect:(CGRect)rect
@@ -190,7 +268,6 @@
             return rect.size.width;
         case MKLinearLayoutOrientationVertical:
             return rect.size.height;
-            
         default:
             break;
     }
