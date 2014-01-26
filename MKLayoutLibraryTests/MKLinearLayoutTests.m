@@ -947,16 +947,6 @@ describe(@"MKLinearLayout", ^{
         layout.orientation = MKLinearLayoutOrientationVertical;
         [layout layout];
 
-        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview1.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview1.frame.size.height).to.equal(container.frame.size.height / 2.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom);
-
-        expect(subview2.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview2.frame.origin.y).to.equal(container.frame.size.height / 2.0f + 2.0f + layoutItem.margin.top);
-        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview2.frame.size.height).to.equal(container.frame.size.height / 2.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom);
-
         expect(separatorDefinition.separators.count).to.equal(1);
 
         NSDictionary *separator1 = separatorDefinition.separators[0];
