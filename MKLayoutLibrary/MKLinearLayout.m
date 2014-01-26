@@ -105,15 +105,15 @@
 
                 if (self.orientation == MKLinearLayoutOrientationHorizontal) {
                     separatorRect = CGRectMake(rootRect.size.width - separatorThickness / 2.0f + self.margin.left,
-                                               rootRect.origin.y,
+                                               rootRect.origin.y - self.margin.top,
                                                separatorThickness,
-                                               rootRect.size.height);
+                                               rootRect.size.height + self.margin.top + self.margin.bottom);
                     separatorOrientation = MKLinearLayoutOrientationVertical;
                 } else if (self.orientation == MKLinearLayoutOrientationVertical) {
 
-                    separatorRect = CGRectMake(bounds.origin.x,
+                    separatorRect = CGRectMake(rootRect.origin.x - self.margin.left,
                                                rootRect.size.height - separatorThickness / 2.0f + self.margin.top,
-                                               bounds.size.width,
+                                               rootRect.size.width + self.margin.left + self.margin.right,
                                                separatorThickness);
                     separatorOrientation = MKLinearLayoutOrientationHorizontal;
 
