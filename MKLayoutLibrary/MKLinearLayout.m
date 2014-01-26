@@ -97,6 +97,8 @@
         rect = [self applyGravity:item.gravity withRect:rect withinRect:outerRect];
 
         // Notify separator information
+        
+        // TODO: Imporove separator frame calculation
         if (i != 0 && i != self.items.count) {
             if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
 

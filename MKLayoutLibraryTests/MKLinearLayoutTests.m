@@ -1167,7 +1167,6 @@ describe(@"MKLinearLayout", ^{
         expect([orientation2 intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
         
     });
-
     
 });
 
