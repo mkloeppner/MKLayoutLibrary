@@ -13,4 +13,9 @@
 @property (strong, nonatomic) UIImage *horizontalSeparatorImage;
 @property (strong, nonatomic) UIImage *verticalSeparatorImage;
 
+- (instancetype)initWithSeparatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets horizontalSeparatorImage:(UIImage *)horizontalSeparatorImage verticalSeparatorImage:(UIImage *)verticalSeparatorImage;
+
++ (instancetype)separatorWithSeparatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets horizontalSeparatorImage:(UIImage *)horizontalSeparatorImage verticalSeparatorImage:(UIImage *)verticalSeparatorImage;
+
+
 @end

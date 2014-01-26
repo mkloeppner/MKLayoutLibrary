@@ -11,6 +11,7 @@
 
 #define EXP_SHORTHAND
 #import "Expecta.h"
+#import "MKLinearLayoutSeparatorImpl.h"
 
 
 SpecBegin(MKLinearLayoutSpecification)
@@ -19,6 +20,7 @@ describe(@"MKLinearLayout", ^{
 
     __block MKLinearLayout *layout;
     __block UIView *container;
+    __block MKLinearLayoutSeparatorImpl *separatorDefinition;
 
     __block UIView *subview1;
     __block UIView *subview2;
@@ -26,6 +28,7 @@ describe(@"MKLinearLayout", ^{
 
     beforeEach(^{
         container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 100.0)];
+        separatorDefinition = nil;
         layout = [[MKLinearLayout alloc] initWithView:container];
 
         subview1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
@@ -671,6 +674,140 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.y).to.equal(0.0f + margin.top + sublayoutViewMargin.top);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - margin.left - margin.right - sublayoutViewMargin.left - sublayoutViewMargin.right);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - margin.top - margin.bottom - sublayoutViewMargin.top - sublayoutViewMargin.bottom);
+
+    });
+
+    it(@"should add paddings in order to keep space for separators between views if separatorDelegate has been set for horizontal layout with setting size by weight", ^{
+
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.weight = 1.0f;
+
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
+                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
+                                                                  horizontalSeparatorImage:nil
+                                                                    verticalSeparatorImage:nil];
+
+        layout.separatorDelegate = separatorDefinition;
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width / 2.0f - 2.0f);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height);
+
+        expect(subview2.frame.origin.x).to.equal(container.frame.size.width / 2.0f + 2.0f);
+        expect(subview2.frame.origin.y).to.equal(0.0f);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width / 2.0f - 2.0f);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height);
+
+    });
+
+    it(@"should add paddings in order to keep space for separators between three views if separatorDelegate has been set for horizontal layout with setting size by weight", ^{
+
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.weight = 1.0f;
+
+        MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
+        layoutItem3.weight = 1.0f;
+
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
+                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
+                                                                  horizontalSeparatorImage:nil
+                                                                    verticalSeparatorImage:nil];
+
+        layout.separatorDelegate = separatorDefinition;
+        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        [layout layout];
+
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height);
+
+        expect(subview2.frame.origin.x).to.equal(container.frame.size.width / 3.0f + 2.0f);
+        expect(subview2.frame.origin.y).to.equal(0.0f);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height);
+
+        expect(subview3.frame.origin.x).to.equal(container.frame.size.width / 3.0f * 2.0f + 2.0f);
+        expect(subview3.frame.origin.y).to.equal(0.0f);
+        expect(subview3.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f);
+        expect(subview3.frame.size.height).to.equal(container.frame.size.height);
+
+    });
+
+    it(@"should add paddings in order to keep space for separators between views if separatorDelegate has been set for vertical layout with setting size by weight", ^{
+
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.weight = 1.0f;
+
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
+                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
+                                                                  horizontalSeparatorImage:nil
+                                                                    verticalSeparatorImage:nil];
+
+        layout.separatorDelegate = separatorDefinition;
+        layout.orientation = MKLinearLayoutOrientationVertical;
+        [layout layout];
+
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height / 2.0f - 2.0f);
+
+        expect(subview2.frame.origin.x).to.equal(0.0f);
+        expect(subview2.frame.origin.y).to.equal(container.frame.size.height / 2.0f + 2.0f);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height / 2.0f - 2.0f);
+
+    });
+
+    it(@"should add paddings in order to keep space for separators between three views if separatorDelegate has been set for vertical layout with setting size by weight", ^{
+
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.weight = 1.0f;
+
+        MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
+        layoutItem3.weight = 1.0f;
+
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f
+                                                              separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)
+                                                                  horizontalSeparatorImage:nil
+                                                                    verticalSeparatorImage:nil];
+
+        container.frame = CGRectMake(0.0f, 0.0f, 300.0f, 300.f);
+
+        layout.separatorDelegate = separatorDefinition;
+        layout.orientation = MKLinearLayoutOrientationVertical;
+        [layout layout];
+
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f);
+
+        expect(subview2.frame.origin.x).to.equal(0.0f);
+        expect(subview2.frame.origin.y).to.equal(container.frame.size.height / 3.0f + 2.0f);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f);
+
+        expect(subview3.frame.origin.x).to.equal(0.0f);
+        expect(subview3.frame.origin.y).to.equal(container.frame.size.height / 3.0f * 2.0f + 2.0f);
+        expect(subview3.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview3.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f);
 
     });
 
