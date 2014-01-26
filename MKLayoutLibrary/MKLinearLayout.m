@@ -120,6 +120,19 @@
                 } else {
                     [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", self.orientation];
                 }
+                
+                if ([self.item.layout isKindOfClass:[MKLinearLayout class]]) {
+                    MKLinearLayout *parentLayout = (MKLinearLayout *)self.item.layout;
+                    if (parentLayout.orientation != self.orientation) {
+                        if (parentLayout.orientation == MKLinearLayoutOrientationHorizontal) {
+                            separatorRect.origin.y += parentLayout.margin.top;
+                            separatorRect.size.width += parentLayout.margin.left;
+                        } else if (parentLayout.orientation == MKLinearLayoutOrientationVertical) {
+                            separatorRect.origin.x += parentLayout.margin.left;
+                            separatorRect.size.height += parentLayout.margin.top;
+                        }
+                    }
+                }
 
                 [self.separatorDelegate linearLayout:self separatorRect:separatorRect type:separatorOrientation];
             }
