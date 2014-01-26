@@ -103,14 +103,21 @@
                 MKLinearLayoutOrientation separatorOrientation = MKLinearLayoutOrientationVertical;
 
                 if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-
+                    separatorRect = CGRectMake(outerRect.size.width,
+                                               outerRect.origin.y,
+                                               separatorThickness,
+                                               outerRect.size.height);
+                    separatorOrientation = MKLinearLayoutOrientationHorizontal;
                 } else if (self.orientation == MKLinearLayoutOrientationVertical) {
 
-                    separatorRect = CGRectMake(outerRect.origin.x, outerRect.size.height, outerRect.size.width, separatorThickness);
+                    separatorRect = CGRectMake(outerRect.origin.x,
+                                               outerRect.size.height,
+                                               outerRect.size.width,
+                                               separatorThickness);
                     separatorOrientation = MKLinearLayoutOrientationHorizontal;
 
                 } else {
-
+                    [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", self.orientation];
                 }
 
                 [self.separatorDelegate linearLayout:self separatorRect:separatorRect type:separatorOrientation];
