@@ -59,11 +59,13 @@
         
         CGRect rect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
         
-        // Apply current position]
+        // Apply current position
         if (self.orientation == MKLinearLayoutOrientationHorizontal) {
             rect.origin.x = currentPos;
-        } else {
+        } else if (self.orientation == MKLinearLayoutOrientationVertical) {
             rect.origin.y = currentPos;
+        } else {
+            [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", self.orientation];
         }
         
         // Calculate absolute size
@@ -78,28 +80,18 @@
         currentPos += [self lengthFromRect:rect orientation:self.orientation];
         
         // Get the total reserved item frame in order to apply inner gravity without nesting subviews 
-        CGRect reservedItemSpace = [self reservedTotalSpaceForRect:rect];
-        
-        // Apply the margin in order to achieve spacings around the item view
-        rect = UIEdgeInsetsInsetRect(rect, item.margin);
-        reservedItemSpace = UIEdgeInsetsInsetRect(reservedItemSpace, item.margin);
+        CGRect outerRect = [self reservedTotalSpaceForRect:rect];
 
         // Reduce sizes in order to achieve the padding for the borders
-        if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-            if (i != 0) {
-               rect.origin.x = rect.origin.x + [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
-            }
-            rect.size.width = rect.size.width - [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
-        } else {
-            if (i != 0) {
-                rect.origin.y = rect.origin.y + [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
-            }
-            rect.size.height = rect.size.height - [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
-        }
+        rect = [self applyPadding:[self.separatorDelegate separatorThicknessForLayout:self] forRect:rect firstItem:(i == 0)];
+        outerRect = [self applyPadding:[self.separatorDelegate separatorThicknessForLayout:self] forRect:outerRect firstItem:(i == 0)];
 
+        // Apply the margin in order to achieve spacings around the item view
+        rect = UIEdgeInsetsInsetRect(rect, item.margin);
+        outerRect = UIEdgeInsetsInsetRect(outerRect, item.margin);
 
         // Apply gravity
-        rect = [self applyGravity:item.gravity withRect:rect withinRect:reservedItemSpace];
+        rect = [self applyGravity:item.gravity withRect:rect withinRect:outerRect];
         
         if (item.subview) {
             item.subview.frame = rect;
@@ -110,6 +102,24 @@
     }
     
     self.bounds = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+}
+
+- (CGRect)applyPadding:(CGFloat)padding forRect:(CGRect)rect firstItem:(BOOL)firstItem
+{
+    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+        if (!firstItem) {
+            rect.origin.x = rect.origin.x + [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+        }
+        rect.size.width = rect.size.width - [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+    } else if (self.orientation == MKLinearLayoutOrientationVertical) {
+        if (!firstItem) {
+            rect.origin.y = rect.origin.y + [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+        }
+        rect.size.height = rect.size.height - [self.separatorDelegate separatorThicknessForLayout:self] / 2.0f;
+    } else {
+        [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", self.orientation];
+    }
+    return rect;
 }
 
 - (CGRect)reservedTotalSpaceForRect:(CGRect)rect
