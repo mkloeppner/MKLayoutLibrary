@@ -1000,9 +1000,9 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        layoutItem2.margin = UIEdgeInsetsMake(6.0f, 6.0f, 6.0f, 6.0f);
         
-        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+        separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:10.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
         layout.orientation = MKLinearLayoutOrientationVertical;
@@ -1015,7 +1015,7 @@ describe(@"MKLinearLayout", ^{
         CGRect separator1Rect = separator1RectValue.CGRectValue;
         
         expect(separator1Rect.origin.x).to.equal(0.0f);
-        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f - layoutItem.margin.left);
         expect(separator1Rect.size.width).to.equal(container.frame.size.width);
         expect(separator1Rect.size.height).to.equal(separatorDefinition.separatorThickness);
         
@@ -1047,7 +1047,7 @@ describe(@"MKLinearLayout", ^{
         CGRect separator1Rect = separator1RectValue.CGRectValue;
         
         expect(separator1Rect.origin.x).to.equal(0.0f);
-        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f - layoutItem.margin.left);
         expect(separator1Rect.size.width).to.equal(container.frame.size.width);
         expect(separator1Rect.size.height).to.equal(separatorDefinition.separatorThickness);
         
@@ -1159,7 +1159,7 @@ describe(@"MKLinearLayout", ^{
         CGRect separator2Rect = separator2RectValue.CGRectValue;
         
         expect(separator2Rect.origin.x).to.equal(container.frame.size.width / 2.0f + separatorDefinition.separatorThickness / 2.0f);
-        expect(separator2Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition2.separatorThickness / 2.0f);
+        expect(separator2Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition2.separatorThickness / 2.0f + layout.margin.left);
         expect(separator2Rect.size.width).to.equal(container.frame.size.width / 2.0f - separatorDefinition.separatorThickness / 2.0f);
         expect(separator2Rect.size.height).to.equal(separatorDefinition2.separatorThickness);
         
