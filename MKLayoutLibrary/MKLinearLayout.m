@@ -96,10 +96,15 @@
         // Apply gravity
         rect = [self applyGravity:item.gravity withRect:rect withinRect:outerRect];
         
-        // Notify separator information
         
         // TODO: Imporove separator frame calculation
         if (i != self.items.count - 1.0f) {
+            
+            UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+            if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
+                separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
+            }
+            
             if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
                 
                 CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
@@ -107,15 +112,15 @@
                 
                 if (self.orientation == MKLinearLayoutOrientationHorizontal) {
                     separatorRect = CGRectMake(outerRect.origin.x + outerRect.size.width,
-                                               rootRect.origin.y - self.margin.top,
+                                               rootRect.origin.y - self.margin.top - separatorIntersectionOffsets.top,
                                                separatorThickness,
-                                               rootRect.size.height + self.margin.top + self.margin.bottom);
+                                               rootRect.size.height + self.margin.top + self.margin.bottom + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
                     separatorOrientation = MKLinearLayoutOrientationVertical;
                 } else if (self.orientation == MKLinearLayoutOrientationVertical) {
                     
-                    separatorRect = CGRectMake(rootRect.origin.x - self.margin.left,
+                    separatorRect = CGRectMake(rootRect.origin.x - self.margin.left - separatorIntersectionOffsets.left,
                                                outerRect.origin.y + outerRect.size.height,
-                                               rootRect.size.width + self.margin.left + self.margin.right,
+                                               rootRect.size.width + self.margin.left + self.margin.right + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
                                                separatorThickness);
                     separatorOrientation = MKLinearLayoutOrientationHorizontal;
                     
