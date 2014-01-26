@@ -99,14 +99,14 @@
         // Notify separator information
         
         // TODO: Imporove separator frame calculation
-        if (i != 0 && i != self.items.count) {
+        if (i != self.items.count - 1.0f) {
             if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
                 
                 CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
                 MKLinearLayoutOrientation separatorOrientation = MKLinearLayoutOrientationVertical;
                 
                 if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-                    separatorRect = CGRectMake(rootRect.size.width * i - separatorThickness / 2.0f + self.margin.left,
+                    separatorRect = CGRectMake(outerRect.origin.x + outerRect.size.width,
                                                rootRect.origin.y - self.margin.top,
                                                separatorThickness,
                                                rootRect.size.height + self.margin.top + self.margin.bottom);
@@ -114,7 +114,7 @@
                 } else if (self.orientation == MKLinearLayoutOrientationVertical) {
                     
                     separatorRect = CGRectMake(rootRect.origin.x - self.margin.left,
-                                               rootRect.size.height * i - separatorThickness / 2.0f + self.margin.top,
+                                               outerRect.origin.y + outerRect.size.height,
                                                rootRect.size.width + self.margin.left + self.margin.right,
                                                separatorThickness);
                     separatorOrientation = MKLinearLayoutOrientationHorizontal;
