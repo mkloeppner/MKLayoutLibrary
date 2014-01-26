@@ -1091,6 +1091,19 @@ describe(@"MKLinearLayout", ^{
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
         expect([orientation intValue]).to.equal(MKLinearLayoutOrientationVertical);
         
+        NSDictionary *separator2 = separatorDefinition.separators[1];
+        NSValue *separator2RectValue = separator2[kSeparatorsDictionaryKeyRect];
+        CGRect separator2Rect = separator2RectValue.CGRectValue;
+        
+        expect(separator2Rect.origin.x).to.equal(container.frame.size.width / 2.0f + separatorDefinition.separatorThickness / 2.0f);
+        expect(separator2Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator2Rect.size.width).to.equal(container.frame.size.width / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator2Rect.size.height).to.equal(separatorDefinition.separatorThickness);
+        
+        NSNumber *orientation2 = separator2[kSeparatorsDictionaryKeyType];
+        expect([orientation2 intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
+
+        
         // TODO: Check vertical information
     });
     
