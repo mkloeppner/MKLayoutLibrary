@@ -9,8 +9,7 @@
 #import "MKLayout.h"
 #import "MKLinearLayoutItem.h"
 #import "MKLinearLayoutOrientation.h"
-
-@protocol MKLinearLayoutSeparatorDelegate;
+#import "MKLinearLayoutSeparatorDelegate.h"
 
 @interface MKLinearLayout : MKLayout
 
@@ -19,5 +18,9 @@
 
 - (MKLinearLayoutItem *)addSublayout:(MKLayout *)sublayout;
 - (MKLinearLayoutItem *)addSubview:(UIView *)subview;
+
+- (NSInteger)numberOfSeparatorsForLayoutWithOrientation:(MKLinearLayoutOrientation)orientation;
+
+@property (strong, nonatomic) NSDictionary *userInfo;
 
 @end

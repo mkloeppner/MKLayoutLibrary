@@ -175,7 +175,7 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 10.0f + 3.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 10.0f + 3.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.size.width - 6.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - 20.0f - 6.0f);
     });
     
@@ -189,7 +189,7 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.size.width - 10.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - 10.0f);
     });
     
@@ -208,12 +208,12 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.size.width - 10.0f);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - 10.0f);
         
         expect(subview2.frame.origin.x).to.equal(layoutItem.size.width + 5.0f);
         expect(subview2.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview2.frame.size.width).to.equal(layoutItem2.size.width - 10.0f);
+        expect(subview2.frame.size.width).to.equal(layoutItem2.size.width);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height - 10.0f);
         
     });
@@ -229,7 +229,7 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f);
-        expect(subview1.frame.size.height).to.equal(layoutItem.size.height - 10.0f);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height);
     });
     
     it(@"should layout two views vertically with margin specified", ^{
@@ -248,12 +248,12 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f );
-        expect(subview1.frame.size.height).to.equal(layoutItem.size.height - 10.0f);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height);
         
         expect(subview2.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview2.frame.origin.y).to.equal(layoutItem.size.height + 5.0f);
         expect(subview2.frame.size.width).to.equal(container.frame.size.width - 10.0f);
-        expect(subview2.frame.size.height).to.equal(layoutItem2.size.height - 10.0f);
+        expect(subview2.frame.size.height).to.equal(layoutItem2.size.height);
         
     });
     
