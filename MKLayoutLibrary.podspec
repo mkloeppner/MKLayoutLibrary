@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MKLayoutLibrary"
-  s.version      = "0.2.0"
+  s.version      = "0.2.1"
   s.summary      = "MKLayoutLibrary provides layout manager for UIKit such as Linearlayout"
 
   s.description  = <<-DESC
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.author       = { "mkloeppner" => "mkloeppner@me.com" }
   s.platform     = :ios, '6.0'
 
-  s.source       = { :git => "https://github.com/mkloeppner/MKLayoutLibrary.git", :tag => "0.2.0" }
+  s.source       = { :git => "https://github.com/mkloeppner/MKLayoutLibrary.git", :tag => "0.2.1" }
 
   s.source_files  = 'MKLayoutLibrary', '**/*.{h,m}'
   s.exclude_files = 'MKLayoutLibraryTests'
