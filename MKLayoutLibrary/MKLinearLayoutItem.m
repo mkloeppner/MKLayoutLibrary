@@ -9,8 +9,7 @@
 #import "MKLinearLayoutItem.h"
 #import "MKLayoutItem_SubclassAccessors.h"
 
-const CGFloat kMKLinearLayoutSizeValueMatchParent = -1.0f;
-const CGFloat kMKLinearLayoutWeightInvalid = -2.0f;
+const CGFloat kMKLinearLayoutWeightInvalid = -1.0f;
 
 @implementation MKLinearLayoutItem
 
@@ -18,7 +17,6 @@ const CGFloat kMKLinearLayoutWeightInvalid = -2.0f;
 {
     MKLinearLayoutItem *layoutItem = [super initWithLayout:layout];
     layoutItem.weight = kMKLinearLayoutWeightInvalid;
-    layoutItem.size = CGSizeMake(kMKLinearLayoutSizeValueMatchParent, kMKLinearLayoutSizeValueMatchParent);
     return layoutItem;
 }
 

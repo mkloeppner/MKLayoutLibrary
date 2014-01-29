@@ -10,6 +10,8 @@
 
 @interface MKLayout ()
 
+@property (strong, nonatomic, readwrite) MKLayoutItem *item;
+
 @property (strong, nonatomic) NSMutableArray *mutableItems;
 
 @end
@@ -23,6 +25,8 @@
         self.view = view;
         
         self.mutableItems = [[NSMutableArray alloc] init];
+
+        self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     }
     return self;
 }
@@ -45,6 +49,9 @@
 {
     if (layoutItem.subview) {
         [self.view addSubview:layoutItem.subview];
+    }
+    if (layoutItem.sublayout) {
+        layoutItem.sublayout.item = layoutItem;
     }
     [self.mutableItems addObject:layoutItem];
 }

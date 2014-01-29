@@ -9,6 +9,8 @@
 #import "MKLayoutItem.h"
 #import "MKLayout.h"
 
+const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
+
 @interface MKLayout (APIAccessor)
 
 - (void)removeLayoutItem:(MKLayoutItem *)layoutItem;
@@ -32,6 +34,8 @@
     if (self) {
         self.layout = layout;
         _gravity = MKLayoutGravityNone;
+        _size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
+        _margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     }
     return self;
 }

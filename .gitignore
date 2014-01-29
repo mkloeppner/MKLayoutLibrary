@@ -1,6 +1,9 @@
 Pods
 Podfile.lock
 .DS_Store
+.idea/
+
+MKLayoutLibrary.xcodeproj/xcuserdata
 MKLayoutLibrary.xcodeproj/project.xcworkspace/xcuserdata/
 MKLayoutLibrary.xcworkspace/
 MKLayoutLibrary.xcodeproj/project.xcworkspace/

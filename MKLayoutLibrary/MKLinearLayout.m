@@ -7,11 +7,11 @@
 //
 
 #import "MKLinearLayout.h"
+#import "MKLinearLayoutSeparatorDelegate.h"
 
 @interface MKLinearLayout ()
 
-// Transient, outdated after layout
-@property (assign, nonatomic) CGRect bounds;
+@property (strong, nonatomic) NSMutableArray *separators;
 
 @end
 
@@ -22,6 +22,7 @@
     self = [super initWithView:view];
     if (self) {
         self.orientation = MKLinearLayoutOrientationHorizontal;
+        self.separators = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -42,160 +43,194 @@
 
 - (void)layoutBounds:(CGRect)bounds
 {
-    self.bounds = bounds;
+    self.separators = [[NSMutableArray alloc] init];
+    
+    CGRect contentRect = UIEdgeInsetsInsetRect(bounds, self.margin);
     
     float currentPos = 0.0f;
     float overallWeight = 0.0f;
-    float overallLength = 0.0f;
+    float alreadyUsedLength = 0.0f;
+    float separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
     
-    [self calculateOverallWeight:&overallWeight overallLength:&overallLength];
+    for (NSUInteger i = 0; i < self.items.count; i++) {
+        MKLinearLayoutItem *item = self.items[i];
+        if (item.weight != kMKLinearLayoutWeightInvalid) {
+            overallWeight += item.weight;
+        } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
+            alreadyUsedLength += [self lengthForSize:contentRect.size];
+        } else {
+            alreadyUsedLength += [self lengthForSize:item.size];
+        }
+    }
     
-    float contentLength = [self lengthForOrientation:self.orientation];
+    float totalUseableContentLength = [self lengthForSize:contentRect.size];
+    if (self.items.count > 0) {
+        totalUseableContentLength -= (self.items.count - 1) * separatorThickness;
+    }
     
-    for (int i = 0; i < self.items.count; i++) {
+    for (NSUInteger i = 0; i < self.items.count; i++) {
         
         MKLinearLayoutItem *item = self.items[i];
         
-        CGRect rect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+        float itemLength = [self itemLengthForTotalUseableContentLength:totalUseableContentLength forItem:item overallWeight:overallWeight alreadyUsedLength:alreadyUsedLength];
         
-        // Apply current position]
+        CGRect itemOuterRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
         if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-            rect.origin.x = currentPos;
+            itemOuterRect = CGRectMake(contentRect.origin.x + currentPos,
+                                       contentRect.origin.y,
+                                       itemLength,
+                                       contentRect.size.height);
         } else {
-            rect.origin.y = currentPos;
+            itemOuterRect = CGRectMake(contentRect.origin.x,
+                                       contentRect.origin.y + currentPos,
+                                       contentRect.size.width,
+                                       itemLength);
         }
         
-        // Calculate absolute size
-        rect.size.width = [self lengthForItem:item orientation:MKLinearLayoutOrientationHorizontal overallWeight:overallWeight overallLength:overallLength contentLength:contentLength];
-        rect.size.height = [self lengthForItem:item orientation:MKLinearLayoutOrientationVertical overallWeight:overallWeight overallLength:overallLength contentLength:contentLength];
+        if (i != 0) {
+            if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
+                
+                UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+                if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
+                    separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
+                }
+                
+                CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+                if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+                    separatorRect = CGRectMake(contentRect.origin.x + currentPos - separatorThickness,
+                                               contentRect.origin.y - separatorIntersectionOffsets.top,
+                                               separatorThickness,
+                                               contentRect.size.height + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
+                } else {
+                    separatorRect = CGRectMake(contentRect.origin.x - separatorIntersectionOffsets.left,
+                                               contentRect.origin.y + currentPos - separatorThickness,
+                                               contentRect.size.width + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
+                                               separatorThickness);
+                }
+                
+                [self.separators addObject:[NSValue valueWithCGRect:separatorRect]];
+            }
+        }
         
-        // Apply offset for recursive layout calls in order to achieve sublayouts
-        rect.origin.x += self.bounds.origin.x;
-        rect.origin.y += self.bounds.origin.y;
+        CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, item.margin);
         
-        // Move the cursor in order to reserve the whole rectanglee for the current item view.
-        currentPos += [self lengthFromRect:rect orientation:self.orientation];
+        CGRect itemInnerRect = marginRect;
+        if (item.size.width != kMKLayoutItemSizeValueMatchParent) {
+            itemInnerRect.size.width = item.size.width;
+        }
+        if (item.size.height != kMKLayoutItemSizeValueMatchParent) {
+            itemInnerRect.size.height = item.size.height;
+        }
         
-        // Get the total reserved item frame in order to apply inner gravity without nesting subviews 
-        CGRect reservedItemSpace = [self reservedTotalSpaceForRect:rect];
-        
-        // Apply the margin in order to achive spacings around the item view
-        rect = UIEdgeInsetsInsetRect(rect, item.margin);
-        reservedItemSpace = UIEdgeInsetsInsetRect(reservedItemSpace, item.margin);
-        
-        // Apply gravity
-        rect = [self applyGravity:item.gravity withRect:rect withinRect:reservedItemSpace];
+        CGRect itemRect = [self applyGravity:item.gravity withRect:itemInnerRect withinRect:marginRect];
         
         if (item.subview) {
-            item.subview.frame = rect;
+            item.subview.frame = itemRect;
         } else if (item.sublayout) {
-            [item.sublayout layoutBounds:rect];
+            [item.sublayout layoutBounds:itemRect];
         }
-    
+        
+        currentPos += itemLength + separatorThickness;
     }
     
-    self.bounds = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+    [self recursiveCallSeparatorInformation];
 }
 
-- (CGRect)reservedTotalSpaceForRect:(CGRect)rect
+- (void)recursiveCallSeparatorInformation
 {
-    MKLinearLayoutOrientation orientation = MKLinearLayoutOrientationVertical;
-    
-    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-        orientation = MKLinearLayoutOrientationVertical;
-    } else if (self.orientation == MKLinearLayoutOrientationVertical) {
-        orientation = MKLinearLayoutOrientationHorizontal;
-    } else {
-        [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", orientation];
+    if (self.separatorDelegate) {
+        for (NSValue *value in self.separators) {
+            [self.separatorDelegate linearLayout:self separatorRect:value.CGRectValue type:[self flipOrientation:self.orientation]];
+        }
     }
-    
-    if (orientation == MKLinearLayoutOrientationHorizontal) {
-        rect.size.width = self.bounds.size.width;
-    } else if (orientation == MKLinearLayoutOrientationVertical) {
-        rect.size.height = self.bounds.size.height;
-    } else {
-        [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", orientation];
+    for (MKLinearLayoutItem *item in self.items) {
+        if (item.sublayout && [item.sublayout isKindOfClass:[MKLinearLayout class]]) {
+            MKLinearLayout *sublayout = (MKLinearLayout *)item.sublayout;
+            [sublayout recursiveCallSeparatorInformation];
+        }
     }
-    
-    return rect;
 }
 
-- (CGFloat)lengthForItem:(MKLinearLayoutItem *)item orientation:(MKLinearLayoutOrientation)orientation overallWeight:(CGFloat)overallWeight overallLength:(CGFloat)overallLength contentLength:(CGFloat)contentLength
+/**
+ * Calculates the length in pixels for an layout item
+ *
+ * @param item The item that is requested for its length in pixels within the current orientation of the linear layout
+ * @param overallWeight The overallWeight specifies all weights of all relative sized items. It is used in order to calculate the items length relative to other relative layoutet items (weight is used instead of size)
+ */
+- (CGFloat)itemLengthForTotalUseableContentLength:(CGFloat)totalUseableContentLength forItem:(MKLinearLayoutItem *)item overallWeight:(CGFloat)overallWeight alreadyUsedLength:(CGFloat)alreadyUsedLength
 {
-    float itemLength = [self pointsForOrientation:orientation fromItem:item];
-    
-    // Weight is used to achieve the arrangement in a linear layout horizontal or vertical.
-    // A linear layout is not capable to arrange items both horizontal and vertical. If its neccessary to align views, please use the corrensponding alignment properties.
-    // So just calculate the size by weight if the orientation fits.
-    if (orientation == self.orientation) {
-        if (item.weight != kMKLinearLayoutWeightInvalid) {
-            float percent = item.weight / overallWeight;
-            
-            float boundsWithoutAbsoluteSizes = contentLength - overallLength;
-            itemLength = boundsWithoutAbsoluteSizes * percent;
-        }
+    float itemLength = 0.0f;
+    if (item.weight != kMKLinearLayoutWeightInvalid) {
+        itemLength = item.weight / overallWeight * totalUseableContentLength - alreadyUsedLength;
+    } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
+        itemLength = totalUseableContentLength;
+    } else {
+        itemLength = [self lengthForSize:item.size];
     }
     return itemLength;
 }
 
 /**
- * Gathers the total weights and the total points in order to achieve relative layouting
- *
- * @discussion
- *
- * Obviously, the overall weight is used to calculate the total amount of relative layout items. The percentage of the space beeing used for an item
- * is the total space minus the available space.
- *
- * Available space is all the space that is not reserved for absolute sized layout items.
- *
- * Therefore it is also neccessary to gather the total amount of space used by all layout items using the total size.
+ * Returns a float that represents the length of the item within an orientation
  */
-- (void)calculateOverallWeight:(CGFloat *)overallWeight overallLength:(CGFloat *)overallPoints
+- (CGFloat)lengthForSize:(CGSize)size
 {
-    for (int i = 0; i < self.items.count; i++) {
-        MKLinearLayoutItem *item = self.items[i];
-        if (item.weight != kMKLinearLayoutWeightInvalid) {
-            *overallWeight += item.weight;
-        } else {
-            *overallPoints += [self pointsForOrientation:self.orientation fromItem:item];
-        }
-    }
-}
-
-/**
- * Extract flags for absolute sizes and replaces them with their point pendants
- *
- * @discussion
- *
- * Extract all your flags, such as match_parent and gets the length for it.
- */
-- (CGFloat)pointsForOrientation:(MKLinearLayoutOrientation)orientation fromItem:(MKLinearLayoutItem *)item
-{
-    CGFloat points =  orientation == MKLinearLayoutOrientationHorizontal ? item.size.width : item.size.height;
-    if (points == kMKLinearLayoutSizeValueMatchParent) {
-        points = [self lengthForOrientation:orientation];
-    }
-    return points;
-}
-
-- (CGFloat)lengthForOrientation:(MKLinearLayoutOrientation)orientation
-{
-    return [self lengthFromRect:self.bounds orientation:orientation];
-}
-
-- (CGFloat)lengthFromRect:(CGRect)rect orientation:(MKLinearLayoutOrientation)orientation
-{
-    switch (orientation) {
+    switch (self.orientation) {
         case MKLinearLayoutOrientationHorizontal:
-            return rect.size.width;
+            return size.width;
             break;
         case MKLinearLayoutOrientationVertical:
-            return rect.size.height;
-            
+            return size.height;
         default:
             break;
     }
-    [NSException raise:@"Unknown state exception" format:@"Can't calculate the length for orientation %i", orientation];
+    return 0.0f;
+}
+
+- (MKLinearLayoutOrientation)flipOrientation:(MKLinearLayoutOrientation)orientation
+{
+    if (MKLinearLayoutOrientationHorizontal == orientation) {
+        return MKLinearLayoutOrientationVertical;
+    }
+    if (MKLinearLayoutOrientationVertical == orientation) {
+        return MKLinearLayoutOrientationHorizontal;
+    }
+    [NSException raise:@"UnknownParamValueException" format:@"The specified orientation is unknown"];
+    return -1;
+}
+
+- (NSInteger)numberOfSeparatorsForLayoutWithOrientation:(MKLinearLayoutOrientation)orientation
+{
+    NSInteger numberOfSeparators = MAX(0, [self numberOfItemsForLayoutsWithOrientation:orientation] - 1);
+    
+    for (MKLayoutItem *item in self.items) {
+        if (item.sublayout) {
+            if ([item.sublayout respondsToSelector:@selector(numberOfSeparatorsForLayoutWithOrientation:)]) {
+                MKLinearLayout *linearLayout = (MKLinearLayout *)item.sublayout;
+                numberOfSeparators += [linearLayout numberOfSeparatorsForLayoutWithOrientation:orientation];
+            }
+        }
+    }
+    
+    return numberOfSeparators;
+}
+
+- (NSInteger)numberOfItemsForLayoutsWithOrientation:(MKLinearLayoutOrientation)orientation
+{
+    int numberOfItems = 0;
+    
+    for (MKLayoutItem *item in self.items) {
+        if ([item.layout respondsToSelector:@selector(orientation)]) {
+            MKLinearLayout *layout = (MKLinearLayout *)item.layout;
+            if (layout.orientation == orientation) {
+                if (layout.separatorDelegate) {
+                    numberOfItems += 1;
+                }
+            }
+        }
+    }
+    
+    return numberOfItems;
 }
 
 @end

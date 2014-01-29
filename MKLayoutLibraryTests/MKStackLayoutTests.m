@@ -67,12 +67,39 @@ describe(@"MKStackLayout", ^{
         expect(subview2).to.equal([layout.items[1] subview]);
         
     });
+
+    it(@"should stack two views with match parent size", ^{
+
+        MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
+        MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
+
+        layoutItem1.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
+        layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
+
+        [layout layout];
+
+        expect(0.0f).to.equal(subview1.frame.origin.x);
+        expect(0.0f).to.equal(subview1.frame.origin.y);
+        expect(container.frame.size.width).to.equal(subview1.frame.size.width);
+        expect(container.frame.size.height).to.equal(subview1.frame.size.height);
+
+        expect(0.0f).to.equal(subview2.frame.origin.x);
+        expect(0.0f).to.equal(subview2.frame.origin.y);
+        expect(container.frame.size.width).to.equal(subview2.frame.size.width);
+        expect(container.frame.size.height).to.equal(subview2.frame.size.height);
+
+        // draw order
+        expect(layout.items.count).to.equal(2);
+        expect(subview1).to.equal([layout.items[0] subview]);
+        expect(subview2).to.equal([layout.items[1] subview]);
+
+    });
     
     it(@"should insert a margin for a view its specified", ^{
         
         MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
         layoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
-        
+
         [layout layout];
         
         expect(0.0f + 5.0f).to.equal(subview1.frame.origin.x);
@@ -80,6 +107,35 @@ describe(@"MKStackLayout", ^{
         expect(container.frame.size.width - 10.0f).to.equal(subview1.frame.size.width);
         expect(container.frame.size.height - 10.0f).to.equal(subview1.frame.size.height);
         
+    });
+
+    it(@"should apply outer margin", ^{
+
+        [layout addSubview:subview1];
+
+        layout.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
+        [layout layout];
+
+        expect(0.0f + 3.0f).to.equal(subview1.frame.origin.x);
+        expect(0.0f + 3.0f).to.equal(subview1.frame.origin.y);
+        expect(container.frame.size.width - 6.0f).to.equal(subview1.frame.size.width);
+        expect(container.frame.size.height - 6.0f).to.equal(subview1.frame.size.height);
+
+    });
+
+    it(@"should apply outer margin and the cell item margin", ^{
+
+        MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
+        layoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+
+        layout.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
+        [layout layout];
+
+        expect(0.0f + 5.0f + 3.0f).to.equal(subview1.frame.origin.x);
+        expect(0.0f + 5.0f + 3.0f).to.equal(subview1.frame.origin.y);
+        expect(container.frame.size.width - 10.0f - 6.0f).to.equal(subview1.frame.size.width);
+        expect(container.frame.size.height - 10.0f - 6.0f).to.equal(subview1.frame.size.height);
+
     });
     
     it(@"should insert different margins for different views", ^{
@@ -107,6 +163,34 @@ describe(@"MKStackLayout", ^{
         expect(subview1).to.equal([layout.items[0] subview]);
         expect(subview2).to.equal([layout.items[1] subview]);
         
+    });
+
+    it(@"should insert different margins for different views and apply the global outer margin for layout", ^{
+
+        MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
+        MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
+
+        layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layoutItem2.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
+
+        layout.margin = UIEdgeInsetsMake(2.0f, 2.0f, 2.0f, 2.0f);
+        [layout layout];
+
+        expect(0.0f + 10.0f + 2.0f).to.equal(subview1.frame.origin.x);
+        expect(0.0f + 10.0f + 2.0f).to.equal(subview1.frame.origin.y);
+        expect(container.frame.size.width - 20.0f - 4.0f).to.equal(subview1.frame.size.width);
+        expect(container.frame.size.height - 20.0f - 4.0f).to.equal(subview1.frame.size.height);
+
+        expect(0.0f + 15.0f + 2.0f).to.equal(subview2.frame.origin.x);
+        expect(0.0f + 15.0f + 2.0f).to.equal(subview2.frame.origin.y);
+        expect(container.frame.size.width - 30.0f - 4.0f).to.equal(subview2.frame.size.width);
+        expect(container.frame.size.height - 30.0f - 4.0f).to.equal(subview2.frame.size.height);
+
+        // draw order
+        expect(layout.items.count).to.equal(2);
+        expect(subview1).to.equal([layout.items[0] subview]);
+        expect(subview2).to.equal([layout.items[1] subview]);
+
     });
     
     it(@"should layout sublayouts in stack layout", ^{
@@ -192,8 +276,8 @@ describe(@"MKStackLayout", ^{
         MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
         MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
         
-        layoutItem1.size = CGSizeMake(kMKStackLayoutSizeValueMatchParent, kMKStackLayoutSizeValueMatchParent);
-        layoutItem2.size = CGSizeMake(kMKStackLayoutSizeValueMatchParent, kMKStackLayoutSizeValueMatchParent);
+        layoutItem1.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
+        layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
         
         [layout layout];
         
