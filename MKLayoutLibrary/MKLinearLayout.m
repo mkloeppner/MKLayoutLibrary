@@ -163,7 +163,7 @@
 {
     float itemLength = 0.0f;
     if (item.weight != kMKLinearLayoutWeightInvalid) {
-        itemLength = item.weight / overallWeight * totalUseableContentLength - alreadyUsedLength;
+        itemLength = item.weight / overallWeight * (totalUseableContentLength - alreadyUsedLength);
     } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
         itemLength = totalUseableContentLength;
     } else {
