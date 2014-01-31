@@ -1015,7 +1015,7 @@ describe(@"MKLinearLayout", ^{
         CGRect separator1Rect = separator1RectValue.CGRectValue;
         
         expect(separator1Rect.origin.x).to.equal(0.0f);
-        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f - layoutItem.margin.left);
+        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f);
         expect(separator1Rect.size.width).to.equal(container.frame.size.width);
         expect(separator1Rect.size.height).to.equal(separatorDefinition.separatorThickness);
         
@@ -1046,9 +1046,9 @@ describe(@"MKLinearLayout", ^{
         NSValue *separator1RectValue = separator1[kSeparatorsDictionaryKeyRect];
         CGRect separator1Rect = separator1RectValue.CGRectValue;
         
-        expect(separator1Rect.origin.x).to.equal(0.0f);
-        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f - layoutItem.margin.left);
-        expect(separator1Rect.size.width).to.equal(container.frame.size.width);
+        expect(separator1Rect.origin.x).to.equal(0.0f + layout.margin.left);
+        expect(separator1Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator1Rect.size.width).to.equal(container.frame.size.width - layout.margin.left - layout.margin.right);
         expect(separator1Rect.size.height).to.equal(separatorDefinition.separatorThickness);
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
@@ -1144,9 +1144,9 @@ describe(@"MKLinearLayout", ^{
         CGRect separator1Rect = separator1RectValue.CGRectValue;
         
         expect(separator1Rect.origin.x).to.equal(container.frame.size.width / 2.0f - separatorDefinition.separatorThickness / 2.0f);
-        expect(separator1Rect.origin.y).to.equal(0.0f);
+        expect(separator1Rect.origin.y).to.equal(0.0f + layout.margin.top);
         expect(separator1Rect.size.width).to.equal(separatorDefinition.separatorThickness);
-        expect(separator1Rect.size.height).to.equal(container.frame.size.height);
+        expect(separator1Rect.size.height).to.equal(container.frame.size.height - layout.margin.top - layout.margin.bottom);
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
         expect([orientation intValue]).to.equal(MKLinearLayoutOrientationVertical);
@@ -1159,8 +1159,8 @@ describe(@"MKLinearLayout", ^{
         CGRect separator2Rect = separator2RectValue.CGRectValue;
         
         expect(separator2Rect.origin.x).to.equal(container.frame.size.width / 2.0f + separatorDefinition.separatorThickness / 2.0f);
-        expect(separator2Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition2.separatorThickness / 2.0f + layout.margin.left);
-        expect(separator2Rect.size.width).to.equal(container.frame.size.width / 2.0f - separatorDefinition.separatorThickness / 2.0f);
+        expect(separator2Rect.origin.y).to.equal(container.frame.size.height / 2.0f - separatorDefinition2.separatorThickness / 2.0f);
+        expect(separator2Rect.size.width).to.equal(container.frame.size.width / 2.0f - separatorDefinition.separatorThickness / 2.0f - layout.margin.left);
         expect(separator2Rect.size.height).to.equal(separatorDefinition2.separatorThickness);
         
         NSNumber *orientation2 = separator2[kSeparatorsDictionaryKeyType];
