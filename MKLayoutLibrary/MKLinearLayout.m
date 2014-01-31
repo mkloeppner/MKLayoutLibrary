@@ -133,10 +133,12 @@
         currentPos += itemLength + separatorThickness;
     }
     
-    [self recursiveCallSeparatorInformation];
+    if (!self.item.layout || ![self.item.layout isKindOfClass:[MKLinearLayout class]]) {
+        [self callSeparatorDelegate];
+    }
 }
 
-- (void)recursiveCallSeparatorInformation
+- (void)callSeparatorDelegate
 {
     if (self.separatorDelegate) {
         for (NSValue *value in self.separators) {
@@ -146,7 +148,7 @@
     for (MKLinearLayoutItem *item in self.items) {
         if (item.sublayout && [item.sublayout isKindOfClass:[MKLinearLayout class]]) {
             MKLinearLayout *sublayout = (MKLinearLayout *)item.sublayout;
-            [sublayout recursiveCallSeparatorInformation];
+            [sublayout callSeparatorDelegate];
         }
     }
 }
