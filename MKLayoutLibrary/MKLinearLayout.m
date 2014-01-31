@@ -133,10 +133,12 @@
         currentPos += itemLength + separatorThickness;
     }
     
-    [self recursiveCallSeparatorInformation];
+    if (!self.item.layout || ![self.item.layout isKindOfClass:[MKLinearLayout class]]) {
+        [self callSeparatorDelegate];
+    }
 }
 
-- (void)recursiveCallSeparatorInformation
+- (void)callSeparatorDelegate
 {
     if (self.separatorDelegate) {
         for (NSValue *value in self.separators) {
@@ -146,7 +148,7 @@
     for (MKLinearLayoutItem *item in self.items) {
         if (item.sublayout && [item.sublayout isKindOfClass:[MKLinearLayout class]]) {
             MKLinearLayout *sublayout = (MKLinearLayout *)item.sublayout;
-            [sublayout recursiveCallSeparatorInformation];
+            [sublayout callSeparatorDelegate];
         }
     }
 }
@@ -161,7 +163,7 @@
 {
     float itemLength = 0.0f;
     if (item.weight != kMKLinearLayoutWeightInvalid) {
-        itemLength = item.weight / overallWeight * totalUseableContentLength - alreadyUsedLength;
+        itemLength = item.weight / overallWeight * (totalUseableContentLength - alreadyUsedLength);
     } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
         itemLength = totalUseableContentLength;
     } else {
