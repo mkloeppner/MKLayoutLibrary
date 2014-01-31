@@ -724,17 +724,17 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
-        expect(subview1.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f);
+        expect(subview1.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f, 1.0f);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height);
         
-        expect(subview2.frame.origin.x).to.equal(container.frame.size.width / 3.0f + 2.0f);
+        expect(subview2.frame.origin.x).to.beCloseToWithin(container.frame.size.width / 3.0f + 2.0f, 1.0f);
         expect(subview2.frame.origin.y).to.equal(0.0f);
-        expect(subview2.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f);
+        expect(subview2.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f, 1.0f);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height);
         
-        expect(subview3.frame.origin.x).to.equal(container.frame.size.width / 3.0f * 2.0f + 2.0f);
+        expect(subview3.frame.origin.x).to.beCloseToWithin(container.frame.size.width / 3.0f * 2.0f + 2.0f, 1.0f);
         expect(subview3.frame.origin.y).to.equal(0.0f);
-        expect(subview3.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f);
+        expect(subview3.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f, 1.0f);
         expect(subview3.frame.size.height).to.equal(container.frame.size.height);
         
     });
@@ -787,17 +787,17 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width);
-        expect(subview1.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f);
+        expect(subview1.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f, 1.0f);
         
         expect(subview2.frame.origin.x).to.equal(0.0f);
-        expect(subview2.frame.origin.y).to.equal(container.frame.size.height / 3.0f + 2.0f);
+        expect(subview2.frame.origin.y).to.beCloseToWithin(container.frame.size.height / 3.0f + 2.0f, 1.0f);
         expect(subview2.frame.size.width).to.equal(container.frame.size.width);
-        expect(subview2.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f);
+        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f, 1.0f);
         
         expect(subview3.frame.origin.x).to.equal(0.0f);
-        expect(subview3.frame.origin.y).to.equal(container.frame.size.height / 3.0f * 2.0f + 2.0f);
+        expect(subview3.frame.origin.y).to.beCloseToWithin(container.frame.size.height / 3.0f * 2.0f + 2.0f, 1.0f);
         expect(subview3.frame.size.width).to.equal(container.frame.size.width);
-        expect(subview3.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f);
+        expect(subview3.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f, 1.0f);
         
     });
     
@@ -852,17 +852,17 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
         expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview1.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview1.frame.size.height).to.equal(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview1.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right, 1.0f);
+        expect(subview1.frame.size.height).to.beCloseToWithin(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
         
-        expect(subview2.frame.origin.x).to.equal(container.frame.size.width / 3.0f + 2.0f + layoutItem.margin.left);
+        expect(subview2.frame.origin.x).to.beCloseToWithin(container.frame.size.width / 3.0f + 2.0f + layoutItem.margin.left, 1.0f);
         expect(subview2.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview2.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview2.frame.size.height).to.equal(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview2.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right, 1.0f);
+        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
         
-        expect(subview3.frame.origin.x).to.equal(container.frame.size.width / 3.0f * 2.0f + 2.0f + layoutItem.margin.left);
+        expect(subview3.frame.origin.x).to.beCloseToWithin(container.frame.size.width / 3.0f * 2.0f + 2.0f + layoutItem.margin.left, 1.0f);
         expect(subview3.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview3.frame.size.width).to.equal(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right);
+        expect(subview3.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right, 1.0f);
         expect(subview3.frame.size.height).to.equal(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom);
         
     });
@@ -920,17 +920,17 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
         expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview1.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview1.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
         
         expect(subview2.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview2.frame.origin.y).to.equal(container.frame.size.height / 3.0f + 2.0f + layoutItem.margin.top);
+        expect(subview2.frame.origin.y).to.beCloseToWithin(container.frame.size.height / 3.0f + 2.0f + layoutItem.margin.top, 1.0f);
         expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview2.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
         
         expect(subview3.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview3.frame.origin.y).to.equal(container.frame.size.height / 3.0f * 2.0f + 2.0f + layoutItem.margin.top);
+        expect(subview3.frame.origin.y).to.beCloseToWithin(container.frame.size.height / 3.0f * 2.0f + 2.0f + layoutItem.margin.top, 1.0f);
         expect(subview3.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview3.frame.size.height).to.equal(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview3.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
         
     });
     
