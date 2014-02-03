@@ -133,7 +133,7 @@
         currentPos += itemLength + separatorThickness;
     }
     
-    if (!self.item.layout || ![self.item.layout isKindOfClass:[MKLinearLayout class]]) {
+    if (!self.item.layout) {
         [self callSeparatorDelegate];
     }
 }
@@ -146,8 +146,8 @@
         }
     }
     for (MKLinearLayoutItem *item in self.items) {
-        if (item.sublayout && [item.sublayout isKindOfClass:[MKLinearLayout class]]) {
-            MKLinearLayout *sublayout = (MKLinearLayout *)item.sublayout;
+        if (item.sublayout && [item.sublayout respondsToSelector:@selector(callSeparatorDelegate)]) {
+            id sublayout = item.sublayout;
             [sublayout callSeparatorDelegate];
         }
     }

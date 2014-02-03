@@ -25,10 +25,18 @@
         self.view = view;
         
         self.mutableItems = [[NSMutableArray alloc] init];
-
+        
         self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     }
     return self;
+}
+
+- (void)clear
+{
+    NSArray *layoutItems = [self.items copy];
+    for (MKLayoutItem *layoutItem in layoutItems) {
+        [layoutItem removeFromLayout];
+    }
 }
 
 - (MKLayoutItem *)addSubview:(UIView *)subview
