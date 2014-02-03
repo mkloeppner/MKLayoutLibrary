@@ -23,9 +23,17 @@
     self = [super init];
     if (self) {
         self.view = view;
-        
         self.mutableItems = [[NSMutableArray alloc] init];
-        
+        self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+    }
+    return self;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.mutableItems = [[NSMutableArray alloc] init];
         self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     }
     return self;
@@ -60,6 +68,7 @@
     }
     if (layoutItem.sublayout) {
         layoutItem.sublayout.item = layoutItem;
+        layoutItem.sublayout.view = self.view;
     }
     [self.mutableItems addObject:layoutItem];
 }
@@ -82,6 +91,19 @@
 - (void)layoutBounds:(CGRect)bounds
 {
     
+}
+
+- (void)setView:(UIView *)view
+{
+    _view = view;
+    for (MKLayoutItem *item in self.items) {
+        if (item.subview) {
+            [item.subview removeFromSuperview];
+            [view addSubview:item.subview];
+        } else if (item.sublayout) {
+            item.sublayout.view = view;
+        }
+    }
 }
 
 // Layout helper
