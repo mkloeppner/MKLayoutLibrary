@@ -74,29 +74,17 @@
         
         MKLinearLayoutItem *item = self.items[i];
         
+        // Determinate if a separator should be added before
         BOOL insertSeparatorBeforeCurrentItem = NO;
         if (i != 0) {
             insertSeparatorBeforeCurrentItem = [self.separatorVisibility[i - 1] boolValue];
         }
+        
         if (insertSeparatorBeforeCurrentItem) {
             currentPos += separatorThickness;
         }
         
-        float itemLength = [self itemLengthForTotalUseableContentLength:totalUseableContentLength forItem:item overallWeight:overallWeight alreadyUsedLength:alreadyUsedLength];
-        
-        CGRect itemOuterRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-        if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-            itemOuterRect = CGRectMake(contentRect.origin.x + currentPos,
-                                       contentRect.origin.y,
-                                       itemLength,
-                                       contentRect.size.height);
-        } else {
-            itemOuterRect = CGRectMake(contentRect.origin.x,
-                                       contentRect.origin.y + currentPos,
-                                       contentRect.size.width,
-                                       itemLength);
-        }
-        
+        // Calculate separator rect that is before the current item
         if (insertSeparatorBeforeCurrentItem && [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
             
             UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
@@ -104,24 +92,19 @@
                 separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
             }
             
-            CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-            if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-                separatorRect = CGRectMake(contentRect.origin.x + currentPos - separatorThickness,
-                                           contentRect.origin.y - separatorIntersectionOffsets.top,
-                                           separatorThickness,
-                                           contentRect.size.height + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
-            } else {
-                separatorRect = CGRectMake(contentRect.origin.x - separatorIntersectionOffsets.left,
-                                           contentRect.origin.y + currentPos - separatorThickness,
-                                           contentRect.size.width + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
-                                           separatorThickness);
-            }
+            CGRect separatorRect = [self separatorRectForContentRect:contentRect separatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:currentPos];
             
             [self.separators addObject:[NSValue valueWithCGRect:separatorRect]];
         }
         
+        // Get the total item length and outer rect
+        float itemLength = [self itemLengthForTotalUseableContentLength:totalUseableContentLength forItem:item overallWeight:overallWeight alreadyUsedLength:alreadyUsedLength];
+        
+        CGRect itemOuterRect = [self itemOuterRectForContentRect:contentRect currentPos:currentPos itemLength:itemLength];
+        
         CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, item.margin);
         
+        // Using fixed item sizes
         CGRect itemInnerRect = marginRect;
         if (item.size.width != kMKLayoutItemSizeValueMatchParent) {
             itemInnerRect.size.width = item.size.width;
@@ -130,14 +113,17 @@
             itemInnerRect.size.height = item.size.height;
         }
         
+        // Move it within the margin bounds if there is a gravity
         CGRect itemRect = [self applyGravity:item.gravity withRect:itemInnerRect withinRect:marginRect];
         
+        // Recursive layout
         if (item.subview) {
             item.subview.frame = itemRect;
         } else if (item.sublayout) {
             [item.sublayout layoutBounds:itemRect];
         }
         
+        // Increase the currentPos with the item length
         currentPos += itemLength;
         
     }
@@ -145,6 +131,43 @@
     if (!self.item.layout) {
         [self callSeparatorDelegate];
     }
+}
+
+/**
+ * The total available item frame moved by the current position and the spacing if it exists
+ */
+- (CGRect)itemOuterRectForContentRect:(CGRect)contentRect currentPos:(CGFloat)currentPos itemLength:(CGFloat)itemLength
+{
+    CGRect itemOuterRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+        itemOuterRect = CGRectMake(contentRect.origin.x + currentPos,
+                                   contentRect.origin.y,
+                                   itemLength,
+                                   contentRect.size.height);
+    } else {
+        itemOuterRect = CGRectMake(contentRect.origin.x,
+                                   contentRect.origin.y + currentPos,
+                                   contentRect.size.width,
+                                   itemLength);
+    }
+    return itemOuterRect;
+}
+
+- (CGRect)separatorRectForContentRect:(CGRect)contentRect separatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets currentPos:(CGFloat)currentPos
+{
+    CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+        separatorRect = CGRectMake(contentRect.origin.x + currentPos - separatorThickness,
+                                   contentRect.origin.y - separatorIntersectionOffsets.top,
+                                   separatorThickness,
+                                   contentRect.size.height + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
+    } else {
+        separatorRect = CGRectMake(contentRect.origin.x - separatorIntersectionOffsets.left,
+                                   contentRect.origin.y + currentPos - separatorThickness,
+                                   contentRect.size.width + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
+                                   separatorThickness);
+    }
+    return separatorRect;
 }
 
 - (void)requestSeparatorsVisibility
