@@ -45,7 +45,6 @@
 - (void)layoutBounds:(CGRect)bounds
 {
     self.separators = [[NSMutableArray alloc] init];
-    self.separatorVisibility = [[NSMutableArray alloc] init];
     
     CGRect contentRect = UIEdgeInsetsInsetRect(bounds, self.margin);
     
@@ -54,8 +53,6 @@
     float alreadyUsedLength = 0.0f;
     float separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
     NSInteger numberOfSeparators = [self numberOfSeparators];
-    
-    [self requestSeparatorsVisibility];
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
         MKLinearLayoutItem *item = self.items[i];
@@ -171,17 +168,6 @@
     return separatorRect;
 }
 
-- (void)requestSeparatorsVisibility
-{
-    for (int i = 0; i < self.self.items.count - 1; i++) {
-        if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeadingItem:andTrailingItem:)]) {
-            [self.separatorVisibility addObject:@([self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeadingItem:self.items[i] andTrailingItem:self.items[i + 1]])];
-        } else {
-            [self.separatorVisibility addObject:@(YES)];
-        }
-    }
-}
-
 - (void)callSeparatorDelegate
 {
     if (self.separatorDelegate) {
@@ -267,6 +253,8 @@
 
 - (NSInteger)numberOfSeparators
 {
+    self.separatorVisibility = [NSMutableArray array];
+    
     int numberOfSeparators = 0;
     
     if (self.separatorDelegate) {
@@ -278,9 +266,9 @@
             if (increase) {
                 numberOfSeparators += 1;
             }
+            [self.separatorVisibility addObject:@(increase)];
         }
     }
-    
     
     return numberOfSeparators;
 }
