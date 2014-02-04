@@ -15,7 +15,7 @@
 
 @optional
 
-- (BOOL)linearLayout:(MKLinearLayout *)linearLayout shouldAddSeparatorBetweenLeftLayoutItem:(MKLinearLayoutItem *)leftItem andRightLayoutItem:(MKLinearLayoutItem *)rightItem;
+- (BOOL)linearLayout:(MKLinearLayout *)linearLayout shouldAddSeparatorBetweenLeadingItem:(MKLinearLayoutItem *)leadingItem andTrailingItem:(MKLinearLayoutItem *)trailingItem;
 
 - (UIEdgeInsets)separatorIntersectionOffsetsForLinearLayout:(MKLinearLayout *)layout;
 

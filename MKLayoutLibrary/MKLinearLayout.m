@@ -68,7 +68,7 @@
     }
     
     float totalUseableContentLength = [self lengthForSize:contentRect.size];
-    totalUseableContentLength -= [self numberOfVisibleSeparators] * separatorThickness;
+    totalUseableContentLength -= [self numberOfSeparators] * separatorThickness;
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
         
@@ -173,8 +173,8 @@
 - (void)requestSeparatorsVisibility
 {
     for (int i = 0; i < self.self.items.count - 1; i++) {
-        if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeftLayoutItem:andRightLayoutItem:)]) {
-            [self.separatorVisibility addObject:@([self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeftLayoutItem:self.items[i] andRightLayoutItem:self.items[i + 1]])];
+        if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeadingItem:andTrailingItem:)]) {
+            [self.separatorVisibility addObject:@([self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeadingItem:self.items[i] andTrailingItem:self.items[i + 1]])];
         } else {
             [self.separatorVisibility addObject:@(YES)];
         }
@@ -249,7 +249,7 @@
     NSInteger numberOfSeparators = 0;
     
     if (self.orientation == orientation) {
-        numberOfSeparators = MAX(0, [self numberOfVisibleSeparators] - 1);
+        numberOfSeparators = MAX(0, [self numberOfSeparators] - 1);
     }
     
     for (MKLayoutItem *item in self.items) {
@@ -264,15 +264,26 @@
     return numberOfSeparators;
 }
 
-- (NSInteger)numberOfVisibleSeparators
+- (NSInteger)numberOfSeparators
 {
-    NSInteger visibleSeparators = 0;
-    for (NSNumber *value in self.separatorVisibility) {
-        if ([value boolValue]) {
-            visibleSeparators += 1;
+    int numberOfSeparators = 0;
+    
+    if (self.separatorDelegate) {
+        for (int i = 0; i < self.items.count; i++) {
+            BOOL increase = YES;
+            if (i > 0) {
+                if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeadingItem:andTrailingItem:)]) {
+                    increase = [self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeadingItem:self.items[i - 1] andTrailingItem:self.items[i]];
+                }
+            }
+            if (increase) {
+                numberOfSeparators += 1;
+            }
         }
     }
-    return visibleSeparators;
+    
+    
+    return numberOfSeparators;
 }
 
 @end
