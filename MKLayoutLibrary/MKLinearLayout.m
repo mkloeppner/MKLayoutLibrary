@@ -53,6 +53,7 @@
     float overallWeight = 0.0f;
     float alreadyUsedLength = 0.0f;
     float separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
+    NSInteger numberOfSeparators = [self numberOfSeparators];
     
     [self requestSeparatorsVisibility];
     
@@ -68,7 +69,7 @@
     }
     
     float totalUseableContentLength = [self lengthForSize:contentRect.size];
-    totalUseableContentLength -= [self numberOfSeparators] * separatorThickness;
+    totalUseableContentLength -= numberOfSeparators * separatorThickness;
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
         
@@ -249,7 +250,7 @@
     NSInteger numberOfSeparators = 0;
     
     if (self.orientation == orientation) {
-        numberOfSeparators = MAX(0, [self numberOfSeparators] - 1);
+        numberOfSeparators = MAX(0, [self numberOfSeparators]);
     }
     
     for (MKLayoutItem *item in self.items) {
@@ -269,12 +270,10 @@
     int numberOfSeparators = 0;
     
     if (self.separatorDelegate) {
-        for (int i = 0; i < self.items.count; i++) {
+        for (int i = 1; i < self.items.count; i++) {
             BOOL increase = YES;
-            if (i > 0) {
-                if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeadingItem:andTrailingItem:)]) {
-                    increase = [self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeadingItem:self.items[i - 1] andTrailingItem:self.items[i]];
-                }
+            if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeadingItem:andTrailingItem:)]) {
+                increase = [self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeadingItem:self.items[i - 1] andTrailingItem:self.items[i]];
             }
             if (increase) {
                 numberOfSeparators += 1;
