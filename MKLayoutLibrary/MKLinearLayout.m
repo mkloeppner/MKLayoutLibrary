@@ -22,6 +22,7 @@
 {
     self = [super initWithView:view];
     if (self) {
+        self.spacing = 0.0f;
         self.orientation = MKLinearLayoutOrientationHorizontal;
         self.separators = [[NSMutableArray alloc] init];
     }
@@ -66,7 +67,10 @@
     }
     
     float totalUseableContentLength = [self lengthForSize:contentRect.size];
-    totalUseableContentLength -= numberOfSeparators * separatorThickness;
+    totalUseableContentLength -= numberOfSeparators * separatorThickness; // Remove separator thicknesses to keep space for separators
+    totalUseableContentLength -= numberOfSeparators * 2.0f * self.spacing; // For every separator remove spacing left and right from it
+    totalUseableContentLength -= (self.items.count - numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+    totalUseableContentLength -= self.spacing;
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
         
@@ -82,6 +86,8 @@
             currentPos += separatorThickness;
         }
         
+        currentPos += self.spacing;
+        
         // Calculate separator rect that is before the current item
         if (insertSeparatorBeforeCurrentItem && [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
             
@@ -93,6 +99,9 @@
             CGRect separatorRect = [self separatorRectForContentRect:contentRect separatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:currentPos];
             
             [self.separators addObject:[NSValue valueWithCGRect:separatorRect]];
+            
+            currentPos += self.spacing;
+            
         }
         
         // Get the total item length and outer rect
@@ -257,8 +266,8 @@
     
     int numberOfSeparators = 0;
     
-    if (self.separatorDelegate) {
-        for (int i = 1; i < self.items.count; i++) {
+    for (int i = 1; i < self.items.count; i++) {
+        if (self.separatorDelegate) {
             BOOL increase = YES;
             if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeadingItem:andTrailingItem:)]) {
                 increase = [self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeadingItem:self.items[i - 1] andTrailingItem:self.items[i]];
@@ -267,6 +276,9 @@
                 numberOfSeparators += 1;
             }
             [self.separatorVisibility addObject:@(increase)];
+            
+        } else {
+            [self.separatorVisibility addObject:@(NO)];
         }
     }
     
