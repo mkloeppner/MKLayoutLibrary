@@ -69,6 +69,7 @@
     if (layoutItem.sublayout) {
         layoutItem.sublayout.item = layoutItem;
         layoutItem.sublayout.view = self.view;
+        layoutItem.sublayout.delegate = self.delegate;
     }
     [self.mutableItems addObject:layoutItem];
     if ([self.delegate respondsToSelector:@selector(layout:didAddLayoutItem:)]) {
