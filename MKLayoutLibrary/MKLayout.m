@@ -71,11 +71,17 @@
         layoutItem.sublayout.view = self.view;
     }
     [self.mutableItems addObject:layoutItem];
+    if ([self.delegate respondsToSelector:@selector(layout:didAddLayoutItem:)]) {
+        [self.delegate layout:self didAddLayoutItem:layoutItem];
+    }
 }
 
 - (void)removeLayoutItem:(MKLayoutItem *)layoutItem
 {
     [self.mutableItems removeObject:layoutItem];
+    if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
+        [self.delegate layout:self didRemoveLayoutItem:layoutItem];
+    }
 }
 
 - (NSArray *)items
@@ -85,7 +91,13 @@
 
 - (void)layout
 {
+    if ([self.delegate respondsToSelector:@selector(layoutDidStartToLayout:)]) {
+        [self.delegate layoutDidStartToLayout:self];
+    }
     [self layoutBounds:self.view.bounds];
+    if ([self.delegate respondsToSelector:@selector(layoutDidFinishToLayout:)]) {
+        [self.delegate layoutDidFinishToLayout:self];
+    }
 }
 
 - (void)layoutBounds:(CGRect)bounds
@@ -102,6 +114,16 @@
             [view addSubview:item.subview];
         } else if (item.sublayout) {
             item.sublayout.view = view;
+        }
+    }
+}
+
+- (void)setDelegate:(id<MKLayoutDelegate>)delegate
+{
+    _delegate = delegate;
+    for (MKLayoutItem *item in self.items) {
+        if (item.sublayout) {
+            item.sublayout.delegate = delegate;
         }
     }
 }

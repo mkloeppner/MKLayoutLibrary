@@ -13,6 +13,7 @@
 
 @interface MKLinearLayout : MKLayout
 
+@property (assign, nonatomic) CGFloat spacing;
 @property (assign, nonatomic) MKLinearLayoutOrientation orientation;
 @property (assign, nonatomic) id<MKLinearLayoutSeparatorDelegate> separatorDelegate;
 

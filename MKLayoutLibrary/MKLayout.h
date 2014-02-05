@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MKLayoutItem.h"
+#import "MKLayoutDelegate.h"
 
 /**
  * MKLayout is the root class of MKLayoutLibrary
@@ -23,6 +24,8 @@
  *
  */
 @interface MKLayout : NSObject
+
+@property (strong, nonatomic) id<MKLayoutDelegate> delegate;
 
 /**
  * The parent layout item if layout is a sublayout
