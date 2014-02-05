@@ -12,6 +12,7 @@
 @interface MKLinearLayout ()
 
 @property (strong, nonatomic) NSMutableArray *separators;
+@property (strong, nonatomic) NSMutableArray *separatorVisibility;
 
 @end
 
@@ -21,6 +22,7 @@
 {
     self = [super initWithView:view];
     if (self) {
+        self.spacing = 0.0f;
         self.orientation = MKLinearLayoutOrientationHorizontal;
         self.separators = [[NSMutableArray alloc] init];
     }
@@ -51,6 +53,7 @@
     float overallWeight = 0.0f;
     float alreadyUsedLength = 0.0f;
     float separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
+    NSInteger numberOfSeparators = [self numberOfSeparators];
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
         MKLinearLayoutItem *item = self.items[i];
@@ -64,56 +67,51 @@
     }
     
     float totalUseableContentLength = [self lengthForSize:contentRect.size];
-    if (self.items.count > 0) {
-        totalUseableContentLength -= (self.items.count - 1) * separatorThickness;
-    }
+    totalUseableContentLength -= numberOfSeparators * separatorThickness; // Remove separator thicknesses to keep space for separators
+    totalUseableContentLength -= numberOfSeparators * 2.0f * self.spacing; // For every separator remove spacing left and right from it
+    totalUseableContentLength -= (self.items.count - numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+    totalUseableContentLength -= self.spacing;
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
         
         MKLinearLayoutItem *item = self.items[i];
         
+        // Determinate if a separator should be added before
+        BOOL insertSeparatorBeforeCurrentItem = NO;
+        if (i != 0) {
+            insertSeparatorBeforeCurrentItem = [self.separatorVisibility[i - 1] boolValue];
+        }
+        
+        if (insertSeparatorBeforeCurrentItem) {
+            currentPos += separatorThickness;
+        }
+        
+        currentPos += self.spacing;
+        
+        // Calculate separator rect that is before the current item
+        if (insertSeparatorBeforeCurrentItem && [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
+            
+            UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+            if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
+                separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
+            }
+            
+            CGRect separatorRect = [self separatorRectForContentRect:contentRect separatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:currentPos];
+            
+            [self.separators addObject:[NSValue valueWithCGRect:separatorRect]];
+            
+            currentPos += self.spacing;
+            
+        }
+        
+        // Get the total item length and outer rect
         float itemLength = [self itemLengthForTotalUseableContentLength:totalUseableContentLength forItem:item overallWeight:overallWeight alreadyUsedLength:alreadyUsedLength];
         
-        CGRect itemOuterRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-        if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-            itemOuterRect = CGRectMake(contentRect.origin.x + currentPos,
-                                       contentRect.origin.y,
-                                       itemLength,
-                                       contentRect.size.height);
-        } else {
-            itemOuterRect = CGRectMake(contentRect.origin.x,
-                                       contentRect.origin.y + currentPos,
-                                       contentRect.size.width,
-                                       itemLength);
-        }
-        
-        if (i != 0) {
-            if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
-                
-                UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
-                if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
-                    separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
-                }
-                
-                CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-                if (self.orientation == MKLinearLayoutOrientationHorizontal) {
-                    separatorRect = CGRectMake(contentRect.origin.x + currentPos - separatorThickness,
-                                               contentRect.origin.y - separatorIntersectionOffsets.top,
-                                               separatorThickness,
-                                               contentRect.size.height + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
-                } else {
-                    separatorRect = CGRectMake(contentRect.origin.x - separatorIntersectionOffsets.left,
-                                               contentRect.origin.y + currentPos - separatorThickness,
-                                               contentRect.size.width + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
-                                               separatorThickness);
-                }
-                
-                [self.separators addObject:[NSValue valueWithCGRect:separatorRect]];
-            }
-        }
+        CGRect itemOuterRect = [self itemOuterRectForContentRect:contentRect currentPos:currentPos itemLength:itemLength];
         
         CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, item.margin);
         
+        // Using fixed item sizes
         CGRect itemInnerRect = marginRect;
         if (item.size.width != kMKLayoutItemSizeValueMatchParent) {
             itemInnerRect.size.width = item.size.width;
@@ -122,20 +120,61 @@
             itemInnerRect.size.height = item.size.height;
         }
         
+        // Move it within the margin bounds if there is a gravity
         CGRect itemRect = [self applyGravity:item.gravity withRect:itemInnerRect withinRect:marginRect];
         
+        // Recursive layout
         if (item.subview) {
             item.subview.frame = itemRect;
         } else if (item.sublayout) {
             [item.sublayout layoutBounds:itemRect];
         }
         
-        currentPos += itemLength + separatorThickness;
+        // Increase the currentPos with the item length
+        currentPos += itemLength;
+        
     }
     
     if (!self.item.layout) {
         [self callSeparatorDelegate];
     }
+}
+
+/**
+ * The total available item frame moved by the current position and the spacing if it exists
+ */
+- (CGRect)itemOuterRectForContentRect:(CGRect)contentRect currentPos:(CGFloat)currentPos itemLength:(CGFloat)itemLength
+{
+    CGRect itemOuterRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+        itemOuterRect = CGRectMake(contentRect.origin.x + currentPos,
+                                   contentRect.origin.y,
+                                   itemLength,
+                                   contentRect.size.height);
+    } else {
+        itemOuterRect = CGRectMake(contentRect.origin.x,
+                                   contentRect.origin.y + currentPos,
+                                   contentRect.size.width,
+                                   itemLength);
+    }
+    return itemOuterRect;
+}
+
+- (CGRect)separatorRectForContentRect:(CGRect)contentRect separatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets currentPos:(CGFloat)currentPos
+{
+    CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+        separatorRect = CGRectMake(contentRect.origin.x + currentPos - separatorThickness,
+                                   contentRect.origin.y - separatorIntersectionOffsets.top,
+                                   separatorThickness,
+                                   contentRect.size.height + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
+    } else {
+        separatorRect = CGRectMake(contentRect.origin.x - separatorIntersectionOffsets.left,
+                                   contentRect.origin.y + currentPos - separatorThickness,
+                                   contentRect.size.width + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
+                                   separatorThickness);
+    }
+    return separatorRect;
 }
 
 - (void)callSeparatorDelegate
@@ -203,7 +242,11 @@
 
 - (NSInteger)numberOfSeparatorsForLayoutWithOrientation:(MKLinearLayoutOrientation)orientation
 {
-    NSInteger numberOfSeparators = MAX(0, [self numberOfItemsForLayoutsWithOrientation:orientation] - 1);
+    NSInteger numberOfSeparators = 0;
+    
+    if (self.orientation == orientation) {
+        numberOfSeparators = MAX(0, [self numberOfSeparators]);
+    }
     
     for (MKLayoutItem *item in self.items) {
         if (item.sublayout) {
@@ -217,22 +260,29 @@
     return numberOfSeparators;
 }
 
-- (NSInteger)numberOfItemsForLayoutsWithOrientation:(MKLinearLayoutOrientation)orientation
+- (NSInteger)numberOfSeparators
 {
-    int numberOfItems = 0;
+    self.separatorVisibility = [NSMutableArray array];
     
-    for (MKLayoutItem *item in self.items) {
-        if ([item.layout respondsToSelector:@selector(orientation)]) {
-            MKLinearLayout *layout = (MKLinearLayout *)item.layout;
-            if (layout.orientation == orientation) {
-                if (layout.separatorDelegate) {
-                    numberOfItems += 1;
-                }
+    int numberOfSeparators = 0;
+    
+    for (int i = 1; i < self.items.count; i++) {
+        if (self.separatorDelegate) {
+            BOOL increase = YES;
+            if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeadingItem:andTrailingItem:)]) {
+                increase = [self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeadingItem:self.items[i - 1] andTrailingItem:self.items[i]];
             }
+            if (increase) {
+                numberOfSeparators += 1;
+            }
+            [self.separatorVisibility addObject:@(increase)];
+            
+        } else {
+            [self.separatorVisibility addObject:@(NO)];
         }
     }
     
-    return numberOfItems;
+    return numberOfSeparators;
 }
 
 @end
