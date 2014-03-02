@@ -23,7 +23,7 @@ MKLayout library has been designed to be used within UIView subclasses.
 
 Here is an example of view with a vertical linear layout:
 
-  MKVerticalLayoutView.h:
+  __MKVerticalLayoutView.h:__
 
     @interface MKVerticalLayoutView : UIView
 
@@ -32,7 +32,7 @@ Here is an example of view with a vertical linear layout:
 
     @end
 
-  MKVerticalLayoutView.m:
+  __MKVerticalLayoutView.m:__
 
     #import "MKVerticalLayoutView"
 
@@ -139,7 +139,7 @@ use:
 
 The items view or subview can be accessed via property:
 
-MKLayoutItem.h:
+__MKLayoutItem.h:__
 
     - (UIView *)view
     - (MKLayout *)sublayout;
@@ -153,8 +153,9 @@ For access some accessor methods can be written:
 
 ## Architecture
 
-First of all MKLayoutLibrary is based on MKLayout and MKLayoutItem.
-Here is a description of what these classes are.
+First of all MKLayoutLibrary is based on _MKLayout_ and _MKLayoutItem_. These two classes
+provide the implementation for managing the layout hirarchy.
+Here is a description of what these classes exactly do.
 
 ### MKLayoutItem
 
