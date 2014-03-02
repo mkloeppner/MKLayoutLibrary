@@ -18,7 +18,7 @@
  *
  * MKLayout maintains the view and layout tree and provides an easy interface for subclasses such as MKLinearLayout
  *
- * MKLayout subclasses can easy implement their layout behavior without to maintain view or layout classes.
+ * MKLayout subclasses can easy implement their layout behavior without the needs to maintain the view and layout hirarchy.
  *
  * Therefore the items array gives easy access to the layout children.
  *
