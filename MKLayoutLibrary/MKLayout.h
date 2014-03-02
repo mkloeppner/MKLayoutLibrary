@@ -22,9 +22,14 @@
  *
  * Therefore the items array gives easy access to the layout children.
  *
+ * Every layout needs to support all MKLayoutItem properties.
+ *
  */
 @interface MKLayout : NSObject
 
+/**
+ * The layout delegate notifies layout steps and delegate some layout calculations.
+ */
 @property (strong, nonatomic) id<MKLayoutDelegate> delegate;
 
 /**
@@ -38,12 +43,18 @@
 @property (assign, nonatomic) UIEdgeInsets margin;
 
 /**
- * The view that is layouted
+ * The layouts view.
+ *
+ * All layout items views and sublayout views will be added into the specified layout view.
+ *
+ * For sublayouts the view property will be set automatically to parent layouts view.
  */
 @property (strong, nonatomic) UIView *view;
 
 /**
  * The layout items representing the layouts structure
+ *
+ * Contains instances of MKLayoutItem or its subclasses. MKLayout subclasses ensure typesafety by overwriting - (MKLayoutItem *)addView:(UIView *)view and - (MKLayoutItem *)addSublayout:(MKLayout *)sublayout
  */
 @property (strong, nonatomic, readonly) NSArray *items;
 
@@ -54,22 +65,24 @@
 
 /**
  * Removed all subviews and sublayouts
+ *
+ *      Hint: To remove single items, checkout MKLayoutItem:removeFromLayout;
  */
 - (void)clear;
 
 /**
- * Add a subview to the layout.
+ * Adds a subview to the layout.
  *
  * @param subview a view that will be position by the layout
- * @return the associated MKLayoutItem to treat the layout behavior with margins, or gravity.
+ * @return the associated MKLayoutItem It allows layout behavior costumization with view layout properties
  */
 - (MKLayoutItem *)addSubview:(UIView *)subview;
 
 /**
- * Add a sublayout to the layout.
+ * Adds a sublayout to the layout.
  *
- * @param subview a view that will be position by the layout
- * @return the associated MKLayoutItem to treat the layout behavior with margins, or gravity.
+ * @param sublayout a sublayout that will be position by the layout
+ * @return the associated MKLayoutItem It allows layout behavior costumization with view layout properties
  */
 - (MKLayoutItem *)addSublayout:(MKLayout *)sublayout;
 
@@ -96,7 +109,11 @@
 /**
  * Moves an rect within an other rect and uses the gravity to align it within.
  *
- * Note: If gravity is MKLayoutGravityNone the method exits immediately with return the rect param.
+ *      Note: If gravity is MKLayoutGravityNone the method exits immediately with return the rect param.
+ *
+ * @param gravity Specifies to which edge an inner rectangle is bound of an outer rectangle in horizontal and vertical manner
+ * @param rect The inner rect that is beeing moved by a gravity
+ *
  */
 - (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect;
 

@@ -10,37 +10,45 @@
 
 @class MKLayout;
 
+/**
+ * Specifies that the layout item view should match the parent views or parent layouts size.
+ */
 FOUNDATION_EXPORT const CGFloat kMKLayoutItemSizeValueMatchParent;
 
+/**
+ * Gravity specifies how views should be positioned in ralation to their super views.
+ *
+ * For example a view with a size of 100x100 aligned in a view with 1000x1000 positioned with gravity top and gravity right will be positionated at position 900(1000-100)x100.
+ */
 typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
-    MKLayoutGravityTop = 1 << 0,
-    MKLayoutGravityBottom = 1 << 1,
-    MKLayoutGravityLeft = 1 << 2,
-    MKLayoutGravityRight = 1 << 3,
-    MKLayoutGravityCenterVertical = 1 << 4,
-    MKLayoutGravityCenterHorizontal = 1 << 5,
-    MKLayoutGravityNone = 1 << 6
+    MKLayoutGravityNone = 1 << 0, // Specifies, that the view doesn't stick to any edge
+    MKLayoutGravityTop = 1 << 1, // Specifies that a view is aligned on top
+    MKLayoutGravityBottom = 1 << 2, // Specifies that a view is aligned on bottom
+    MKLayoutGravityLeft = 1 << 3, // Specifies that a view is aligned to the left
+    MKLayoutGravityRight = 1 << 4, // Specifies that a view is aligned to the right
+    MKLayoutGravityCenterVertical = 1 << 5, // Specifies that a views center is aligned to its superview center on the vertical axis
+    MKLayoutGravityCenterHorizontal = 1 << 6 // Specifies that a views center is aligned to its superview center on the horizontal axis
 };
 
 /**
-* MKLayoutItem contains all the necessary information for layouts in order to perform its layout implementation.
-*
-* @discussion
-*
-* MKLayoutItem extends UIView via composition. It is the base class for all kind of layouts.
-*
-* Every layout has to support size, margin, gravity, subviews and sublayouts.
-*
-* In addition, layouts can have its own properties. Therefore MKLayoutItem can be sublassed with extending MKLayoutItem and importing MKLayoutItem_SubclassAccessors.h
-*/
+ * MKLayoutItem contains all the necessary information for layouts in order to perform its layout implementation.
+ *
+ * @discussion
+ *
+ * MKLayoutItem extends UIView via composition. It is the base class for all kind of layouts.
+ *
+ * Every layout has to support size, margin, gravity, subviews and sublayouts.
+ *
+ * In addition, layouts can have its own properties. Therefore MKLayoutItem can be sublassed with extending MKLayoutItem and importing MKLayoutItem_SubclassAccessors.h
+ */
 @interface MKLayoutItem : NSObject
 
 - (instancetype)initWithLayout:(MKLayout *)layout subview:(UIView *)view;
 - (instancetype)initWithLayout:(MKLayout *)layout sublayout:(MKLayout *)sublayout;
 
 /**
-* The parent layout of the current layout item
-*/
+ * The parent layout of the current layout item
+ */
 @property (weak, nonatomic, readonly) MKLayout *layout;
 
 /**
@@ -55,37 +63,39 @@ typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
 @property (assign, nonatomic) CGSize size;
 
 /**
- * A spacing surrounding the layout items view.
+ * Ensures a margin around the layout items view. 
+ *
+ * If an item has a fixed size, this size will not be effected. 
  */
 @property (assign, nonatomic) UIEdgeInsets margin;
 
 /**
-* Can store a subview or a sublayout.
-*
-* Use the property which instance is not nil
-*/
+ * Can store a subview or a sublayout.
+ *
+ * Use the property which instance is not nil
+ */
 @property (strong, nonatomic, readonly) UIView *subview;
 @property (strong, nonatomic, readonly) MKLayout *sublayout;
 
 /**
-* Gravity aligns the layout items view to the following options:
-*
-* gravity = MKLayoutGravityTop | MKLayoutGravityLeft = The view is on the upper left corner
-* gravity = MKLayoutGravityBottom | MKLayoutGravityCenterHorizontal = The view is on the horizontal center of the bottom view
-* gravity = MKLayoutGravityCenterVertical | MKLayoutGravityCenterHorizontal = The view is on the center of the cell
-*
-* @see MKLayoutGravity
-*/
+ * Gravity aligns the layout items view to the following options:
+ *
+ * gravity = MKLayoutGravityTop | MKLayoutGravityLeft = The view is on the upper left corner
+ * gravity = MKLayoutGravityBottom | MKLayoutGravityCenterHorizontal = The view is on the horizontal center of the bottom view
+ * gravity = MKLayoutGravityCenterVertical | MKLayoutGravityCenterHorizontal = The view is on the center of the cell
+ *
+ * @see MKLayoutGravity
+ */
 @property (assign, nonatomic) MKLayoutGravity gravity;
 
 /**
-* Allows to store meta data for debugging, layout introspection ...
-*/
+ * Allows to store meta data for debugging, layout introspection ...
+ */
 @property (strong, nonatomic) NSDictionary *userInfo;
 
 /**
-* Removes the whole layout contents and cleans them up
-*/
+ * Removes the whole layout contents and cleans them up
+ */
 - (void)removeFromLayout;
 
 @end
