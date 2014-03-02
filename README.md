@@ -101,9 +101,19 @@ Here is an example of view with a vertical linear layout:
 NKLayout can be used in any context with UIKit but UIView's method - (void)layoutSubviews perfectly manages
 the times when a view needs to be layouted. Of course - (void)layout can be called at any time.
 
-### Size
+### Sublayouts
 
-### Gravity
+MKLayout also support sublayouts:
+
+    // Create a layout instance
+    MKStackLayout *iconLayout = [[MKStackLayout alloc] init];
+
+      UIImageView *backgroundPatternImage = [[UIImageView alloc] init];
+      // Work with the sublayout as usal
+      MKStackLayoutItem *backgroundPatternImage = [iconLayout addSubview:iconLayout];
+
+    // Add the sublayout to the root layout
+    MKLinearLayoutItem *iconLayoutLayoutItem = [self.layout addSublayout:iconLayout];
 
 ### Best practice
 
