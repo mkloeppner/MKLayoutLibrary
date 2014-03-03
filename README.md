@@ -151,7 +151,7 @@ For access some accessor methods can be written:
         return (UILabel *)self.titleLabelLayoutItem.subview;
     }
 
-## Architecture
+## Interface design
 
 MKLayoutLibrary is based on _MKLayout_ and _MKLayoutItem_. These two classes
 provide the implementation for managing the layout hirarchy.
