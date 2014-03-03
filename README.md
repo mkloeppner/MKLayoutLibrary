@@ -153,7 +153,7 @@ For access some accessor methods can be written:
 
 ## Architecture
 
-First of all MKLayoutLibrary is based on _MKLayout_ and _MKLayoutItem_. These two classes
+MKLayoutLibrary is based on _MKLayout_ and _MKLayoutItem_. These two classes
 provide the implementation for managing the layout hirarchy.
 Here is a description of what these classes exactly do.
 
@@ -179,3 +179,26 @@ specific layout behavior. The class itself has the purpose the build up the obje
 tree of layout items and to translate this into the UIKits UIView hierarchy.
 
 It is also a good place to share calculation code for layout purpose.
+
+## Roadmap
+
+Until version 1.0 MKLayoutLibrary is under rapid development which means, that the API
+can slightly changed until that. However, here is a list of features planned for
+Version 1.0.
+
+### Flow-Layout
+
+Linear layout is rally useful and makes sense for static contents or scroll views but
+flow layouts should provide dynamic line breaks if following items doesn't fit into
+into the left space for the current line. This results into container size changes
+that needs to be supported especially for the planned WRAP_CONTENT feature.
+
+### WRAP_CONTENT
+
+It is also planned to specify sizes that matches their contents. As layout items
+can contain sublayout it is necessary to provide MKLayout with pre-calculations
+for the overall layout size.
+
+### XML Support
+
+There are plans for including a markup language for layouts.
