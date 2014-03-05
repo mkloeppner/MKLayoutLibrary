@@ -47,52 +47,52 @@ Here is an example of view with a vertical linear layout:
 
     @implementation
 
-      - (instancetype)initWithFrame:(CGRect)frame {
-          self = [super initWithFrame:frame];
-          if (self) {
-            _layout = [[MKLinearLayout alloc] init];
-            _layout.view = self;
-            _layout.orientation = MKLinearLayoutOrientationVertical;
-            [self createLayout];
-          }
-          return self;
-      }
+    - (instancetype)initWithFrame:(CGRect)frame {
+        self = [super initWithFrame:frame];
+        if (self) {
+          _layout = [[MKLinearLayout alloc] init];
+          _layout.view = self;
+          _layout.orientation = MKLinearLayoutOrientationVertical;
+          [self createLayout];
+        }
+        return self;
+    }
 
-      - (void)createLayout
-      {
-          // Adds the view to the layout and automatically to the layouts associated view
-          UILabel *titleLabel = [[UILabel alloc] init];
-          self.titleItem = [self.layout addSubview:titleLabel];
+    - (void)createLayout
+    {
+        // Adds the view to the layout and automatically to the layouts associated view
+        UILabel *titleLabel = [[UILabel alloc] init];
+        self.titleItem = [self.layout addSubview:titleLabel];
 
-          // Once the layout items exists, it can be used to configure layout specifics such as margins or sizes
-          self.titleItem.margin = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
+        // Once the layout items exists, it can be used to configure layout specifics such as margins or sizes
+        self.titleItem.margin = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
 
-          // Specifies 30 px height but streches the width to the full available layout size so it matches the parent view
-          self.titleItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
+        // Specifies 30 px height but streches the width to the full available layout size so it matches the parent view
+        self.titleItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
 
 
-          UITextView *descriptionTextView = [[UITextView alloc] init];
-          self.descriptionItem = [self.layout addSubview:descriptionTextView];
+        UITextView *descriptionTextView = [[UITextView alloc] init];
+        self.descriptionItem = [self.layout addSubview:descriptionTextView];
 
-          // Specifies that the item gots all available left space.
-          // Weight and size can be used at the same time. See MKLayoutItem and MKLinearLayoutItem for further details.
-          self.titleItem.weight = 1.0f;
-      }
+        // Specifies that the item gots all available left space.
+        // Weight and size can be used at the same time. See MKLayoutItem and MKLinearLayoutItem for further details.
+        self.titleItem.weight = 1.0f;
+    }
 
-      - (void)layoutSubviews
-      {
-          [self.layout layout];
-      }
+    - (void)layoutSubviews
+    {
+        [self.layout layout];
+    }
 
-      - (UILabel *)titleLabel
-      {
-        return (UILabel *)self.titleLabelItem.view;
-      }
+    - (UILabel *)titleLabel
+    {
+      return (UILabel *)self.titleLabelItem.view;
+    }
 
-      - (UITextView *)descriptionTextView
-      {
-        return (UITextView *)self.descriptionItem.view;
-      }
+    - (UITextView *)descriptionTextView
+    {
+      return (UITextView *)self.descriptionItem.view;
+    }
 
     @end
 
