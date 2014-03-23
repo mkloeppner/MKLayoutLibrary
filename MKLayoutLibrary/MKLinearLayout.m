@@ -12,7 +12,6 @@
 @interface MKLinearLayout ()
 
 @property (strong, nonatomic) NSMutableArray *separators;
-@property (strong, nonatomic) NSMutableArray *separatorVisibility;
 
 @end
 
@@ -23,7 +22,7 @@
     self = [super initWithView:view];
     if (self) {
         self.spacing = 0.0f;
-        self.orientation = MKLinearLayoutOrientationHorizontal;
+        self.orientation = MKLayoutOrientationHorizontal;
         self.separators = [[NSMutableArray alloc] init];
     }
     return self;
@@ -77,10 +76,7 @@
         MKLinearLayoutItem *item = self.items[i];
         
         // Determinate if a separator should be added before
-        BOOL insertSeparatorBeforeCurrentItem = NO;
-        if (i != 0) {
-            insertSeparatorBeforeCurrentItem = [self.separatorVisibility[i - 1] boolValue];
-        }
+        BOOL insertSeparatorBeforeCurrentItem = item.insertBorder && (i != 0);
         
         if (insertSeparatorBeforeCurrentItem) {
             currentPos += separatorThickness;
@@ -98,7 +94,7 @@
             
             CGRect separatorRect = [self separatorRectForContentRect:contentRect separatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:currentPos];
             
-            [self.separators addObject:[NSValue valueWithCGRect:separatorRect]];
+            [self.separators addObject:[NSValue valueWithCGRect:[self rectRoundedToGridWithRect:separatorRect]]];
             
             currentPos += self.spacing;
             
@@ -146,7 +142,7 @@
 - (CGRect)itemOuterRectForContentRect:(CGRect)contentRect currentPos:(CGFloat)currentPos itemLength:(CGFloat)itemLength
 {
     CGRect itemOuterRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+    if (self.orientation == MKLayoutOrientationHorizontal) {
         itemOuterRect = CGRectMake(contentRect.origin.x + currentPos,
                                    contentRect.origin.y,
                                    itemLength,
@@ -163,7 +159,7 @@
 - (CGRect)separatorRectForContentRect:(CGRect)contentRect separatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets currentPos:(CGFloat)currentPos
 {
     CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-    if (self.orientation == MKLinearLayoutOrientationHorizontal) {
+    if (self.orientation == MKLayoutOrientationHorizontal) {
         separatorRect = CGRectMake(contentRect.origin.x + currentPos - separatorThickness,
                                    contentRect.origin.y - separatorIntersectionOffsets.top,
                                    separatorThickness,
@@ -217,10 +213,10 @@
 - (CGFloat)lengthForSize:(CGSize)size
 {
     switch (self.orientation) {
-        case MKLinearLayoutOrientationHorizontal:
+        case MKLayoutOrientationHorizontal:
             return size.width;
             break;
-        case MKLinearLayoutOrientationVertical:
+        case MKLayoutOrientationVertical:
             return size.height;
         default:
             break;
@@ -228,32 +224,21 @@
     return 0.0f;
 }
 
-- (MKLinearLayoutOrientation)flipOrientation:(MKLinearLayoutOrientation)orientation
-{
-    if (MKLinearLayoutOrientationHorizontal == orientation) {
-        return MKLinearLayoutOrientationVertical;
-    }
-    if (MKLinearLayoutOrientationVertical == orientation) {
-        return MKLinearLayoutOrientationHorizontal;
-    }
-    [NSException raise:@"UnknownParamValueException" format:@"The specified orientation is unknown"];
-    return -1;
-}
-
-- (NSInteger)numberOfSeparatorsForLayoutWithOrientation:(MKLinearLayoutOrientation)orientation
+- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
 {
     NSInteger numberOfSeparators = 0;
     
-    if (self.orientation == orientation) {
+    MKLayoutOrientation separatorOrientation = [self flipOrientation:self.orientation];
+    
+    if (separatorOrientation == orientation) {
         numberOfSeparators = MAX(0, [self numberOfSeparators]);
     }
     
-    for (MKLayoutItem *item in self.items) {
+    for (int i = 0; i < self.items.count; i++) {
+        MKLayoutItem *item = self.items[i];
         if (item.sublayout) {
-            if ([item.sublayout respondsToSelector:@selector(numberOfSeparatorsForLayoutWithOrientation:)]) {
-                MKLinearLayout *linearLayout = (MKLinearLayout *)item.sublayout;
-                numberOfSeparators += [linearLayout numberOfSeparatorsForLayoutWithOrientation:orientation];
-            }
+            MKLinearLayout *linearLayout = (MKLinearLayout *)item.sublayout;
+            numberOfSeparators += [linearLayout numberOfSeparatorsForSeparatorOrientation:separatorOrientation];
         }
     }
     
@@ -262,23 +247,17 @@
 
 - (NSInteger)numberOfSeparators
 {
-    self.separatorVisibility = [NSMutableArray array];
-    
     int numberOfSeparators = 0;
     
-    for (int i = 1; i < self.items.count; i++) {
-        if (self.separatorDelegate) {
-            BOOL increase = YES;
-            if ([self.separatorDelegate respondsToSelector:@selector(linearLayout:shouldAddSeparatorBetweenLeadingItem:andTrailingItem:)]) {
-                increase = [self.separatorDelegate linearLayout:self shouldAddSeparatorBetweenLeadingItem:self.items[i - 1] andTrailingItem:self.items[i]];
-            }
-            if (increase) {
-                numberOfSeparators += 1;
-            }
-            [self.separatorVisibility addObject:@(increase)];
-            
-        } else {
-            [self.separatorVisibility addObject:@(NO)];
+    for (int i = 0; i < self.items.count; i++) {
+        MKLayoutItem *item = self.items[i];
+        
+        if (i == 0) {
+            continue;
+        }
+        
+        if (item.insertBorder) {
+            numberOfSeparators += 1;
         }
     }
     

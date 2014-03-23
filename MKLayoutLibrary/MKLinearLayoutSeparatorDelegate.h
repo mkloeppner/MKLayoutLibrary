@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MKLinearLayoutOrientation.h"
+#import "MKLayoutOrientation.h"
 
 @class MKLinearLayout;
 @class MKLinearLayoutItem;
@@ -15,10 +15,8 @@
 
 @optional
 
-- (BOOL)linearLayout:(MKLinearLayout *)linearLayout shouldAddSeparatorBetweenLeadingItem:(MKLinearLayoutItem *)leadingItem andTrailingItem:(MKLinearLayoutItem *)trailingItem;
-
 - (UIEdgeInsets)separatorIntersectionOffsetsForLinearLayout:(MKLinearLayout *)layout;
 
-- (void)linearLayout:(MKLinearLayout *)linearLayout separatorRect:(CGRect)rect type:(MKLinearLayoutOrientation)type;
+- (void)linearLayout:(MKLinearLayout *)linearLayout separatorRect:(CGRect)rect type:(MKLayoutOrientation)type;
 
 @end

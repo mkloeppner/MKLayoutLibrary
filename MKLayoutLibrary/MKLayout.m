@@ -208,4 +208,21 @@
                       roundf(rect.size.height * self.contentScaleFactor) / self.contentScaleFactor);
 }
 
+- (MKLayoutOrientation)flipOrientation:(MKLayoutOrientation)orientation
+{
+    if (MKLayoutOrientationHorizontal == orientation) {
+        return MKLayoutOrientationVertical;
+    }
+    if (MKLayoutOrientationVertical == orientation) {
+        return MKLayoutOrientationHorizontal;
+    }
+    [NSException raise:@"UnknownParamValueException" format:@"The specified orientation is unknown"];
+    return -1;
+}
+
+-(NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
+{
+    return 0;
+}
+
 @end

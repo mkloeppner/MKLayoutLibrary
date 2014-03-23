@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MKLayoutItem.h"
 #import "MKLayoutDelegate.h"
+#import "MKLayoutOrientation.h"
 
 /**
  * MKLayout is the root class of MKLayoutLibrary
@@ -130,5 +131,15 @@
  * Rounds the given rects values with the specified content scale factor in order to round to the pixel grid.
  */
 - (CGRect)rectRoundedToGridWithRect:(CGRect)rect;
+
+/**
+ * Returns the amount of separators for a specific orientation
+ */
+- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation;
+
+/**
+ * Flips the orientation to the opposit
+ */
+- (MKLayoutOrientation)flipOrientation:(MKLayoutOrientation)orientation;
 
 @end

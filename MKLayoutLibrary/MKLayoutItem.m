@@ -36,6 +36,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
         _gravity = MKLayoutGravityNone;
         _size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
         _margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+        _insertBorder = NO;
     }
     return self;
 }

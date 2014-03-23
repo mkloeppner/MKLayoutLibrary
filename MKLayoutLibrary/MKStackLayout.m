@@ -7,7 +7,6 @@
 //
 
 #import "MKStackLayout.h"
-#import "MKLinearLayout.h"
 
 @interface MKStackLayout ()
 
@@ -87,43 +86,23 @@
     return stackLayoutItem;
 }
 
-- (NSInteger)numberOfSeparatorsForLayoutWithOrientation:(MKLinearLayoutOrientation)orientation
+- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
 {
-    NSInteger numberOfSeparators = MAX(0, [self numberOfItemsForLayoutsWithOrientation:orientation] - 1);
+    NSInteger numberOfSeparators = 0;
     
     for (MKLayoutItem *item in self.items) {
         if (item.sublayout) {
-            if ([item.sublayout respondsToSelector:@selector(numberOfSeparatorsForLayoutWithOrientation:)]) {
-                MKLinearLayout *linearLayout = (MKLinearLayout *)item.sublayout;
-                numberOfSeparators += [linearLayout numberOfSeparatorsForLayoutWithOrientation:orientation];
-            }
+            MKLayout *layout = (MKLayout *)item.sublayout;
+            numberOfSeparators += [layout numberOfSeparatorsForSeparatorOrientation:orientation];
         }
     }
     
     return numberOfSeparators;
 }
 
-- (NSInteger)numberOfItemsForLayoutsWithOrientation:(MKLinearLayoutOrientation)orientation
-{
-    int numberOfItems = 0;
-    
-    for (MKLayoutItem *item in self.items) {
-        if ([item.layout respondsToSelector:@selector(orientation)]) {
-            MKLinearLayout *layout = (MKLinearLayout *)item.layout;
-            if (layout.orientation == orientation) {
-                if (layout.separatorDelegate) {
-                    numberOfItems += 1;
-                }
-            }
-        }
-    }
-    
-    return numberOfItems;
-}
-
 - (void)callSeparatorDelegate
 {
-    for (MKLinearLayoutItem *item in self.items) {
+    for (MKLayoutItem *item in self.items) {
         if (item.sublayout && [item.sublayout respondsToSelector:@selector(callSeparatorDelegate)]) {
             id sublayout = item.sublayout;
             [sublayout callSeparatorDelegate];

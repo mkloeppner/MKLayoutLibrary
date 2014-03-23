@@ -70,6 +70,11 @@ typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
 @property (assign, nonatomic) UIEdgeInsets margin;
 
 /**
+ * Inserts a border 
+ */
+@property (assign, nonatomic) BOOL insertBorder;
+
+/**
  * Can store a subview or a sublayout.
  *
  * Use the property which instance is not nil

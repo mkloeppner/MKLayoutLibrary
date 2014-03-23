@@ -41,7 +41,7 @@ NSString *const kSeparatorsDictionaryKeyType = @"kSeparatorsDictionaryKeyType";
     return self.separatorIntersectionOffsets;
 }
 
-- (void)linearLayout:(MKLinearLayout *)linearLayout separatorRect:(CGRect)rect type:(MKLinearLayoutOrientation)type {
+- (void)linearLayout:(MKLinearLayout *)linearLayout separatorRect:(CGRect)rect type:(MKLayoutOrientation)type {
     NSValue *separatorRect = [NSValue valueWithCGRect:rect];
     NSNumber *separatorType = @(type);
 

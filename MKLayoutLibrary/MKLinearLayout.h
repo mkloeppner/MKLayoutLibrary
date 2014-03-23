@@ -8,7 +8,6 @@
 
 #import "MKLayout.h"
 #import "MKLinearLayoutItem.h"
-#import "MKLinearLayoutOrientation.h"
 #import "MKLinearLayoutSeparatorDelegate.h"
 
 @interface MKLinearLayout : MKLayout
@@ -23,7 +22,7 @@
 /**
  * Specifies in which direction the linear layout should place its childs.
  */
-@property (assign, nonatomic) MKLinearLayoutOrientation orientation;
+@property (assign, nonatomic) MKLayoutOrientation orientation;
 
 /**
  * Separator delegate allows delegate to insert separator images.
@@ -35,8 +34,6 @@
  */
 - (MKLinearLayoutItem *)addSublayout:(MKLayout *)sublayout;
 - (MKLinearLayoutItem *)addSubview:(UIView *)subview;
-
-- (NSInteger)numberOfSeparatorsForLayoutWithOrientation:(MKLinearLayoutOrientation)orientation;
 
 @property (strong, nonatomic) NSDictionary *userInfo;
 

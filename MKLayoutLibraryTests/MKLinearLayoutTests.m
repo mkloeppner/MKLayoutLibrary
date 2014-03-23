@@ -30,7 +30,7 @@ describe(@"MKLinearLayout", ^{
     beforeEach(^{
         container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 100.0)];
         separatorDefinition = nil;
-         separatorDefinition2 = nil;
+        separatorDefinition2 = nil;
         layout = [[MKLinearLayout alloc] initWithView:container];
         
         subview1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
@@ -42,7 +42,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(30.0f, 40.0f);
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -57,7 +57,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -74,7 +74,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.size = CGSizeMake(70.0f, kMKLayoutItemSizeValueMatchParent);
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -99,7 +99,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.size = CGSizeMake(70.0f, 20.0f);
         layoutItem2.gravity = MKLayoutGravityCenterVertical;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -118,7 +118,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -135,7 +135,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 70.0f);
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -155,7 +155,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         
         layout.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 10.0f);
@@ -170,7 +170,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
         
         layout.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 10.0f + 3.0f);
@@ -184,7 +184,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
@@ -203,7 +203,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.size = CGSizeMake(70.0f, kMKLayoutItemSizeValueMatchParent);
         layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
@@ -223,7 +223,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
@@ -242,7 +242,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 70.0f);
         layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
@@ -262,7 +262,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -278,7 +278,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -299,7 +299,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 2.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -317,7 +317,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -333,7 +333,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -354,7 +354,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 2.0f;
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -374,7 +374,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem.weight = 1.0f;
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(5.0f);
@@ -392,7 +392,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(5.0f);
@@ -415,7 +415,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.weight = 2.0f;
         layoutItem2.margin = UIEdgeInsetsMake(13.0f, 13.0f, 13.0f, 13.0f);
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
@@ -434,7 +434,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem.weight = 1.0f;
         layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
@@ -452,7 +452,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
@@ -475,7 +475,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem2.weight = 2.0f;
         layoutItem2.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
@@ -497,7 +497,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -521,7 +521,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -551,7 +551,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 2.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -576,7 +576,7 @@ describe(@"MKLinearLayout", ^{
         
         // Creation of sublayout
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
-        sublayout.orientation = MKLinearLayoutOrientationHorizontal;
+        sublayout.orientation = MKLayoutOrientationHorizontal;
         
         MKLinearLayoutItem *sublayoutItem = [sublayout addSubview:subview1];
         sublayoutItem.weight = 1.0f;
@@ -585,7 +585,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSublayout:sublayout];
         layoutItem.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -600,7 +600,7 @@ describe(@"MKLinearLayout", ^{
         
         // Creation of sublayout
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
-        sublayout.orientation = MKLinearLayoutOrientationHorizontal;
+        sublayout.orientation = MKLayoutOrientationHorizontal;
         
         MKLinearLayoutItem *sublayoutItem = [sublayout addSubview:subview1];
         sublayoutItem.weight = 1.0f;
@@ -610,7 +610,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSublayout:sublayout];
         layoutItem.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + margin.left);
@@ -627,7 +627,7 @@ describe(@"MKLinearLayout", ^{
         
         // Creation of sublayout
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
-        sublayout.orientation = MKLinearLayoutOrientationHorizontal;
+        sublayout.orientation = MKLayoutOrientationHorizontal;
         
         MKLinearLayoutItem *sublayoutItem = [sublayout addSubview:subview2];
         sublayoutItem.weight = 1.0f;
@@ -636,7 +636,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [layout addSublayout:sublayout];
         layoutItem2.weight = 1.0f;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -658,7 +658,7 @@ describe(@"MKLinearLayout", ^{
         
         // Creation of sublayout
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
-        sublayout.orientation = MKLinearLayoutOrientationHorizontal;
+        sublayout.orientation = MKLayoutOrientationHorizontal;
         
         MKLinearLayoutItem *sublayoutItem = [sublayout addSubview:subview1];
         sublayoutItem.weight = 1.0f;
@@ -669,7 +669,7 @@ describe(@"MKLinearLayout", ^{
         layoutItem.weight = 1.0f;
         layoutItem.margin = margin;
         
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + margin.left + sublayoutViewMargin.left);
@@ -686,11 +686,12 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -712,14 +713,16 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -746,11 +749,12 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -769,19 +773,22 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
+        layoutItem3.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         container.frame = CGRectMake(0.0f, 0.0f, 300.0f, 300.f);
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f);
@@ -807,15 +814,17 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         layoutItem.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
@@ -835,19 +844,22 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         layoutItem.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem2.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
         layoutItem3.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem3.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
@@ -872,15 +884,17 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         layoutItem.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
@@ -900,21 +914,24 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         layoutItem.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem2.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
         layoutItem3.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem3.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         container.frame = CGRectMake(0.0f, 0.0f, 300.0f, 300.f);
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
@@ -940,12 +957,14 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(separatorDefinition.separators.count).to.equal(1);
@@ -960,21 +979,23 @@ describe(@"MKLinearLayout", ^{
         expect(separator1Rect.size.height).to.equal(container.frame.size.height);
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
-        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationVertical);
+        expect([orientation intValue]).to.equal(MKLayoutOrientationVertical);
     });
     
     it(@"should create separators information, the rect and the type vertically", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(separatorDefinition.separators.count).to.equal(1);
@@ -989,7 +1010,7 @@ describe(@"MKLinearLayout", ^{
         expect(separator1Rect.size.height).to.equal(separatorDefinition.separatorThickness);
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
-        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
+        expect([orientation intValue]).to.equal(MKLayoutOrientationHorizontal);
     });
     
     it(@"should create separators information, the rect and the type with margin", ^{
@@ -997,15 +1018,17 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         layoutItem.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(6.0f, 6.0f, 6.0f, 6.0f);
+        layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:10.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
         expect(separatorDefinition.separators.count).to.equal(1);
@@ -1020,7 +1043,7 @@ describe(@"MKLinearLayout", ^{
         expect(separator1Rect.size.height).to.equal(separatorDefinition.separatorThickness);
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
-        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
+        expect([orientation intValue]).to.equal(MKLayoutOrientationHorizontal);
     });
     
     it(@"should create separators information, the rect and the type with margin and layout margin", ^{
@@ -1028,15 +1051,17 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
         layoutItem.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
         layoutItem2.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationVertical;
+        layout.orientation = MKLayoutOrientationVertical;
         layout.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
         [layout layout];
         
@@ -1052,7 +1077,7 @@ describe(@"MKLinearLayout", ^{
         expect(separator1Rect.size.height).to.equal(separatorDefinition.separatorThickness);
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
-        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
+        expect([orientation intValue]).to.equal(MKLayoutOrientationHorizontal);
     });
     
     it(@"should create separator information with margin for a layout hirarchy of two", ^{
@@ -1062,22 +1087,25 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
+        layoutItem.insertBorder = YES;
         
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
         sublayout.separatorDelegate = separatorDefinition2;
-        sublayout.orientation = MKLinearLayoutOrientationVertical;
+        sublayout.orientation = MKLayoutOrientationVertical;
         
-            MKLinearLayoutItem *layoutItem1 = [sublayout addSubview:subview2];
-            layoutItem1.weight = 1.0f;
+        MKLinearLayoutItem *layoutItem1 = [sublayout addSubview:subview2];
+        layoutItem1.weight = 1.0f;
+        layoutItem1.insertBorder = YES;
         
-            MKLinearLayoutItem *layoutItem2 = [sublayout addSubview:subview3];
-            layoutItem2.weight = 1.0f;
+        MKLinearLayoutItem *layoutItem2 = [sublayout addSubview:subview3];
+        layoutItem2.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItemSublayout = [layout addSublayout:sublayout];
         layoutItemSublayout.weight = 1.0f;
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(separatorDefinition.separators.count).to.equal(1);
@@ -1092,7 +1120,7 @@ describe(@"MKLinearLayout", ^{
         expect(separator1Rect.size.height).to.equal(container.frame.size.height);
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
-        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationVertical);
+        expect([orientation intValue]).to.equal(MKLayoutOrientationVertical);
         
         
         expect(separatorDefinition2.separators.count).to.equal(1);
@@ -1107,8 +1135,8 @@ describe(@"MKLinearLayout", ^{
         expect(separator2Rect.size.height).to.equal(separatorDefinition2.separatorThickness);
         
         NSNumber *orientation2 = separator2[kSeparatorsDictionaryKeyType];
-        expect([orientation2 intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
-
+        expect([orientation2 intValue]).to.equal(MKLayoutOrientationHorizontal);
+        
     });
     
     it(@"should create separator information with margin for a layout hirarchy of two", ^{
@@ -1118,22 +1146,26 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
+        layoutItem.insertBorder = YES;
         
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
         sublayout.separatorDelegate = separatorDefinition2;
-        sublayout.orientation = MKLinearLayoutOrientationVertical;
+        sublayout.orientation = MKLayoutOrientationVertical;
         
         MKLinearLayoutItem *layoutItem1 = [sublayout addSubview:subview2];
         layoutItem1.weight = 1.0f;
+        layoutItem1.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [sublayout addSubview:subview3];
         layoutItem2.weight = 1.0f;
+        layoutItem2.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItemSublayout = [layout addSublayout:sublayout];
         layoutItemSublayout.weight = 1.0f;
+        layoutItemSublayout.insertBorder = YES;
         
         layout.separatorDelegate = separatorDefinition;
-        layout.orientation = MKLinearLayoutOrientationHorizontal;
+        layout.orientation = MKLayoutOrientationHorizontal;
         layout.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
         [layout layout];
         
@@ -1149,7 +1181,7 @@ describe(@"MKLinearLayout", ^{
         expect(separator1Rect.size.height).to.equal(container.frame.size.height - layout.margin.top - layout.margin.bottom);
         
         NSNumber *orientation = separator1[kSeparatorsDictionaryKeyType];
-        expect([orientation intValue]).to.equal(MKLinearLayoutOrientationVertical);
+        expect([orientation intValue]).to.equal(MKLayoutOrientationVertical);
         
         
         expect(separatorDefinition2.separators.count).to.equal(1);
@@ -1164,7 +1196,7 @@ describe(@"MKLinearLayout", ^{
         expect(separator2Rect.size.height).to.equal(separatorDefinition2.separatorThickness);
         
         NSNumber *orientation2 = separator2[kSeparatorsDictionaryKeyType];
-        expect([orientation2 intValue]).to.equal(MKLinearLayoutOrientationHorizontal);
+        expect([orientation2 intValue]).to.equal(MKLayoutOrientationHorizontal);
         
     });
     
