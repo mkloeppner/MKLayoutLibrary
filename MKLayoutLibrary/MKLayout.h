@@ -28,6 +28,15 @@
 @interface MKLayout : NSObject
 
 /**
+ * The layouts content scale factor
+ *
+ * The views frames will be set in points. With specifying the contentScaleFactor this frames will be round to perfectly match the grid.
+ *
+ * Default value is 1.0f;
+ */
+@property (assign, nonatomic) CGFloat contentScaleFactor;
+
+/**
  * The layout delegate notifies layout steps and delegate some layout calculations.
  */
 @property (strong, nonatomic) id<MKLayoutDelegate> delegate;
@@ -116,5 +125,10 @@
  *
  */
 - (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect;
+
+/**
+ * Rounds the given rects values with the specified content scale factor in order to round to the pixel grid.
+ */
+- (CGRect)rectRoundedToGridWithRect:(CGRect)rect;
 
 @end

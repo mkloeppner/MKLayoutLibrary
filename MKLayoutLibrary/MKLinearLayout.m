@@ -125,7 +125,7 @@
         
         // Recursive layout
         if (item.subview) {
-            item.subview.frame = itemRect;
+            item.subview.frame = [self rectRoundedToGridWithRect:itemRect];
         } else if (item.sublayout) {
             [item.sublayout layoutBounds:itemRect];
         }

@@ -23,8 +23,7 @@
     self = [super init];
     if (self) {
         self.view = view;
-        self.mutableItems = [[NSMutableArray alloc] init];
-        self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+        [self setDefaultValues];
     }
     return self;
 }
@@ -33,10 +32,17 @@
 {
     self = [super init];
     if (self) {
-        self.mutableItems = [[NSMutableArray alloc] init];
-        self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+        self.view = nil;
+        [self setDefaultValues];
     }
     return self;
+}
+
+- (void)setDefaultValues
+{
+    self.contentScaleFactor = 1.0f;
+    self.mutableItems = [[NSMutableArray alloc] init];
+    self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 - (void)clear
@@ -192,6 +198,14 @@
     
     
     return rect;
+}
+
+- (CGRect)rectRoundedToGridWithRect:(CGRect)rect
+{
+    return CGRectMake(roundf(rect.origin.x * self.contentScaleFactor) / self.contentScaleFactor,
+                      roundf(rect.origin.y * self.contentScaleFactor) / self.contentScaleFactor,
+                      roundf(rect.size.width * self.contentScaleFactor) / self.contentScaleFactor,
+                      roundf(rect.size.height * self.contentScaleFactor) / self.contentScaleFactor);
 }
 
 @end

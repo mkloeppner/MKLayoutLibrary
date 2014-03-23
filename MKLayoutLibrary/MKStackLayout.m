@@ -36,7 +36,7 @@
         rect = [self applyGravity:layoutItem.gravity withRect:rect withinRect:UIEdgeInsetsInsetRect(self.bounds, layoutItem.margin)];
         
         if (layoutItem.subview) {
-            layoutItem.subview.frame = rect;
+            layoutItem.subview.frame = [self rectRoundedToGridWithRect:rect];
         } else if (layoutItem.sublayout) {
             [layoutItem.sublayout layoutBounds:rect];
         }

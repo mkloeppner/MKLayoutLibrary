@@ -360,12 +360,12 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width);
-        expect(subview1.frame.size.height).beCloseToWithin(container.frame.size.height * 1.0f / 3.0f, 0.01f);
+        expect(subview1.frame.size.height).beCloseToWithin(container.frame.size.height * 1.0f / 3.0f, layout.contentScaleFactor);
         
         expect(subview2.frame.origin.x).to.equal(0.0f);
-        expect(subview2.frame.origin.y).to.beCloseToWithin(container.frame.size.height * 1.0f / 3.0f, 0.01f);
+        expect(subview2.frame.origin.y).to.beCloseToWithin(container.frame.size.height * 1.0f / 3.0f, layout.contentScaleFactor);
         expect(subview2.frame.size.width).to.equal(container.frame.size.width);
-        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height * 2.0f / 3.0f, 0.01f);
+        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height * 2.0f / 3.0f, layout.contentScaleFactor);
     });
     
     // Also test marigin
@@ -481,12 +481,12 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f);
-        expect(subview1.frame.size.height).beCloseToWithin(container.frame.size.height * 1.0f / 3.0f - 10.0f, 0.01f);
+        expect(subview1.frame.size.height).beCloseToWithin(container.frame.size.height * 1.0f / 3.0f - 10.0f, layout.contentScaleFactor);
         
         expect(subview2.frame.origin.x).to.equal(0.0f + 10.0f);
-        expect(subview2.frame.origin.y).to.beCloseToWithin(container.frame.size.height * 1.0f / 3.0f + 10.0f, 0.01f);
+        expect(subview2.frame.origin.y).to.beCloseToWithin(container.frame.size.height * 1.0f / 3.0f + 10.0f, layout.contentScaleFactor);
         expect(subview2.frame.size.width).to.equal(container.frame.size.width - 20.0f);
-        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height * 2.0f / 3.0f - 20.0f, 0.01f);
+        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height * 2.0f / 3.0f - 20.0f, layout.contentScaleFactor);
     });
     
     // Mixed layouting
