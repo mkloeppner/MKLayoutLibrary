@@ -717,7 +717,7 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
-        layoutItem2.insertBorder = YES;
+        layoutItem3.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
         
@@ -1103,6 +1103,7 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItemSublayout = [layout addSublayout:sublayout];
         layoutItemSublayout.weight = 1.0f;
+        layoutItemSublayout.insertBorder = YES;
         
         layout.separatorDelegate = separatorDefinition;
         layout.orientation = MKLayoutOrientationHorizontal;
