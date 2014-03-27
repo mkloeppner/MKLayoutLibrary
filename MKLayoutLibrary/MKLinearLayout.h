@@ -12,6 +12,8 @@
 
 @interface MKLinearLayout : MKLayout
 
+DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
+
 /**
  * Inserts spacing between the outer border and the different layout items.
  *
@@ -28,12 +30,6 @@
  * Separator delegate allows delegate to insert separator images.
  */
 @property (assign, nonatomic) id<MKLinearLayoutSeparatorDelegate> separatorDelegate;
-
-/**
- * Overwritten to publish MKLinearLayoutItem instead of MKLayoutItem
- */
-- (MKLinearLayoutItem *)addSublayout:(MKLayout *)sublayout;
-- (MKLinearLayoutItem *)addSubview:(UIView *)subview;
 
 @property (strong, nonatomic) NSDictionary *userInfo;
 

@@ -16,6 +16,8 @@
 
 @implementation MKStackLayout
 
+SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)
+
 - (void)layoutBounds:(CGRect)bounds
 {
     self.bounds = UIEdgeInsetsInsetRect(bounds, self.margin);
@@ -70,20 +72,6 @@
         return self.bounds.size.height;
     }
     return item.size.height;
-}
-
-- (MKStackLayoutItem *)addSubview:(UIView *)subview
-{
-    MKStackLayoutItem *stackLayoutItem = [[MKStackLayoutItem alloc] initWithLayout:self subview:subview];
-    [self addLayoutItem:stackLayoutItem];
-    return stackLayoutItem;
-}
-
-- (MKStackLayoutItem *)addSublayout:(MKLayout *)sublayout
-{
-    MKStackLayoutItem *stackLayoutItem = [[MKStackLayoutItem alloc] initWithLayout:self sublayout:sublayout];
-    [self addLayoutItem:stackLayoutItem];
-    return stackLayoutItem;
 }
 
 - (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation

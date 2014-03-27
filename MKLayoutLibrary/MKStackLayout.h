@@ -11,7 +11,6 @@
 
 @interface MKStackLayout : MKLayout
 
-- (MKStackLayoutItem *)addSublayout:(MKLayout *)sublayout;
-- (MKStackLayoutItem *)addSubview:(UIView *)subview;
+DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)
 
 @end

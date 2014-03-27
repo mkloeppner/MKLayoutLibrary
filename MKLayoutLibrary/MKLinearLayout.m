@@ -9,13 +9,15 @@
 #import "MKLinearLayout.h"
 #import "MKLinearLayoutSeparatorDelegate.h"
 
-@interface MKLinearLayout ()
+@interface MKLinearLayout () 
 
 @property (strong, nonatomic) NSMutableArray *separators;
 
 @end
 
 @implementation MKLinearLayout
+
+SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 
 - (instancetype)initWithView:(UIView *)view
 {
@@ -26,20 +28,6 @@
         self.separators = [[NSMutableArray alloc] init];
     }
     return self;
-}
-
-- (MKLinearLayoutItem *)addSubview:(UIView *)subview
-{
-    MKLinearLayoutItem *item = [[MKLinearLayoutItem alloc] initWithLayout:self subview:subview];
-    [self addLayoutItem:item];
-    return item;
-}
-
-- (MKLinearLayoutItem *)addSublayout:(MKLayout *)sublayout
-{
-    MKLinearLayoutItem *item = [[MKLinearLayoutItem alloc] initWithLayout:self sublayout:sublayout];
-    [self addLayoutItem:item];
-    return item;
 }
 
 - (void)layoutBounds:(CGRect)bounds

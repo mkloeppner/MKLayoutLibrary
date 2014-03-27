@@ -11,6 +11,37 @@
 #import "MKLayoutDelegate.h"
 #import "MKLayoutOrientation.h"
 
+#define DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(classname) \
+- (classname *)addSubview:(UIView *)subview; \
+- (classname *)addSublayout:(MKLayout *)sublayout; \
+- (classname *)insertSubview:(UIView *)subview atIndex:(NSInteger)index; \
+- (classname *)insertSublayout:(MKLayout *)sublayout atIndex:(NSInteger)index; \
+
+#define SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(classname) \
+- (classname *)addSubview:(UIView *)subview \
+{ \
+    return [self insertSubview:subview atIndex:self.items.count]; \
+} \
+\
+- (classname *)addSublayout:(MKLayout *)sublayout \
+{ \
+    return [self insertSublayout:sublayout atIndex:self.items.count]; \
+} \
+\
+- (classname *)insertSubview:(UIView *)subview atIndex:(NSInteger)index \
+{ \
+    classname *layoutItem = [[classname alloc] initWithLayout:self subview:subview]; \
+    [self insertLayoutItem:layoutItem atIndex:index]; \
+    return layoutItem; \
+} \
+\
+- (classname *)insertSublayout:(MKLayout *)sublayout atIndex:(NSInteger)index \
+{ \
+    classname *layoutItem = [[classname alloc] initWithLayout:self sublayout:sublayout]; \
+    [self insertLayoutItem:layoutItem atIndex:index]; \
+    return layoutItem; \
+}
+
 /**
  * MKLayout is the root class of MKLayoutLibrary
  *
@@ -74,13 +105,6 @@
 - (instancetype)initWithView:(UIView *)view;
 
 /**
- * Removed all subviews and sublayouts
- *
- *      Hint: To remove single items, checkout MKLayoutItem:removeFromLayout;
- */
-- (void)clear;
-
-/**
  * Adds a subview to the layout.
  *
  * @param subview a view that will be position by the layout
@@ -97,9 +121,41 @@
 - (MKLayoutItem *)addSublayout:(MKLayout *)sublayout;
 
 /**
+ * Adds a subview to the layout with a specific index.
+ *
+ * @param subview a view that will be position by the layout
+ * @param index the position in the layout at which the subview will be inserted
+ * @return the associated MKLayoutItem It allows layout behavior costumization with view layout properties
+ */
+- (MKLayoutItem *)insertSubview:(UIView *)subview atIndex:(NSInteger)index;
+
+/**
+ * Adds a sublayout to the layout with a specific index.
+ *
+ * @param sublayout a sublayout that will be position by the layout
+ * @param index the position in the layout at which the sublayout will be inserted
+ * @return the associated MKLayoutItem It allows layout behavior costumization with view layout properties
+ */
+- (MKLayoutItem *)insertSublayout:(MKLayout *)sublayout atIndex:(NSInteger)index;
+
+/**
+ * Removes a layout item with a specified index
+ *
+ * @param index the index of the item that will be removed
+ */
+- (void)removeLayoutItemAtIndex:(NSInteger)index;
+
+/**
+ * Removed all subviews and sublayouts
+ *
+ *      Hint: To remove single items, checkout MKLayoutItem:removeFromLayout;
+ */
+- (void)clear;
+
+/**
  * Add a layout item to allow subclasses using their own item classes with custom properties
  */
-- (void)addLayoutItem:(MKLayoutItem *)layoutItem;
+- (void)insertLayoutItem:(MKLayoutItem *)layoutItem atIndex:(NSInteger)index;
 
 /**
  * Calls layoutBounds with the associated view bounds

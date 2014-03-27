@@ -45,6 +45,35 @@
     self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
+- (MKLayoutItem *)addSubview:(UIView *)subview
+{
+    return [self insertSubview:subview atIndex:self.items.count];
+}
+
+- (MKLayoutItem *)addSublayout:(MKLayout *)sublayout
+{
+    return [self insertSublayout:sublayout atIndex:self.items.count];
+}
+
+- (MKLayoutItem *)insertSubview:(UIView *)subview atIndex:(NSInteger)index
+{
+    MKLayoutItem *layoutItem = [[MKLayoutItem alloc] initWithLayout:self subview:subview];
+    [self insertLayoutItem:layoutItem atIndex:index];
+    return layoutItem;
+}
+
+- (MKLayoutItem *)insertSublayout:(MKLayout *)sublayout atIndex:(NSInteger)index
+{
+    MKLayoutItem *layoutItem = [[MKLayoutItem alloc] initWithLayout:self sublayout:sublayout];
+    [self insertLayoutItem:layoutItem atIndex:index];
+    return layoutItem;
+}
+
+- (void)removeLayoutItemAtIndex:(NSInteger)index
+{
+    [self.mutableItems removeObjectAtIndex:index];
+}
+
 - (void)clear
 {
     NSArray *layoutItems = [self.items copy];
@@ -53,21 +82,7 @@
     }
 }
 
-- (MKLayoutItem *)addSubview:(UIView *)subview
-{
-    MKLayoutItem *layoutItem = [[MKLayoutItem alloc] initWithLayout:self subview:subview];
-    [self addLayoutItem:layoutItem];
-    return layoutItem;
-}
-
-- (MKLayoutItem *)addSublayout:(MKLayout *)sublayout
-{
-    MKLayoutItem *layoutItem = [[MKLayoutItem alloc] initWithLayout:self sublayout:sublayout];
-    [self addLayoutItem:layoutItem];
-    return layoutItem;
-}
-
-- (void)addLayoutItem:(MKLayoutItem *)layoutItem
+- (void)insertLayoutItem:(MKLayoutItem *)layoutItem atIndex:(NSInteger)index
 {
     if (layoutItem.subview) {
         [self.view addSubview:layoutItem.subview];
@@ -77,7 +92,7 @@
         layoutItem.sublayout.view = self.view;
         layoutItem.sublayout.delegate = self.delegate;
     }
-    [self.mutableItems addObject:layoutItem];
+    [self.mutableItems insertObject:layoutItem atIndex:index];
     if ([self.delegate respondsToSelector:@selector(layout:didAddLayoutItem:)]) {
         [self.delegate layout:self didAddLayoutItem:layoutItem];
     }
