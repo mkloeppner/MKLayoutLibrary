@@ -71,7 +71,11 @@
 
 - (void)removeLayoutItemAtIndex:(NSInteger)index
 {
+    MKLayoutItem *item = self.items[index];
     [self.mutableItems removeObjectAtIndex:index];
+    if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
+        [self.delegate layout:self didRemoveLayoutItem:item];
+    }
 }
 
 - (void)clear
@@ -100,10 +104,7 @@
 
 - (void)removeLayoutItem:(MKLayoutItem *)layoutItem
 {
-    [self.mutableItems removeObject:layoutItem];
-    if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
-        [self.delegate layout:self didRemoveLayoutItem:layoutItem];
-    }
+    [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
 }
 
 - (NSArray *)items
