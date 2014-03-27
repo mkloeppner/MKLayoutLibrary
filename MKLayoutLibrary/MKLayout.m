@@ -82,7 +82,7 @@
 {
     NSArray *layoutItems = [self.items copy];
     for (MKLayoutItem *layoutItem in layoutItems) {
-        [layoutItem removeFromLayout];
+        [layoutItem removeFromLayout]; // To notify the delegate for every item that has been removed
     }
 }
 
