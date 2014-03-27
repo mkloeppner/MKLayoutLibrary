@@ -9,7 +9,7 @@
 #import "MKLinearLayout.h"
 #import "MKLinearLayoutSeparatorDelegate.h"
 
-@interface MKLinearLayout () 
+@interface MKLinearLayout ()
 
 @property (strong, nonatomic) NSMutableArray *separators;
 
@@ -91,27 +91,29 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         // Get the total item length and outer rect
         float itemLength = [self itemLengthForTotalUseableContentLength:totalUseableContentLength forItem:item overallWeight:overallWeight alreadyUsedLength:alreadyUsedLength];
         
+        // Move it just within the margin bounds
         CGRect itemOuterRect = [self itemOuterRectForContentRect:contentRect currentPos:currentPos itemLength:itemLength];
-        
         CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, item.margin);
         
-        // Using fixed item sizes
-        CGRect itemInnerRect = marginRect;
+        // Apply items size value if beeing set
+        CGRect itemRect = itemOuterRect; // Take the outer rect without margin applied to prevent applying margin twice
         if (item.size.width != kMKLayoutItemSizeValueMatchParent) {
-            itemInnerRect.size.width = item.size.width;
+            itemRect.size.width = item.size.width;
         }
         if (item.size.height != kMKLayoutItemSizeValueMatchParent) {
-            itemInnerRect.size.height = item.size.height;
+            itemRect.size.height = item.size.height;
         }
         
+        itemRect = UIEdgeInsetsInsetRect(itemRect, item.margin);
+        
         // Move it within the margin bounds if there is a gravity
-        CGRect itemRect = [self applyGravity:item.gravity withRect:itemInnerRect withinRect:marginRect];
+        CGRect rect = [self applyGravity:item.gravity withRect:itemRect withinRect:marginRect];
         
         // Recursive layout
         if (item.subview) {
-            item.subview.frame = [self rectRoundedToGridWithRect:itemRect];
+            item.subview.frame = [self rectRoundedToGridWithRect:rect];
         } else if (item.sublayout) {
-            [item.sublayout layoutBounds:itemRect];
+            [item.sublayout layoutBounds:rect];
         }
         
         // Increase the currentPos with the item length
