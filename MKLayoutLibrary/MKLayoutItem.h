@@ -64,8 +64,6 @@ typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
 
 /**
  * Ensures a margin around the layout items view. 
- *
- * If an item has a fixed size, this size will not be effected. 
  */
 @property (assign, nonatomic) UIEdgeInsets margin;
 
