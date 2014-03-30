@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MKLayoutItem.h"
 #import "MKLayoutDelegate.h"
+#import "MKLayoutSeparatorDelegate.h"
 #import "MKLayoutOrientation.h"
 
 #define DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(classname) \
@@ -72,6 +73,13 @@
  * The layout delegate notifies layout steps and delegate some layout calculations.
  */
 @property (strong, nonatomic) id<MKLayoutDelegate> delegate;
+
+/**
+ * Moves the separator creation to another instance.
+ *
+ * Ask for numberOfSeparators before the layout executes to prepare for layout calls.
+ */
+@property (weak, nonatomic) id<MKLayoutSeparatorDelegate> separatorDelegate;
 
 /**
  * The parent layout item if layout is a sublayout

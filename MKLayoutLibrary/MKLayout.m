@@ -95,6 +95,7 @@
         layoutItem.sublayout.item = layoutItem;
         layoutItem.sublayout.view = self.view;
         layoutItem.sublayout.delegate = self.delegate;
+        layoutItem.sublayout.separatorDelegate = self.separatorDelegate;
     }
     [self.mutableItems insertObject:layoutItem atIndex:index];
     if ([self.delegate respondsToSelector:@selector(layout:didAddLayoutItem:)]) {
@@ -147,6 +148,16 @@
     for (MKLayoutItem *item in self.items) {
         if (item.sublayout) {
             item.sublayout.delegate = delegate;
+        }
+    }
+}
+
+- (void)setSeparatorDelegate:(id<MKLayoutSeparatorDelegate>)separatorDelegate
+{
+    _separatorDelegate = separatorDelegate;
+    for (MKLayoutItem *item in self.items) {
+        if (item.sublayout) {
+            item.sublayout.separatorDelegate = separatorDelegate;
         }
     }
 }

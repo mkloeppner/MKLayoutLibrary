@@ -5,11 +5,12 @@
 
 #import <Foundation/Foundation.h>
 #import "MKLayoutOrientation.h"
+#import "MKLayoutSeparatorDelegate.h"
 
 @class MKLinearLayout;
 @class MKLinearLayoutItem;
 
-@protocol MKLinearLayoutSeparatorDelegate <NSObject>
+@protocol MKLinearLayoutSeparatorDelegate <MKLayoutSeparatorDelegate>
 
 - (CGFloat)separatorThicknessForLinearLayout:(MKLinearLayout *)layout;
 

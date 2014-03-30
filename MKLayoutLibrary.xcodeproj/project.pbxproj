@@ -59,6 +59,7 @@
 		716A8BE2BC22CB16D37CDA36 /* MKLinearLayoutSeparatorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLinearLayoutSeparatorImpl.h; sourceTree = "<group>"; };
 		716A8EC837FBFC2FDDFC1F8A /* MKLayoutOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLayoutOrientation.h; sourceTree = "<group>"; };
 		A155B8C241DF483C9A2BE48D /* libPods-MKLayoutLibraryTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MKLayoutLibraryTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B523005818E89237003E3494 /* MKLayoutSeparatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKLayoutSeparatorDelegate.h; sourceTree = "<group>"; };
 		B54D407C1881C5B0007270DB /* MKStackLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStackLayout.h; sourceTree = "<group>"; };
 		B54D407D1881C5B0007270DB /* MKStackLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStackLayout.m; sourceTree = "<group>"; };
 		B54D407F1881C9C1007270DB /* MKStackLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStackLayoutTests.m; sourceTree = "<group>"; };
@@ -184,6 +185,7 @@
 				28E8AEF018A224ED001B5A6F /* MKLayoutDelegate.h */,
 				B5824174188192B3008A472F /* MKLayout.h */,
 				B5824175188192B3008A472F /* MKLayout.m */,
+				B523005818E89237003E3494 /* MKLayoutSeparatorDelegate.h */,
 				B5824176188192B3008A472F /* MKLayoutItem.h */,
 				B5824177188192B3008A472F /* MKLayoutItem.m */,
 				716A8EC837FBFC2FDDFC1F8A /* MKLayoutOrientation.h */,

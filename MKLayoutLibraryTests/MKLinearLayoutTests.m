@@ -1090,7 +1090,6 @@ describe(@"MKLinearLayout", ^{
         layoutItem.insertBorder = YES;
         
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
-        sublayout.separatorDelegate = separatorDefinition2;
         sublayout.orientation = MKLayoutOrientationVertical;
         
         MKLinearLayoutItem *layoutItem1 = [sublayout addSubview:subview2];
@@ -1106,6 +1105,8 @@ describe(@"MKLinearLayout", ^{
         layoutItemSublayout.insertBorder = YES;
         
         layout.separatorDelegate = separatorDefinition;
+        sublayout.separatorDelegate = separatorDefinition2; // Needs to be set after the parent separatorDelegate has been set due setting the separatorDelegate traverses all sublayout and sets the same value
+        
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
@@ -1150,7 +1151,6 @@ describe(@"MKLinearLayout", ^{
         layoutItem.insertBorder = YES;
         
         MKLinearLayout *sublayout = [[MKLinearLayout alloc] initWithView:container];
-        sublayout.separatorDelegate = separatorDefinition2;
         sublayout.orientation = MKLayoutOrientationVertical;
         
         MKLinearLayoutItem *layoutItem1 = [sublayout addSubview:subview2];
@@ -1166,6 +1166,8 @@ describe(@"MKLinearLayout", ^{
         layoutItemSublayout.insertBorder = YES;
         
         layout.separatorDelegate = separatorDefinition;
+        sublayout.separatorDelegate = separatorDefinition2; // Needs to be set after the parent separatorDelegate has been set due setting the separatorDelegate traverses all sublayout and sets the same value
+        
         layout.orientation = MKLayoutOrientationHorizontal;
         layout.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
         [layout layout];
