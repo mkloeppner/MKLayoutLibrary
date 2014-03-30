@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
                    MKLayoutLibrary adds layouts to UIKit without having the need of subclassing UIView.
                    DESC
 
-  s.homepage     = "https://github.com/mkloeppner/MKLayoutLibrary/wiki"
+  s.homepage     = "https://github.com/mkloeppner/MKLayoutLibrary"
   s.license      = 'MIT'
 
   s.author       = { "mkloeppner" => "mkloeppner@me.com" }
