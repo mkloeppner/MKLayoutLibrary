@@ -1298,7 +1298,90 @@ describe(@"MKLinearLayout", ^{
         expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
         
     });
-
+    
+    it(@"should insert spacing between two items in a horizontal layout and not insert a spacing before the first item and the last item", ^{
+        
+        layout.spacing = 10.0f;
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+        
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.weight = 1.0f;
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width / 2.0f - layout.spacing / 2.0f);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height);
+        
+        expect(subview2.frame.origin.x).to.equal(container.frame.size.width / 2.0f + layout.spacing / 2.0f);
+        expect(subview2.frame.origin.y).to.equal(0.0f);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width / 2.0f - layout.spacing / 2.0f);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height);
+        
+    });
+    
+    it(@"should not insert a spacing before the first and the last item with in horizontal layout even if the first and the last item is the same", ^{
+        
+        layout.spacing = 10.0f;
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+    
+        layout.orientation = MKLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height);
+        
+    });
+    
+    it(@"should insert spacing between two items in a vertical layout and not insert a spacing before the first item and the last item", ^{
+        
+        layout.spacing = 10.0f;
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+        
+        MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
+        layoutItem2.weight = 1.0f;
+        
+        layout.orientation = MKLayoutOrientationVertical;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height / 2.0f - layout.spacing / 2.0f);
+        
+        expect(subview2.frame.origin.x).to.equal(0.0f);
+        expect(subview2.frame.origin.y).to.equal(container.frame.size.height / 2.0f + layout.spacing / 2.0f);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height / 2.0f - layout.spacing / 2.0f);
+        
+    });
+    
+    it(@"should not insert a spacing before the first and the last item with in vertical layout even if the first and the last item is the same", ^{
+        
+        layout.spacing = 10.0f;
+        
+        MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.weight = 1.0f;
+        
+        layout.orientation = MKLayoutOrientationVertical;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height);
+        
+    });
     
 });
 

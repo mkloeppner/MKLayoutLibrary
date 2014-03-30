@@ -55,9 +55,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     
     float totalUseableContentLength = [self lengthForSize:contentRect.size];
     totalUseableContentLength -= numberOfSeparators * separatorThickness; // Remove separator thicknesses to keep space for separators
-    totalUseableContentLength -= numberOfSeparators * 2.0f * self.spacing; // For every separator remove spacing left and right from it
-    totalUseableContentLength -= (self.items.count - numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
-    totalUseableContentLength -= self.spacing;
+    totalUseableContentLength -= numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
+    totalUseableContentLength -= ((self.items.count - 1) - numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
         
@@ -69,8 +68,9 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         if (insertSeparatorBeforeCurrentItem) {
             currentPos += separatorThickness;
         }
-        
-        currentPos += self.spacing;
+        if (i != 0) {
+            currentPos += self.spacing;
+        }
         
         // Calculate separator rect that is before the current item
         if (insertSeparatorBeforeCurrentItem && [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
@@ -131,7 +131,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
  */
 - (CGRect)itemOuterRectForContentRect:(CGRect)contentRect currentPos:(CGFloat)currentPos itemLength:(CGFloat)itemLength
 {
-    CGRect itemOuterRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+    CGRect itemOuterRect;
     if (self.orientation == MKLayoutOrientationHorizontal) {
         itemOuterRect = CGRectMake(contentRect.origin.x + currentPos,
                                    contentRect.origin.y,
@@ -148,7 +148,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 
 - (CGRect)separatorRectForContentRect:(CGRect)contentRect separatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets currentPos:(CGFloat)currentPos
 {
-    CGRect separatorRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+    CGRect separatorRect;
     if (self.orientation == MKLayoutOrientationHorizontal) {
         separatorRect = CGRectMake(contentRect.origin.x + currentPos - separatorThickness,
                                    contentRect.origin.y - separatorIntersectionOffsets.top,
