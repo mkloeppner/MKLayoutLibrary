@@ -86,7 +86,7 @@
 		B5824178188192B3008A472F /* MKLinearLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKLinearLayout.h; sourceTree = "<group>"; };
 		B5824179188192B3008A472F /* MKLinearLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLinearLayout.m; sourceTree = "<group>"; };
 		B582417D188192C7008A472F /* MKLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLayoutTests.m; sourceTree = "<group>"; };
-		B582417E188192C7008A472F /* MKLinearLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLinearLayoutTests.m; sourceTree = "<group>"; };
+		B582417E188192C7008A472F /* MKLinearLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MKLinearLayoutTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B58241811881937E008A472F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E17CAFEC62B04BF7A8718C6A /* Pods-MKLayoutLibraryTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKLayoutLibraryTests.xcconfig"; path = "Pods/Pods-MKLayoutLibraryTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
