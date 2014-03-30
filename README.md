@@ -115,11 +115,110 @@ MKLayout also support sublayouts:
     // Add the sublayout to the root layout
     MKLinearLayoutItem *iconLayoutLayoutItem = [self.layout addSublayout:iconLayout];
 
-### Best practice
+## Working with MKLayoutLibrary
+
+MKLayoutLibrary is all about MKLayoutItem and its related subclasses.
+
+Imagine a layout as a collection of boxes that can contain a single view or a layout identified as sublayout.
+These boxes will be represent as MKLayoutItem. Every view or sublayout of these boxes will be
+positioned by the layouts logic, so for example every boxes position follows another box frame
+in a linear layout or they overlap in a stack layout.
+
+However, MKLayoutItem specifies properties to adjust and configure the boxes layout behavior.  
+
+All properties specified directly in MKLayoutItem will and needs to be supported by
+every layout implementation. Layout specific subclasses of MKLayoutItem can provide per layout
+configuration properties.
+
+This section introduces the most important properties and their consistent behavior through all layouts.
+
+### Size
+
+A size is a specified length in a vertical and horizontal direction. It can only be affected by layout items margin.
+Otherwise, the views size must match the layout items size.
+
+This configuration of an item must result in a view.bounds.size with a width of 10 points and a height of 10 points:
+
+    item.size = CGSizeMake(10.0f, 10.0f);
+
+### Margin
+
+Margin is the only property that can and must affect the resulting bounds of a layout items view or sublayout.
+
+The following configuration of an item must result in a view.bounds.size with a width of 9 points and height of 9 points:
+
+    item.size = CGSizeMake(10.0f, 10.0f);
+    item.margin = UIEdgeInsetsMake(0.0f, 0.0f, 1.0f, 1.0f); // Just shrink the view by reducing width and height
+
+The following configuration of an item must result in a view.bounds.size with a width of 9 points and height of 9 points must move the resulting frame by x of 1 point and y of 1 point:
+
+      item.size = CGSizeMake(10.0f, 10.0f);
+      item.margin = UIEdgeInsetsMake(1.0f, 1.0f, 0.0f, 0.0f); // Shrink the view and move it by 1 point on x and y axis
+
+The next configuration is a combination of the previous ones and must result in a view.bounds.size with a width of 8 points and height of 8 points and must move the resulting frame by x of 1 point and y of 1 point:
+
+    item.size = CGSizeMake(10.0f, 10.0f);
+    item.margin = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f); // Shrink the view on all edges and move it
+
+#### Margin and Offset  
+
+Margin should be assumed to an inset to an outer box.
+If it is just necessary to move a item view to ensure offsets to a specific edge layout item,
+offsets could be a more reasonable approach.
+Here an example:
+
+This is a margin definition that should be represented as offset:
+So these lines:
+
+    UIEdgeInsets margin = UIEdgeInsetsMake(0.0f, 0.0f, 5.0f, 5.0f); // Define margin to calculate the overall item size
+    item.gravity = MKLayoutGravityTop | MKLayoutGravityRight;
+    item.margin = margin;
+    item.size = CGSizeMake(30.0f + margin.right, 30.0f + margin.bottom); // Ensure the 30.0f pixels size by splitting up the margin definition
+
+can be refactored to this:
+
+    item.gravity = MKLayoutGravityTop | MKLayoutGravityRight;
+    item.offset = UIOffsetMake(-5.0f, -5.0f);
+
+### Gravity
+
+As mentioned in the introduction, layout items represent boxes that can contain a view or sublayout.
+These boxes tells the layout which space is reserved for the specified layout item. Depending on the layouts implementation,
+the size of a view can be smaller than the layout items reserved space.
+Therefore gravity makes sense and let us stick the view or sublayout of an item to an selected edge of the items box.
+
+Therefore gravity is a bitmask and allows us to:
+
+- Stick it to the center on a vertical axis
+- Stick it to the center on a horizontal
+- Stick it to the top
+- Stick it to the left
+- Stick it to the bottom
+- Stick it to the right
+- and all the reasonable combinations out of these options
+
+Gravity must keep any offsets provided by layout items margin when moving the view or sublayout.
+
+### Offset
+
+After size, margin and gravity may have made changes to the views position (center), offset provides us to
+move the resulting view or sublayout.
+
+An offset helps us to specify a padding between edges of the item box and the items view.
+
+This example moves the layout items view by 5 points to the right and bottom:
+
+    item.offset = UIOffsetMake(5.0f, 5.0f);
+
+This example moves the layout items view by 5 points to the top and left:
+
+    item.offset = UIOffsetMake(-5.0f, -5.0f);
+
+## Best practice
 
 Here are some hints for working with MKLayout.
 
-#### View properties
+### View properties
 MKLayout works best with keeping MKLayoutItems as properties instead of the subviews itself if you want to edit the layout
 during runtime. So instead of:
 
