@@ -40,7 +40,7 @@
 
 - (void)setDefaultValues
 {
-    self.contentScaleFactor = 1.0f;
+    self.contentScaleFactor = [[UIScreen mainScreen] scale];
     self.mutableItems = [[NSMutableArray alloc] init];
     self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
 }
