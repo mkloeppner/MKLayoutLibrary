@@ -68,6 +68,13 @@ typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
 @property (assign, nonatomic) UIEdgeInsets margin;
 
 /**
+ * Moves the items view or sublayout by the specified offset.
+ *
+ * Positive values increases the offset from the top left while negatives do the opposite
+ */
+@property (assign, nonatomic) UIOffset offset;
+
+/**
  * Inserts a border 
  *
  * Default: NO

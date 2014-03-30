@@ -23,23 +23,26 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)
     self.bounds = UIEdgeInsetsInsetRect(bounds, self.margin);
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
-        MKStackLayoutItem *layoutItem = self.items[i];
+        MKStackLayoutItem *item = self.items[i];
         
-        CGRect rect = [self rectForItem:layoutItem];
+        CGRect rect = [self rectForItem:item];
         
         rect.origin.x += self.bounds.origin.x;
         rect.origin.y += self.bounds.origin.y;
         
         // In order to generate the inner margins we already reduced the size of the inner rect
-        rect = UIEdgeInsetsInsetRect(rect, layoutItem.margin);
+        rect = UIEdgeInsetsInsetRect(rect, item.margin);
         
         // Now we move the view to the edges of the outer rectange so we have to apply the margin on the outer rect too
-        rect = [self applyGravity:layoutItem.gravity withRect:rect withinRect:UIEdgeInsetsInsetRect(self.bounds, layoutItem.margin)];
+        rect = [self applyGravity:item.gravity withRect:rect withinRect:UIEdgeInsetsInsetRect(self.bounds, item.margin)];
         
-        if (layoutItem.subview) {
-            layoutItem.subview.frame = [self rectRoundedToGridWithRect:rect];
-        } else if (layoutItem.sublayout) {
-            [layoutItem.sublayout layoutBounds:rect];
+        rect.origin.x += item.offset.horizontal;
+        rect.origin.y += item.offset.vertical;
+        
+        if (item.subview) {
+            item.subview.frame = [self rectRoundedToGridWithRect:rect];
+        } else if (item.sublayout) {
+            [item.sublayout layoutBounds:rect];
         }
     }
     

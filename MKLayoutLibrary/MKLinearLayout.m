@@ -109,6 +109,9 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         // Move it within the margin bounds if there is a gravity
         CGRect rect = [self applyGravity:item.gravity withRect:itemRect withinRect:marginRect];
         
+        rect.origin.x += item.offset.horizontal;
+        rect.origin.y += item.offset.vertical;
+        
         // Recursive layout
         if (item.subview) {
             item.subview.frame = [self rectRoundedToGridWithRect:rect];
