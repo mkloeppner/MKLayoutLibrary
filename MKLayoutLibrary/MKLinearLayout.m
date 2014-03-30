@@ -228,7 +228,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         MKLayoutItem *item = self.items[i];
         if (item.sublayout) {
             MKLinearLayout *linearLayout = (MKLinearLayout *)item.sublayout;
-            numberOfSeparators += [linearLayout numberOfSeparatorsForSeparatorOrientation:separatorOrientation];
+            numberOfSeparators += [linearLayout numberOfSeparatorsForSeparatorOrientation:orientation];
         }
     }
     

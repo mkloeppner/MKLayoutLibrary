@@ -26,6 +26,7 @@ describe(@"MKLinearLayout", ^{
     __block UIView *subview1;
     __block UIView *subview2;
     __block UIView *subview3;
+    __block UIView *subview4;
     
     beforeEach(^{
         container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 100.0)];
@@ -36,6 +37,7 @@ describe(@"MKLinearLayout", ^{
         subview1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         subview2 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         subview3 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
+        subview4 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
     });
     
     it(@"should layout a view with the specified size", ^{
@@ -1202,6 +1204,101 @@ describe(@"MKLinearLayout", ^{
         expect([orientation2 intValue]).to.equal(MKLayoutOrientationHorizontal);
         
     });
+    
+    it(@"should calculate the right amount of vertical separators in a single horizontal layout", ^{
+        
+        layout = [[MKLinearLayout alloc] initWithView:container];
+        MKLinearLayout *linearLayout = (MKLinearLayout *)layout;
+        
+        linearLayout.orientation = MKLayoutOrientationHorizontal;
+        
+        MKLinearLayoutItem *layoutItem = [linearLayout addSubview:subview1];
+        layoutItem.insertBorder = YES;
+        
+        MKLinearLayoutItem *layoutItem2 = [linearLayout addSubview:subview2];
+        layoutItem2.insertBorder = YES;
+        
+        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationVertical]).to.equal(1);
+        
+    });
+    
+    it(@"should calculate the right amount of horizontal separators in a single vertical layout", ^{
+        
+        layout = [[MKLinearLayout alloc] initWithView:container];
+        MKLinearLayout *linearLayout = (MKLinearLayout *)layout;
+        
+        linearLayout.orientation = MKLayoutOrientationVertical;
+        
+        MKLinearLayoutItem *layoutItem = [linearLayout addSubview:subview1];
+        layoutItem.insertBorder = YES;
+        
+        MKLinearLayoutItem *layoutItem2 = [linearLayout addSubview:subview2];
+        layoutItem2.insertBorder = YES;
+        
+        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
+        
+    });
+    
+    it(@"should calculate the right amount of horizontal and vertical separators in a horizontal layout with a vertical sublayout", ^{
+        
+        layout = [[MKLinearLayout alloc] initWithView:container];
+        MKLinearLayout *linearLayout = (MKLinearLayout *)layout;
+        
+        linearLayout.orientation = MKLayoutOrientationHorizontal;
+        
+        MKLinearLayoutItem *subview1Item = [linearLayout addSubview:subview1];
+        subview1Item.insertBorder = YES;
+        
+        MKLinearLayout *sublayout1 = [[MKLinearLayout alloc] init];
+        sublayout1.orientation = MKLayoutOrientationVertical;
+        
+        MKLinearLayoutItem *subview2Item = [sublayout1 addSubview:subview2];
+        subview2Item.insertBorder = YES;
+        
+        MKLinearLayoutItem *subview3Item = [sublayout1 addSubview:subview3];
+        subview3Item.insertBorder = YES;
+        
+        MKLinearLayoutItem *subview4Item = [sublayout1 addSubview:subview4];
+        subview4Item.insertBorder = YES;
+        
+        MKLinearLayoutItem *sublayout1Item = [linearLayout addSublayout:sublayout1];
+        sublayout1Item.insertBorder = YES;
+        
+        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationVertical]).to.equal(1);
+        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(2);
+        
+    });
+    
+    it(@"should calculate the right amount of horizontal and vertical separators in a vertical layout with a horizontal sublayout", ^{
+        
+        layout = [[MKLinearLayout alloc] initWithView:container];
+        MKLinearLayout *linearLayout = (MKLinearLayout *)layout;
+        
+        linearLayout.orientation = MKLayoutOrientationVertical;
+        
+        MKLinearLayoutItem *subview1Item = [linearLayout addSubview:subview1];
+        subview1Item.insertBorder = YES;
+        
+        MKLinearLayout *sublayout1 = [[MKLinearLayout alloc] init];
+        sublayout1.orientation = MKLayoutOrientationHorizontal;
+        
+        MKLinearLayoutItem *subview2Item = [sublayout1 addSubview:subview2];
+        subview2Item.insertBorder = YES;
+        
+        MKLinearLayoutItem *subview3Item = [sublayout1 addSubview:subview3];
+        subview3Item.insertBorder = YES;
+        
+        MKLinearLayoutItem *subview4Item = [sublayout1 addSubview:subview4];
+        subview4Item.insertBorder = YES;
+        
+        MKLinearLayoutItem *sublayout1Item = [layout addSublayout:sublayout1];
+        sublayout1Item.insertBorder = YES;
+        
+        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationVertical]).to.equal(2);
+        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
+        
+    });
+
     
 });
 

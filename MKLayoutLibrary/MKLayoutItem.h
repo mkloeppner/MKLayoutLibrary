@@ -69,6 +69,8 @@ typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
 
 /**
  * Inserts a border 
+ *
+ * Default: NO
  */
 @property (assign, nonatomic) BOOL insertBorder;
 

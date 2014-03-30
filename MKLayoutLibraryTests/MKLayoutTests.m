@@ -20,9 +20,19 @@ describe(@"MKLayout", ^{
     __block MKLayout *layout;
     __block UIView *container;
     
+    __block UIView *subview1;
+    __block UIView *subview2;
+    __block UIView *subview3;
+    __block UIView *subview4;
+    
     beforeEach(^{
         container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 100.0)];
         layout = [[MKLayout alloc] initWithView:container];
+        
+        subview1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
+        subview2 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
+        subview3 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
+        subview4 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
     });
     
     
@@ -297,6 +307,69 @@ describe(@"MKLayout", ^{
         CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityBottom withRect:itemRect withinRect:rect];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f + rect.origin.x, rect.size.height - itemRect.size.height, itemRect.size.width, itemRect.size.height));
+    });
+    
+    it(@"should provide a method to insert a subview at a specific index", ^{
+        
+        MKLayoutItem *item = [layout insertSubview:subview1 atIndex:0];
+        
+        expect(layout.items.count).to.equal(1);
+        
+        expect(item).to.equal(layout.items[0]);
+        
+    });
+    
+    it(@"should provide a method to insert a subview bofore an other item", ^{
+        
+        MKLayoutItem *item = [layout addSubview:subview1];
+        MKLayoutItem *item2 = [layout insertSubview:subview2 atIndex:0];
+        
+        expect(layout.items.count).to.equal(2);
+        
+        expect(item).to.equal(layout.items[1]);
+        expect(item2).to.equal(layout.items[0]);
+        
+    });
+    
+    it(@"should provide a method to insert a sublayout behind an other item with the following index", ^{
+        
+        MKLayoutItem *item = [layout addSubview:subview1];
+        MKLayoutItem *item2 = [layout insertSubview:subview2 atIndex:layout.items.count];
+        
+        expect(layout.items.count).to.equal(2);
+        
+        expect(item).to.equal(layout.items[0]);
+        expect(item2).to.equal(layout.items[1]);
+        
+    });
+    
+    it(@"should provide a method to be able to remove items via index", ^{
+        
+        [layout addSubview:subview1];
+        
+        expect(layout.items.count).to.equal(1);
+        
+        [layout removeLayoutItemAtIndex:0];
+        
+        expect(layout.items.count).to.equal(0);
+        
+    });
+    
+    it(@"should provide a method to remove any layout item at a specific position in the layout hirarchy", ^{
+        
+        MKLayoutItem *item = [layout addSubview:subview1];
+        [layout addSubview:subview2];
+        MKLayoutItem *item3 = [layout addSubview:subview3];
+        
+        expect(layout.items.count).to.equal(3);
+        
+        [layout removeLayoutItemAtIndex:1];
+        
+        expect(layout.items.count).to.equal(2);
+        
+        expect(item).to.equal(layout.items[0]);
+        expect(item3).to.equal(layout.items[1]);
+        
     });
     
 });
