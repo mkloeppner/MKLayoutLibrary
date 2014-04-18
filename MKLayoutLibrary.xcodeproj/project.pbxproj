@@ -519,6 +519,87 @@
 			};
 			name = Release;
 		};
+		B5FEE505190151B1005AAA25 /* Codecoverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Codecoverage;
+		};
+		B5FEE506190151B1005AAA25 /* Codecoverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/MKLayoutLibrary.dst;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MKLayoutLibrary/MKLayoutLibrary-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Codecoverage;
+		};
+		B5FEE507190151B1005AAA25 /* Codecoverage */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E17CAFEC62B04BF7A8718C6A /* Pods-MKLayoutLibraryTests.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MKLayoutLibrary/MKLayoutLibrary-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MKLayoutLibraryTests/MKLayoutLibraryTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					Foundation,
+					"-framework",
+					XCTest,
+					"-fprofile-arcs",
+					"-ftest-coverage",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Codecoverage;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -526,6 +607,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B582416C1881929A008A472F /* Debug */,
+				B5FEE505190151B1005AAA25 /* Codecoverage */,
 				B582416D1881929A008A472F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -535,6 +617,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B582416F1881929A008A472F /* Debug */,
+				B5FEE506190151B1005AAA25 /* Codecoverage */,
 				B58241701881929A008A472F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -544,6 +627,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B58241721881929A008A472F /* Debug */,
+				B5FEE507190151B1005AAA25 /* Codecoverage */,
 				B58241731881929A008A472F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
