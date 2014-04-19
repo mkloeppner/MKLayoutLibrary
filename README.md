@@ -301,3 +301,7 @@ for the overall layout size.
 ### XML Support
 
 There are plans for including a markup language for layouts.
+
+## Build status
+
+[![Build Status](https://travis-ci.org/mkloeppner/MKLayoutLibrary.svg?branch=master)](https://travis-ci.org/mkloeppner/MKLayoutLibrary)
