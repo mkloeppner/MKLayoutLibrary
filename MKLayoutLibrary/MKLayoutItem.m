@@ -67,7 +67,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
     [self.subview removeFromSuperview];
     
     for (MKLayoutItem *item in self.sublayout.items) {
-        [item removeFromLayout];
+        [item removeAssociatedViews];
     }
 }
 

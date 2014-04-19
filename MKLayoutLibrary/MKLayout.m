@@ -45,6 +45,7 @@
     self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
+#pragma mark - UIView and Layout
 - (MKLayoutItem *)addSubview:(UIView *)subview
 {
     return [self insertSubview:subview atIndex:self.items.count];
@@ -69,15 +70,7 @@
     return layoutItem;
 }
 
-- (void)removeLayoutItemAtIndex:(NSInteger)index
-{
-    MKLayoutItem *item = self.items[index];
-    [self.mutableItems removeObjectAtIndex:index];
-    if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
-        [self.delegate layout:self didRemoveLayoutItem:item];
-    }
-}
-
+#pragma mark - MKLayoutItem
 - (void)clear
 {
     NSArray *layoutItems = [self.items copy];
@@ -101,6 +94,20 @@
     if ([self.delegate respondsToSelector:@selector(layout:didAddLayoutItem:)]) {
         [self.delegate layout:self didAddLayoutItem:layoutItem];
     }
+}
+
+- (void)removeLayoutItemAtIndex:(NSInteger)index
+{
+    MKLayoutItem *item = self.items[index];
+    [self.mutableItems removeObjectAtIndex:index];
+    if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
+        [self.delegate layout:self didRemoveLayoutItem:item];
+    }
+}
+
+- (void)addLayoutItem:(MKLayoutItem *)layoutItem
+{
+    [self insertLayoutItem:layoutItem atIndex:self.items.count];
 }
 
 - (void)removeLayoutItem:(MKLayoutItem *)layoutItem
