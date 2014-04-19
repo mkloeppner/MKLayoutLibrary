@@ -13,7 +13,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
 
 @interface MKLayout (APIAccessor)
 
-- (void)removeLayoutItem:(MKLayoutItem *)layoutItem;
+- (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem;
 
 @end
 
@@ -59,7 +59,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
 - (void)removeFromLayout
 {
     [self removeAssociatedViews];
-    [self.layout removeLayoutItem:self];
+    [self.layout layoutItemWantsRemoval:self];
 }
 
 - (void)removeAssociatedViews

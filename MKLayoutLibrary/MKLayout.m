@@ -110,7 +110,7 @@
     [self insertLayoutItem:layoutItem atIndex:self.items.count];
 }
 
-- (void)removeLayoutItem:(MKLayoutItem *)layoutItem
+- (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem
 {
     [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
 }
