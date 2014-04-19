@@ -174,6 +174,15 @@
  */
 - (void)addLayoutItem:(MKLayoutItem *)layoutItem;
 
+/**
+ *  Removes a layout item from a layout.
+ *
+ * Additionally it removes its assoicated view, if its a view layout item or its associated sublayout views if its a sublayout item.
+ *
+ *  @param layoutItem The layout item to be removed from the layout
+ */
+- (void)removeLayoutItem:(MKLayoutItem *)layoutItem;
+
 #pragma mark - Layouting API
 /**
  * Calls layoutBounds with the associated view bounds

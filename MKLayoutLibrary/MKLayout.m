@@ -110,9 +110,9 @@
     [self insertLayoutItem:layoutItem atIndex:self.items.count];
 }
 
-- (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem
+- (void)removeLayoutItem:(MKLayoutItem *)layoutItem
 {
-    [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
+    [self removeLayoutItemAtIndex:[self.items indexOfObjectIdenticalTo:layoutItem]];
 }
 
 - (NSArray *)items
@@ -120,6 +120,7 @@
     return [NSArray arrayWithArray:self.mutableItems];
 }
 
+#pragma mark - Layouting
 - (void)layout
 {
     if ([self.delegate respondsToSelector:@selector(layoutDidStartToLayout:)]) {
@@ -257,6 +258,12 @@
 -(NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
 {
     return 0;
+}
+
+#pragma mark - Layout Item callbacks
+- (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem
+{
+    [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
 }
 
 @end

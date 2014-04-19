@@ -372,6 +372,18 @@ describe(@"MKLayout", ^{
         
     });
     
+    it(@"should provide a method to remove a layout item", ^{
+        
+        MKLayoutItem *item = [layout addSubview:subview1];
+        
+        expect(layout.items.count).to.equal(1);
+        
+        [layout removeLayoutItem:item];
+        
+        expect(layout.items.count).to.equal(0);
+        
+    });
+    
     it(@"should provide a method to add a layout item", ^{
         
         MKLayoutItem *item = [layout addSubview:subview1];
