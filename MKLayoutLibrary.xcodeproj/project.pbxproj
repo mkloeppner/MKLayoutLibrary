@@ -28,6 +28,7 @@
 		B582417F188192C7008A472F /* MKLayoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B582417D188192C7008A472F /* MKLayoutTests.m */; };
 		B5824180188192C7008A472F /* MKLinearLayoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B582417E188192C7008A472F /* MKLinearLayoutTests.m */; };
 		B58241821881937E008A472F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B58241811881937E008A472F /* UIKit.framework */; };
+		B5F68A8A19027104002068F2 /* MKLayoutItemTestsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F68A8919027104002068F2 /* MKLayoutItemTestsSpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		B582417D188192C7008A472F /* MKLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLayoutTests.m; sourceTree = "<group>"; };
 		B582417E188192C7008A472F /* MKLinearLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MKLinearLayoutTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B58241811881937E008A472F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B5F68A8919027104002068F2 /* MKLayoutItemTestsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLayoutItemTestsSpec.m; sourceTree = "<group>"; };
 		E17CAFEC62B04BF7A8718C6A /* Pods-MKLayoutLibraryTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MKLayoutLibraryTests.xcconfig"; path = "Pods/Pods-MKLayoutLibraryTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,6 +213,7 @@
 			children = (
 				B582416A1881929A008A472F /* MKLayoutLibraryTests.m */,
 				B582417D188192C7008A472F /* MKLayoutTests.m */,
+				B5F68A8919027104002068F2 /* MKLayoutItemTestsSpec.m */,
 				B582417E188192C7008A472F /* MKLinearLayoutTests.m */,
 				B54D407F1881C9C1007270DB /* MKStackLayoutTests.m */,
 				B523005918E8985C003E3494 /* MKLayoutLibraryLayoutIntegrationTests.m */,
@@ -364,6 +367,7 @@
 				B5824180188192C7008A472F /* MKLinearLayoutTests.m in Sources */,
 				B523005A18E8985C003E3494 /* MKLayoutLibraryLayoutIntegrationTests.m in Sources */,
 				716A82EE431A7BFC068E25E2 /* MKLinearLayoutSeparatorImpl.m in Sources */,
+				B5F68A8A19027104002068F2 /* MKLayoutItemTestsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
