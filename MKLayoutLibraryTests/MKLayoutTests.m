@@ -420,6 +420,21 @@ describe(@"MKLayout", ^{
         
     });
     
+    it(@"should provide a method to delete all child items", ^{
+        
+        [layout addSubview:subview1];
+        [layout addSubview:subview2];
+        [layout addSubview:subview3];
+        [layout addSubview:subview4];
+        
+        expect(layout.items.count).to.equal(4);
+        
+        [layout clear];
+        
+        expect(layout.items.count).to.equal(0);
+        
+    });
+    
 });
 
 SpecEnd

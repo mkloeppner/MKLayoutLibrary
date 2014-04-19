@@ -31,6 +31,4 @@ DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
  */
 @property (assign, nonatomic) id<MKLinearLayoutSeparatorDelegate> separatorDelegate;
 
-@property (strong, nonatomic) NSDictionary *userInfo;
-
 @end

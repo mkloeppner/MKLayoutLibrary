@@ -37,6 +37,17 @@ describe(@"MKLayoutItemTests", ^{
         subview4 = [[UIView alloc] initWithFrame:(CGRect){100.0f}];
     });
     
+    it(@"should provide a userInfo dictionary in order to allow introspection", ^{
+        
+        NSDictionary *userInfo = @{@"test": @"test"};
+        
+        MKLayoutItem *layoutItem = [layout addSubview:subview1];
+        layoutItem.userInfo = userInfo;
+        
+        expect(userInfo).to.equal(userInfo);
+        
+    });
+    
     it(@"should not remove its sublayout views if its a sublayout item and removeFromLayout is beeing called", ^{
         
         MKLayout *sublayout = [[MKLayout alloc] init];

@@ -61,6 +61,11 @@
 @interface MKLayout : NSObject
 
 /**
+ * Allows to store meta data for debugging, layout introspection ...
+ */
+@property (strong, nonatomic) NSDictionary *userInfo;
+
+/**
  * The layouts content scale factor
  *
  * The views frames will be set in points. With specifying the contentScaleFactor this frames will be round to perfectly match the grid.

@@ -132,9 +132,9 @@
 			children = (
 				B5824178188192B3008A472F /* MKLinearLayout.h */,
 				B5824179188192B3008A472F /* MKLinearLayout.m */,
+				716A81934CC93AE43B71E2E9 /* MKLinearLayoutSeparatorDelegate.h */,
 				B54D407C1881C5B0007270DB /* MKStackLayout.h */,
 				B54D407D1881C5B0007270DB /* MKStackLayout.m */,
-				716A81934CC93AE43B71E2E9 /* MKLinearLayoutSeparatorDelegate.h */,
 			);
 			name = Layouts;
 			sourceTree = "<group>";

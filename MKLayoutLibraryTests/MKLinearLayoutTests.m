@@ -53,6 +53,17 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.size.height).to.equal(layoutItem.size.height);
     });
     
+    it(@"should size a view with the parent size if nothing is specified", ^{
+        [layout addSubview:subview1];
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height);
+    });
     
     // Absolute layouting
     it(@"should layout a view horinzontally with the specified width", ^{
