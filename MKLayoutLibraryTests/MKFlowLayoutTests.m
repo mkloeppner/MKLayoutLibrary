@@ -67,8 +67,17 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
     
-    it(@"should layout two single items and break the line if the second item exceeds the available space", ^{
-       
+    it(@"should have horizontal orientation by default", ^{
+        
+        expect(layout.orientation).to.equal(MKLayoutOrientationHorizontal);
+        
+    });
+    
+    it(@"should layout two single items and start a new line if the second item exceeds the available width when using orientation horizontal", ^{
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        
         [layout addSubview:view1];
         [layout addSubview:view2];
         
@@ -78,7 +87,29 @@ describe(@"MKFlowLayoutTests", ^{
         expect(view1.frame.origin.y).to.equal(0);
         expect(view1.frame.size.width).to.equal(container.frame.size.width);
         expect(view1.frame.size.height).to.equal(container.frame.size.height);
-
+        
+        expect(view2.frame.origin.x).to.equal(0);
+        expect(view2.frame.origin.y).to.equal(container.frame.size.height);
+        expect(view2.frame.size.width).to.equal(container.frame.size.width);
+        expect(view2.frame.size.height).to.equal(container.frame.size.height);
+        
+    });
+    
+    it(@"should layout two single items and start a new column if the second item exceeds the available height when using orientation vertical", ^{
+        
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        
+        [layout addSubview:view1];
+        [layout addSubview:view2];
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0);
+        expect(view1.frame.origin.y).to.equal(0);
+        expect(view1.frame.size.width).to.equal(container.frame.size.width);
+        expect(view1.frame.size.height).to.equal(container.frame.size.height);
+        
         expect(view2.frame.origin.x).to.equal(0);
         expect(view2.frame.origin.y).to.equal(container.frame.size.height);
         expect(view2.frame.size.width).to.equal(container.frame.size.width);

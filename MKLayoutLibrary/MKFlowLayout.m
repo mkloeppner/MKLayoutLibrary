@@ -13,6 +13,15 @@
 
 SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
 
+- (instancetype)initWithView:(UIView *)view
+{
+    self = [super initWithView:view];
+    if (self) {
+        _orientation = MKLayoutOrientationHorizontal;
+    }
+    return self;
+}
+
 - (void)layoutBounds:(CGRect)bounds
 {
     CGFloat currentPositionX = 0.0f;

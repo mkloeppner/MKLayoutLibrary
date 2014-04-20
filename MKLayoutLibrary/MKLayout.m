@@ -23,26 +23,19 @@
     self = [super init];
     if (self) {
         self.view = view;
-        [self setDefaultValues];
+        self.contentScaleFactor = [[UIScreen mainScreen] scale];
+        self.mutableItems = [[NSMutableArray alloc] init];
+        self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     }
     return self;
 }
 
 - (id)init
 {
-    self = [super init];
+    self = [self initWithView:nil];
     if (self) {
-        self.view = nil;
-        [self setDefaultValues];
     }
     return self;
-}
-
-- (void)setDefaultValues
-{
-    self.contentScaleFactor = [[UIScreen mainScreen] scale];
-    self.mutableItems = [[NSMutableArray alloc] init];
-    self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 #pragma mark - UIView and Layout

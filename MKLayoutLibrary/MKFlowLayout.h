@@ -13,4 +13,14 @@
 
 DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
 
+/**
+ * Specifies in which direction the layout should place its childs.
+ *
+ * MKFlowLayout dynamically creates new rows or columns depending on orientations.
+ *
+ * MKLayoutOrientationHorizontal insert new line breaks if the space is exceeded
+ * MKLayoutOrientationVertical insert new columns if the space is exceeded
+ */
+@property (assign, nonatomic) MKLayoutOrientation orientation;
+
 @end
