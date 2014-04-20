@@ -24,6 +24,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
 
 - (void)layoutBounds:(CGRect)bounds
 {
+    // Globals for movement
     CGFloat currentPositionX = 0.0f;
     CGFloat currentPositionY = 0.0f;
     
@@ -31,26 +32,37 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
     
     for (MKFlowLayoutItem *item in self.items) {
         
+        // Get item sizes
+        CGFloat currentLengthHorizontal = bounds.size.width;
+        CGFloat currentLengthVertical = bounds.size.height;
+        
+        // Get pointer to the right values
+        CGFloat *currentOrientationPosition = self.orientation == MKLayoutOrientationHorizontal ? &currentPositionX : &currentPositionY;
+        CGFloat *currentOppositePosition  = self.orientation == MKLayoutOrientationHorizontal ? &currentPositionY : &currentPositionX;
+        CGFloat *currentLengthOfOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthHorizontal : &currentLengthVertical;
+        CGFloat *currentLengthOfOppositeOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthVertical : &currentLengthHorizontal;
+        
+        CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? bounds.size.width : bounds.size.height;
+        
         // If the current position exeeds the maximum available space jump to the next line
-        if (currentPositionX >= bounds.size.width) {
-            currentPositionX = 0.0f; // Carriage
-            currentPositionY += maximumOppositeLengthOfRow; // Return
+        if (*currentOrientationPosition >= totalAvailableLength) {
+            *currentOrientationPosition = 0.0f; // Carriage
+            *currentOppositePosition += maximumOppositeLengthOfRow; // Return
             
             maximumOppositeLengthOfRow = 0.0f; // Reset length
         }
         
-        // Get the vertical and horizontal length of the current item
-        CGFloat currentLengthHorizontal = bounds.size.width;
-        CGFloat currentLengthVertical = bounds.size.height;
         
-        
-        CGRect frame = CGRectMake(currentPositionX, currentPositionY, currentLengthHorizontal, currentLengthVertical);
+        CGRect frame = CGRectMake(currentPositionX,
+                                  currentPositionY,
+                                  currentLengthHorizontal,
+                                  currentLengthVertical);
         
         [item setFrame:frame];
         
-        maximumOppositeLengthOfRow = MAX(maximumOppositeLengthOfRow, currentLengthVertical);
+        maximumOppositeLengthOfRow = MAX(maximumOppositeLengthOfRow, *currentLengthOfOppositeOrientation);
         
-        currentPositionX += currentLengthHorizontal;
+        *currentOrientationPosition += *currentLengthOfOrientation;
         
     }
 }

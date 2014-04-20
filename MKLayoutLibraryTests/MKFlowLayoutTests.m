@@ -27,7 +27,7 @@ describe(@"MKFlowLayoutTests", ^{
     
     beforeEach(^{
         
-        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f)];
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 190.0f)];
         
         layout = [[MKFlowLayout alloc] initWithView:container];
         
@@ -110,8 +110,8 @@ describe(@"MKFlowLayoutTests", ^{
         expect(view1.frame.size.width).to.equal(container.frame.size.width);
         expect(view1.frame.size.height).to.equal(container.frame.size.height);
         
-        expect(view2.frame.origin.x).to.equal(0);
-        expect(view2.frame.origin.y).to.equal(container.frame.size.height);
+        expect(view2.frame.origin.x).to.equal(container.frame.size.width);
+        expect(view2.frame.origin.y).to.equal(0);
         expect(view2.frame.size.width).to.equal(container.frame.size.width);
         expect(view2.frame.size.height).to.equal(container.frame.size.height);
         
