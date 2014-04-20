@@ -27,14 +27,14 @@ describe(@"MKFlowLayoutTests", ^{
     
     beforeEach(^{
         
-        container = [[UIView alloc] initWithFrame:(CGRect){100.0f}];
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f)];
         
         layout = [[MKFlowLayout alloc] initWithView:container];
         
-        view1 = [[UIView alloc] initWithFrame:(CGRect){1.0f}];
-        view2 = [[UIView alloc] initWithFrame:(CGRect){1.0f}];
-        view3 = [[UIView alloc] initWithFrame:(CGRect){1.0f}];
-        view4 = [[UIView alloc] initWithFrame:(CGRect){1.0f}];
+        view1 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
+        view2 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
+        view3 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
+        view4 = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         
     });
     
@@ -64,6 +64,25 @@ describe(@"MKFlowLayoutTests", ^{
         expect(view1.frame.origin.y).to.equal(0);
         expect(view1.frame.size.width).to.equal(container.frame.size.width);
         expect(view1.frame.size.height).to.equal(container.frame.size.height);
+        
+    });
+    
+    it(@"should layout two single items and break the line if the second item exceeds the available space", ^{
+       
+        [layout addSubview:view1];
+        [layout addSubview:view2];
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0);
+        expect(view1.frame.origin.y).to.equal(0);
+        expect(view1.frame.size.width).to.equal(container.frame.size.width);
+        expect(view1.frame.size.height).to.equal(container.frame.size.height);
+
+        expect(view2.frame.origin.x).to.equal(0);
+        expect(view2.frame.origin.y).to.equal(container.frame.size.height);
+        expect(view2.frame.size.width).to.equal(container.frame.size.width);
+        expect(view2.frame.size.height).to.equal(container.frame.size.height);
         
     });
     
