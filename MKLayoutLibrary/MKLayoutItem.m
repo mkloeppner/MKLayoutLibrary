@@ -71,4 +71,13 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
     }
 }
 
+- (void)setFrame:(CGRect)rect
+{
+    if (self.subview) {
+        self.subview.frame = rect;
+    } else if (self.sublayout) {
+        [self.sublayout layoutBounds:rect];
+    }
+}
+
 @end

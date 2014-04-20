@@ -7,6 +7,7 @@
 //
 
 #import "MKStackLayout.h"
+#import "MKLayout_SubclassAccessors.h"
 
 @interface MKStackLayout ()
 
@@ -39,11 +40,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)
         rect.origin.x += item.offset.horizontal;
         rect.origin.y += item.offset.vertical;
         
-        if (item.subview) {
-            item.subview.frame = [self rectRoundedToGridWithRect:rect];
-        } else if (item.sublayout) {
-            [item.sublayout layoutBounds:rect];
-        }
+        rect = [self rectRoundedToGridWithRect:rect];
+        [item setFrame:rect];
     }
     
     if (!self.item.layout) {

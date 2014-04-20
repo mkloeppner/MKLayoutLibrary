@@ -8,6 +8,7 @@
 
 #import "MKLinearLayout.h"
 #import "MKLinearLayoutSeparatorDelegate.h"
+#import "MKLayout_SubclassAccessors.h"
 
 @interface MKLinearLayout ()
 
@@ -113,11 +114,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         rect.origin.y += item.offset.vertical;
         
         // Recursive layout
-        if (item.subview) {
-            item.subview.frame = [self rectRoundedToGridWithRect:rect];
-        } else if (item.sublayout) {
-            [item.sublayout layoutBounds:rect];
-        }
+        rect = [self rectRoundedToGridWithRect:rect];
+        [item setFrame:rect];
         
         // Increase the currentPos with the item length
         currentPos += itemLength;
