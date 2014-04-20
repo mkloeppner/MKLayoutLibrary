@@ -13,7 +13,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
 
 @interface MKLayout (APIAccessor)
 
-- (void)removeLayoutItem:(MKLayoutItem *)layoutItem;
+- (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem;
 
 @end
 
@@ -35,7 +35,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
         self.layout = layout;
         _gravity = MKLayoutGravityNone;
         _size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
-        _margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+        _padding = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
         _offset = UIOffsetMake(0.0f, 0.0f);
         _insertBorder = NO;
     }
@@ -59,7 +59,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
 - (void)removeFromLayout
 {
     [self removeAssociatedViews];
-    [self.layout removeLayoutItem:self];
+    [self.layout layoutItemWantsRemoval:self];
 }
 
 - (void)removeAssociatedViews

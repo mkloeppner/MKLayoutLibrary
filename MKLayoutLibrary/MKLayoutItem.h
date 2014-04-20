@@ -65,7 +65,7 @@ typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
 /**
  * Ensures a margin around the layout items view. 
  */
-@property (assign, nonatomic) UIEdgeInsets margin;
+@property (assign, nonatomic) UIEdgeInsets padding;
 
 /**
  * Moves the items view or sublayout by the specified offset.

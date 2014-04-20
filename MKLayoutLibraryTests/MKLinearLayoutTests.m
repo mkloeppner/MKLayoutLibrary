@@ -53,6 +53,17 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.size.height).to.equal(layoutItem.size.height);
     });
     
+    it(@"should size a view with the parent size if nothing is specified", ^{
+        [layout addSubview:subview1];
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        [layout layout];
+        
+        expect(subview1.frame.origin.x).to.equal(0.0f);
+        expect(subview1.frame.origin.y).to.equal(0.0f);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height);
+    });
     
     // Absolute layouting
     it(@"should layout a view horinzontally with the specified width", ^{
@@ -169,7 +180,7 @@ describe(@"MKLinearLayout", ^{
     it(@"should apply outer margin and item margin", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
-        layoutItem.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
+        layoutItem.padding = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
         
         layout.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         layout.orientation = MKLayoutOrientationHorizontal;
@@ -177,21 +188,21 @@ describe(@"MKLinearLayout", ^{
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 10.0f + 3.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 10.0f + 3.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.size.width - layoutItem.margin.left - layoutItem.margin.right);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width - layoutItem.padding.left - layoutItem.padding.right);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - 20.0f - 6.0f);
     });
     
     it(@"should layout a view horizontally with margin specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.size.width  - layoutItem.margin.left - layoutItem.margin.right);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width  - layoutItem.padding.left - layoutItem.padding.right);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - 10.0f);
     });
     
@@ -199,23 +210,23 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(30.0f, kMKLayoutItemSizeValueMatchParent);;
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.size = CGSizeMake(70.0f, kMKLayoutItemSizeValueMatchParent);
-        layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview1.frame.size.width).to.equal(layoutItem.size.width  - layoutItem.margin.left - layoutItem.margin.right);
+        expect(subview1.frame.size.width).to.equal(layoutItem.size.width  - layoutItem.padding.left - layoutItem.padding.right);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height - 10.0f);
         
         expect(subview2.frame.origin.x).to.equal(layoutItem.size.width + 5.0f);
         expect(subview2.frame.origin.y).to.equal(0.0f + 5.0f);
-        expect(subview2.frame.size.width).to.equal(layoutItem2.size.width  - layoutItem2.margin.left - layoutItem2.margin.right);
+        expect(subview2.frame.size.width).to.equal(layoutItem2.size.width  - layoutItem2.padding.left - layoutItem2.padding.right);
         expect(subview2.frame.size.height).to.equal(container.frame.size.height - 10.0f);
         
     });
@@ -223,7 +234,7 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout a view vertically with margin specified", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
@@ -231,18 +242,18 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f);
-        expect(subview1.frame.size.height).to.equal(layoutItem.size.height  - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height  - layoutItem.padding.top - layoutItem.padding.bottom);
     });
     
     it(@"should layout two views vertically with margin specified", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 70.0f);
-        layoutItem2.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
@@ -250,12 +261,12 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview1.frame.origin.y).to.equal(0.0f + 5.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width - 10.0f );
-        expect(subview1.frame.size.height).to.equal(layoutItem.size.height - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview1.frame.size.height).to.equal(layoutItem.size.height - layoutItem.padding.top - layoutItem.padding.bottom);
         
         expect(subview2.frame.origin.x).to.equal(0.0f + 5.0f);
         expect(subview2.frame.origin.y).to.equal(layoutItem.size.height + 5.0f);
         expect(subview2.frame.size.width).to.equal(container.frame.size.width - 10.0f);
-        expect(subview2.frame.size.height).to.equal(layoutItem2.size.height - layoutItem2.margin.top - layoutItem2.margin.bottom);
+        expect(subview2.frame.size.height).to.equal(layoutItem2.size.height - layoutItem2.padding.top - layoutItem2.padding.bottom);
         
     });
     
@@ -374,7 +385,7 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout a view horizontally with specified weight and margin", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
@@ -388,11 +399,11 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout two views horizontally with specified weights and different margins", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
@@ -411,11 +422,11 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout two views horizontally with different weights and different margins", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 2.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(13.0f, 13.0f, 13.0f, 13.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(13.0f, 13.0f, 13.0f, 13.0f);
         
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
@@ -434,7 +445,7 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout a view vertically with specified weight and margin", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
@@ -448,11 +459,11 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout two views vertically with specified weights and different margins", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
         layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
@@ -471,11 +482,11 @@ describe(@"MKLinearLayout", ^{
     it(@"should layout two views vertically with different weights and different margins", ^{
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 2.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
         layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
@@ -606,7 +617,7 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *sublayoutItem = [sublayout addSubview:subview1];
         sublayoutItem.weight = 1.0f;
-        sublayoutItem.margin = margin;
+        sublayoutItem.padding = margin;
         // Ends creation
         
         MKLinearLayoutItem *layoutItem = [layout addSublayout:sublayout];
@@ -664,12 +675,12 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *sublayoutItem = [sublayout addSubview:subview1];
         sublayoutItem.weight = 1.0f;
-        sublayoutItem.margin = sublayoutViewMargin;
+        sublayoutItem.padding = sublayoutViewMargin;
         // Ends creation
         
         MKLinearLayoutItem *layoutItem = [layout addSublayout:sublayout];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = margin;
+        layoutItem.padding = margin;
         
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
@@ -815,12 +826,12 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
@@ -829,15 +840,15 @@ describe(@"MKLinearLayout", ^{
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
-        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview1.frame.size.width).to.equal(container.frame.size.width / 2.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview1.frame.size.height).to.equal(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.padding.left);
+        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.padding.top);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width / 2.0f - 2.0f - layoutItem.padding.left - layoutItem.padding.right);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height - layoutItem.padding.top - layoutItem.padding.bottom);
         
-        expect(subview2.frame.origin.x).to.equal(container.frame.size.width / 2.0f + 2.0f + layoutItem.margin.left);
-        expect(subview2.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview2.frame.size.width).to.equal(container.frame.size.width / 2.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview2.frame.size.height).to.equal(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview2.frame.origin.x).to.equal(container.frame.size.width / 2.0f + 2.0f + layoutItem.padding.left);
+        expect(subview2.frame.origin.y).to.equal(0.0f + layoutItem.padding.top);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width / 2.0f - 2.0f - layoutItem.padding.left - layoutItem.padding.right);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height - layoutItem.padding.top - layoutItem.padding.bottom);
         
     });
     
@@ -845,17 +856,17 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem2.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
-        layoutItem3.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem3.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem3.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
@@ -864,20 +875,20 @@ describe(@"MKLinearLayout", ^{
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
-        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview1.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right, 1.0f);
-        expect(subview1.frame.size.height).to.beCloseToWithin(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
+        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.padding.left);
+        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.padding.top);
+        expect(subview1.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.padding.left - layoutItem.padding.right, 1.0f);
+        expect(subview1.frame.size.height).to.beCloseToWithin(container.frame.size.height - layoutItem.padding.top - layoutItem.padding.bottom, 1.0f);
         
-        expect(subview2.frame.origin.x).to.beCloseToWithin(container.frame.size.width / 3.0f + 2.0f + layoutItem.margin.left, 1.0f);
-        expect(subview2.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview2.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right, 1.0f);
-        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
+        expect(subview2.frame.origin.x).to.beCloseToWithin(container.frame.size.width / 3.0f + 2.0f + layoutItem.padding.left, 1.0f);
+        expect(subview2.frame.origin.y).to.equal(0.0f + layoutItem.padding.top);
+        expect(subview2.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.padding.left - layoutItem.padding.right, 1.0f);
+        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height - layoutItem.padding.top - layoutItem.padding.bottom, 1.0f);
         
-        expect(subview3.frame.origin.x).to.beCloseToWithin(container.frame.size.width / 3.0f * 2.0f + 2.0f + layoutItem.margin.left, 1.0f);
-        expect(subview3.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview3.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.margin.left - layoutItem.margin.right, 1.0f);
-        expect(subview3.frame.size.height).to.equal(container.frame.size.height - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview3.frame.origin.x).to.beCloseToWithin(container.frame.size.width / 3.0f * 2.0f + 2.0f + layoutItem.padding.left, 1.0f);
+        expect(subview3.frame.origin.y).to.equal(0.0f + layoutItem.padding.top);
+        expect(subview3.frame.size.width).to.beCloseToWithin(container.frame.size.width / 3.0f - 2.0f - layoutItem.padding.left - layoutItem.padding.right, 1.0f);
+        expect(subview3.frame.size.height).to.equal(container.frame.size.height - layoutItem.padding.top - layoutItem.padding.bottom);
         
     });
     
@@ -885,12 +896,12 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
@@ -899,15 +910,15 @@ describe(@"MKLinearLayout", ^{
         layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
-        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview1.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview1.frame.size.height).to.equal(container.frame.size.height / 2.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.padding.left);
+        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.padding.top);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width - layoutItem.padding.left - layoutItem.padding.right);
+        expect(subview1.frame.size.height).to.equal(container.frame.size.height / 2.0f - 2.0f - layoutItem.padding.top - layoutItem.padding.bottom);
         
-        expect(subview2.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview2.frame.origin.y).to.equal(container.frame.size.height / 2.0f + 2.0f + layoutItem.margin.top);
-        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview2.frame.size.height).to.equal(container.frame.size.height / 2.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom);
+        expect(subview2.frame.origin.x).to.equal(0.0f + layoutItem.padding.left);
+        expect(subview2.frame.origin.y).to.equal(container.frame.size.height / 2.0f + 2.0f + layoutItem.padding.top);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.padding.left - layoutItem.padding.right);
+        expect(subview2.frame.size.height).to.equal(container.frame.size.height / 2.0f - 2.0f - layoutItem.padding.top - layoutItem.padding.bottom);
         
     });
     
@@ -915,17 +926,17 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem2.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem3 = [layout addSubview:subview3];
         layoutItem3.weight = 1.0f;
-        layoutItem3.margin = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
+        layoutItem3.padding = UIEdgeInsetsMake(4.0f, 6.0f, 3.0f, 2.0f);
         layoutItem3.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
@@ -936,20 +947,20 @@ describe(@"MKLinearLayout", ^{
         layout.orientation = MKLayoutOrientationVertical;
         [layout layout];
         
-        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.margin.top);
-        expect(subview1.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview1.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
+        expect(subview1.frame.origin.x).to.equal(0.0f + layoutItem.padding.left);
+        expect(subview1.frame.origin.y).to.equal(0.0f + layoutItem.padding.top);
+        expect(subview1.frame.size.width).to.equal(container.frame.size.width - layoutItem.padding.left - layoutItem.padding.right);
+        expect(subview1.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.padding.top - layoutItem.padding.bottom, 1.0f);
         
-        expect(subview2.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview2.frame.origin.y).to.beCloseToWithin(container.frame.size.height / 3.0f + 2.0f + layoutItem.margin.top, 1.0f);
-        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
+        expect(subview2.frame.origin.x).to.equal(0.0f + layoutItem.padding.left);
+        expect(subview2.frame.origin.y).to.beCloseToWithin(container.frame.size.height / 3.0f + 2.0f + layoutItem.padding.top, 1.0f);
+        expect(subview2.frame.size.width).to.equal(container.frame.size.width - layoutItem.padding.left - layoutItem.padding.right);
+        expect(subview2.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.padding.top - layoutItem.padding.bottom, 1.0f);
         
-        expect(subview3.frame.origin.x).to.equal(0.0f + layoutItem.margin.left);
-        expect(subview3.frame.origin.y).to.beCloseToWithin(container.frame.size.height / 3.0f * 2.0f + 2.0f + layoutItem.margin.top, 1.0f);
-        expect(subview3.frame.size.width).to.equal(container.frame.size.width - layoutItem.margin.left - layoutItem.margin.right);
-        expect(subview3.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.margin.top - layoutItem.margin.bottom, 1.0f);
+        expect(subview3.frame.origin.x).to.equal(0.0f + layoutItem.padding.left);
+        expect(subview3.frame.origin.y).to.beCloseToWithin(container.frame.size.height / 3.0f * 2.0f + 2.0f + layoutItem.padding.top, 1.0f);
+        expect(subview3.frame.size.width).to.equal(container.frame.size.width - layoutItem.padding.left - layoutItem.padding.right);
+        expect(subview3.frame.size.height).to.beCloseToWithin(container.frame.size.height / 3.0f - 2.0f - layoutItem.padding.top - layoutItem.padding.bottom, 1.0f);
         
     });
     
@@ -1019,12 +1030,12 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        layoutItem.padding = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
         layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(6.0f, 6.0f, 6.0f, 6.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(6.0f, 6.0f, 6.0f, 6.0f);
         layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:10.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
@@ -1052,12 +1063,12 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-        layoutItem.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        layoutItem.padding = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
         layoutItem.insertBorder = YES;
         
         MKLinearLayoutItem *layoutItem2 = [layout addSubview:subview2];
         layoutItem2.weight = 1.0f;
-        layoutItem2.margin = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(4.0f, 4.0f, 4.0f, 4.0f);
         layoutItem2.insertBorder = YES;
         
         separatorDefinition = [MKLinearLayoutSeparatorImpl separatorWithSeparatorThickness:4.0f separatorIntersectionOffsets:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];

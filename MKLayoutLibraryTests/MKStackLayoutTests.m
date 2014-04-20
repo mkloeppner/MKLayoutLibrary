@@ -98,7 +98,7 @@ describe(@"MKStackLayout", ^{
     it(@"should insert a margin for a view its specified", ^{
         
         MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
-        layoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem1.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
 
         [layout layout];
         
@@ -126,7 +126,7 @@ describe(@"MKStackLayout", ^{
     it(@"should apply outer margin and the cell item margin", ^{
 
         MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
-        layoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem1.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
 
         layout.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
         [layout layout];
@@ -143,8 +143,8 @@ describe(@"MKStackLayout", ^{
         MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
         MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
         
-        layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
-        layoutItem2.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
+        layoutItem1.padding = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
         
         [layout layout];
         
@@ -170,8 +170,8 @@ describe(@"MKStackLayout", ^{
         MKStackLayoutItem *layoutItem1 = [layout addSubview:subview1];
         MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
 
-        layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
-        layoutItem2.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
+        layoutItem1.padding = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
 
         layout.margin = UIEdgeInsetsMake(2.0f, 2.0f, 2.0f, 2.0f);
         [layout layout];
@@ -212,7 +212,7 @@ describe(@"MKStackLayout", ^{
         
         MKStackLayout *sublayout = [[MKStackLayout alloc] initWithView:container];
         MKStackLayoutItem *layoutItem1 = [sublayout addSubview:subview1];
-        layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layoutItem1.padding = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
         
         [layout addSublayout:sublayout];
         
@@ -232,8 +232,8 @@ describe(@"MKStackLayout", ^{
         
         MKStackLayoutItem *layoutItem2 = [stackLayout addSubview:subview1];
         
-        layoutItem1.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
-        layoutItem2.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
+        layoutItem1.padding = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
         
         [layout layout];
         
@@ -255,9 +255,9 @@ describe(@"MKStackLayout", ^{
         
         MKStackLayoutItem *viewLayoutItem = [stackLayout2 addSubview:subview1];
         
-        stackLayoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
-        stackLayoutItem2.margin = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
-        viewLayoutItem.margin = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
+        stackLayoutItem1.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        stackLayoutItem2.padding = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        viewLayoutItem.padding = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
         
         stackLayoutItem1.userInfo = @{@"name" : @"stackLayoutItem1"};
         stackLayoutItem2.userInfo = @{@"name" : @"stackLayoutItem2"};
@@ -331,21 +331,21 @@ describe(@"MKStackLayout", ^{
         MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
         
         layoutItem1.size = CGSizeMake(57.0f, 57.0f);
-        layoutItem1.margin = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem1.padding = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
         layoutItem2.size = CGSizeMake(31.0f, 10.0f);
-        layoutItem2.margin = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(3.0f, 3.0f, 3.0f, 3.0f);
         
         [layout layout];
         
-        expect(layoutItem1.margin.left).to.equal(subview1.frame.origin.x);
-        expect(layoutItem1.margin.top).to.equal(subview1.frame.origin.y);
-        expect(layoutItem1.size.width - layoutItem1.margin.left - layoutItem1.margin.right).to.equal(subview1.frame.size.width);
-        expect(layoutItem1.size.height - layoutItem1.margin.top - layoutItem1.margin.bottom).to.equal(subview1.frame.size.height);
+        expect(layoutItem1.padding.left).to.equal(subview1.frame.origin.x);
+        expect(layoutItem1.padding.top).to.equal(subview1.frame.origin.y);
+        expect(layoutItem1.size.width - layoutItem1.padding.left - layoutItem1.padding.right).to.equal(subview1.frame.size.width);
+        expect(layoutItem1.size.height - layoutItem1.padding.top - layoutItem1.padding.bottom).to.equal(subview1.frame.size.height);
         
-        expect(layoutItem2.margin.left).to.equal(subview2.frame.origin.x);
-        expect(layoutItem2.margin.top).to.equal(subview2.frame.origin.y);
-        expect(layoutItem2.size.width - layoutItem2.margin.left - layoutItem2.margin.right).to.equal(subview2.frame.size.width);
-        expect(layoutItem2.size.height - layoutItem2.margin.top - layoutItem2.margin.bottom).to.equal(subview2.frame.size.height);
+        expect(layoutItem2.padding.left).to.equal(subview2.frame.origin.x);
+        expect(layoutItem2.padding.top).to.equal(subview2.frame.origin.y);
+        expect(layoutItem2.size.width - layoutItem2.padding.left - layoutItem2.padding.right).to.equal(subview2.frame.size.width);
+        expect(layoutItem2.size.height - layoutItem2.padding.top - layoutItem2.padding.bottom).to.equal(subview2.frame.size.height);
         
         // draw order
         expect(layout.items.count).to.equal(2);
@@ -361,23 +361,23 @@ describe(@"MKStackLayout", ^{
         MKStackLayoutItem *layoutItem2 = [layout addSubview:subview2];
         
         layoutItem1.size = CGSizeMake(57.0f, 57.0f);
-        layoutItem1.margin = UIEdgeInsetsMake(7.0f, 5.0f, 5.0f, 5.0f);
+        layoutItem1.padding = UIEdgeInsetsMake(7.0f, 5.0f, 5.0f, 5.0f);
         layoutItem1.gravity = MKLayoutGravityTop | MKLayoutGravityLeft;
         layoutItem2.size = CGSizeMake(31.0f, 25.0f);
-        layoutItem2.margin = UIEdgeInsetsMake(6.0f, 4.0f, 3.0f, 3.0f);
+        layoutItem2.padding = UIEdgeInsetsMake(6.0f, 4.0f, 3.0f, 3.0f);
         layoutItem2.gravity = MKLayoutGravityBottom | MKLayoutGravityRight;
         
         [layout layout];
         
-        expect(layoutItem1.margin.left).to.equal(subview1.frame.origin.x);
-        expect(layoutItem1.margin.top).to.equal(subview1.frame.origin.y);
-        expect(layoutItem1.size.width - layoutItem1.margin.left - layoutItem1.margin.right).to.equal(subview1.frame.size.width);
-        expect(layoutItem1.size.height - layoutItem1.margin.top - layoutItem1.margin.bottom).to.equal(subview1.frame.size.height);
+        expect(layoutItem1.padding.left).to.equal(subview1.frame.origin.x);
+        expect(layoutItem1.padding.top).to.equal(subview1.frame.origin.y);
+        expect(layoutItem1.size.width - layoutItem1.padding.left - layoutItem1.padding.right).to.equal(subview1.frame.size.width);
+        expect(layoutItem1.size.height - layoutItem1.padding.top - layoutItem1.padding.bottom).to.equal(subview1.frame.size.height);
         
-        expect(container.frame.size.width - layoutItem2.size.width + layoutItem2.margin.left).to.equal(subview2.frame.origin.x);
-        expect(container.frame.size.height - layoutItem2.size.height + layoutItem2.margin.top).to.equal(subview2.frame.origin.y);
-        expect(layoutItem2.size.width - layoutItem2.margin.left - layoutItem2.margin.right).to.equal(subview2.frame.size.width);
-        expect(layoutItem2.size.height - layoutItem2.margin.top - layoutItem2.margin.bottom).to.equal(subview2.frame.size.height);
+        expect(container.frame.size.width - layoutItem2.size.width + layoutItem2.padding.left).to.equal(subview2.frame.origin.x);
+        expect(container.frame.size.height - layoutItem2.size.height + layoutItem2.padding.top).to.equal(subview2.frame.origin.y);
+        expect(layoutItem2.size.width - layoutItem2.padding.left - layoutItem2.padding.right).to.equal(subview2.frame.size.width);
+        expect(layoutItem2.size.height - layoutItem2.padding.top - layoutItem2.padding.bottom).to.equal(subview2.frame.size.height);
         
         // draw order
         expect(layout.items.count).to.equal(2);
