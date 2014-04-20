@@ -114,7 +114,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         rect.origin.y += item.offset.vertical;
         
         // Recursive layout
-        rect = [self rectRoundedToGridWithRect:rect];
         [item setFrame:rect];
         
         // Increase the currentPos with the item length

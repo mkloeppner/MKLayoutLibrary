@@ -40,7 +40,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)
         rect.origin.x += item.offset.horizontal;
         rect.origin.y += item.offset.vertical;
         
-        rect = [self rectRoundedToGridWithRect:rect];
         [item setFrame:rect];
     }
     
