@@ -61,12 +61,14 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         }
         
         
-        CGRect frame = CGRectMake(currentPositionX,
+        CGRect outerRect = CGRectMake(currentPositionX,
                                   currentPositionY,
                                   currentLengthHorizontal,
                                   currentLengthVertical);
         
-        [item setFrame:frame];
+        CGRect paddingRect = UIEdgeInsetsInsetRect(outerRect, item.padding);
+        
+        [item setFrame:paddingRect];
         
         maximumOppositeLengthOfRow = MAX(maximumOppositeLengthOfRow, *currentLengthOfOppositeOrientation);
         

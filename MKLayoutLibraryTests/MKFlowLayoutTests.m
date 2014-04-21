@@ -118,7 +118,7 @@ describe(@"MKFlowLayoutTests", ^{
     });
     
     it(@"should apply fixed size for a single item", ^{
-       
+        
         MKFlowLayoutItem *item = [layout addSubview:view1];
         item.size = CGSizeMake(30.0f, 30.0f);
         
@@ -150,6 +150,36 @@ describe(@"MKFlowLayoutTests", ^{
         expect(view2.frame.origin.y).to.equal(item.size.height);
         expect(view2.frame.size.width).to.equal(item2.size.width);
         expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
+    
+    it(@"should apply padding on an item with match parent", ^{
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, kMKLayoutItemSizeValueMatchParent);
+        item.padding = UIEdgeInsetsMake(3.0f, 5.0f, 1.0f, 2.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(item.padding.left);
+        expect(view1.frame.origin.y).to.equal(item.padding.top);
+        expect(view1.frame.size.width).to.equal(container.frame.size.width - item.padding.left - item.padding.right);
+        expect(view1.frame.size.height).to.equal(container.frame.size.height - item.padding.top - item.padding.bottom);
+        
+    });
+    
+    it(@"should apply padding on an item with fixed size", ^{
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 30.0f);
+        item.padding = UIEdgeInsetsMake(3.0f, 5.0f, 1.0f, 2.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(item.padding.left);
+        expect(view1.frame.origin.y).to.equal(item.padding.top);
+        expect(view1.frame.size.width).to.equal(item.size.width - item.padding.left - item.padding.right);
+        expect(view1.frame.size.height).to.equal(item.size.height - item.padding.top - item.padding.bottom);
         
     });
     
