@@ -131,6 +131,28 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
     
+    it(@"should layout two single items with fixed sizes and start a new line break if the size exceeds the container space", ^{
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 30.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(110.0f, 30.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0);
+        expect(view1.frame.origin.y).to.equal(0);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(0);
+        expect(view2.frame.origin.y).to.equal(item.size.height);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
+    
 });
 
 SpecEnd

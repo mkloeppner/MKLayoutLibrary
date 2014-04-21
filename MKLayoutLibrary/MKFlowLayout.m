@@ -53,7 +53,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? bounds.size.width : bounds.size.height;
         
         // If the current position exeeds the maximum available space jump to the next line
-        if (*currentOrientationPosition >= totalAvailableLength) {
+        if (*currentOrientationPosition + *currentLengthOfOrientation >= totalAvailableLength) {
             *currentOrientationPosition = 0.0f; // Carriage
             *currentOppositePosition += maximumOppositeLengthOfRow; // Return
             
