@@ -285,13 +285,6 @@ Until version 1.0 MKLayoutLibrary is under rapid development which means, that t
 can slightly changed until that. However, here is a list of features planned for
 Version 1.0.
 
-### Flow-Layout
-
-Linear layout is rally useful and makes sense for static contents or scroll views but
-flow layouts should provide dynamic line breaks if following items doesn't fit into
-into the left space for the current line. This results into container size changes
-that needs to be supported especially for the planned WRAP_CONTENT feature.
-
 ### WRAP_CONTENT
 
 It is also planned to specify sizes that matches their contents. As layout items
