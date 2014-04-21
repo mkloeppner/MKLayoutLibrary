@@ -15,6 +15,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
 
 - (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem;
 - (void)runLayout:(CGRect)rect;
+- (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity;
 
 @end
 

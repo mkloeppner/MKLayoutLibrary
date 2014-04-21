@@ -178,7 +178,15 @@
     }
 }
 
-// Layout helper
+/**
+ * Moves an rect within an other rect and uses the gravity to align it within.
+ *
+ *      Note: If gravity is MKLayoutGravityNone the method exits immediately with return the rect param.
+ *
+ * @param gravity Specifies to which edge an inner rectangle is bound of an outer rectangle in horizontal and vertical manner
+ * @param rect The inner rect that is beeing moved by a gravity
+ *
+ */
 - (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity {
     if (MKLayoutGravityNone == gravity) {
         return rect;
