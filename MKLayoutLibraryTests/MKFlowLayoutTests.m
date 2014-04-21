@@ -439,6 +439,75 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
     
+    it(@"should create 3 rows for a horizontal flow layout with items matching the width perfecly", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f) ];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(100.0f, 200.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(100.0f, 200.0f);
+
+        MKFlowLayoutItem *item3 = [layout addSubview:view3];
+        item3.size = CGSizeMake(100.0f, 200.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0.0f);
+        expect(view1.frame.origin.y).to.equal(0.0f);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(0.0f);
+        expect(view2.frame.origin.y).to.equal(item.size.height);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+        expect(view3.frame.origin.x).to.equal(0.0f);
+        expect(view3.frame.origin.y).to.equal(item.size.height + item2.size.height);
+        expect(view3.frame.size.width).to.equal(item3.size.width);
+        expect(view3.frame.size.height).to.equal(item3.size.height);
+        
+    });
+
+    it(@"should create 3 rows for a horizontal flow layout with items matching the height perfecly for a vertical layout", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f) ];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(200.0f, 100.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(200.0f, 100.0f);
+        
+        MKFlowLayoutItem *item3 = [layout addSubview:view3];
+        item3.size = CGSizeMake(200.0f, 100.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0.0f);
+        expect(view1.frame.origin.y).to.equal(0.0f);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(item.size.width);
+        expect(view2.frame.origin.y).to.equal(0.0f);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+        expect(view3.frame.origin.x).to.equal(item.size.width + item2.size.width);
+        expect(view3.frame.origin.y).to.equal(0.0f);
+        expect(view3.frame.size.width).to.equal(item3.size.width);
+        expect(view3.frame.size.height).to.equal(item3.size.height);
+        
+    });
     
 });
 
