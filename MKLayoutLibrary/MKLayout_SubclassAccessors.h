@@ -18,3 +18,11 @@
 
 @end
 
+@interface MKLayout ()
+
+/**
+ *  The bounds to layout
+ */
+@property (assign, nonatomic) CGRect bounds;
+
+@end

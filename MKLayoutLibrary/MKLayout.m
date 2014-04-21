@@ -13,7 +13,8 @@
 @property (strong, nonatomic, readwrite) MKLayoutItem *item;
 
 @property (strong, nonatomic) NSMutableArray *mutableItems;
-
+@property (assign, nonatomic) CGRect bounds;
+ 
 @end
 
 @implementation MKLayout
@@ -119,10 +120,23 @@
     if ([self.delegate respondsToSelector:@selector(layoutDidStartToLayout:)]) {
         [self.delegate layoutDidStartToLayout:self];
     }
-    [self layoutBounds:self.view.bounds];
+    [self runLayout:self.view.bounds];
     if ([self.delegate respondsToSelector:@selector(layoutDidFinishToLayout:)]) {
         [self.delegate layoutDidFinishToLayout:self];
     }
+}
+
+- (void)runLayout:(CGRect)bounds
+{
+    self.bounds = UIEdgeInsetsInsetRect(bounds, self.margin);
+    
+    [self layoutBounds:bounds];
+    
+    if (!self.item.layout) {
+        [self callSeparatorDelegate];
+    }
+    
+    self.bounds = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 - (void)layoutBounds:(CGRect)bounds
@@ -130,6 +144,7 @@
     
 }
 
+#pragma mark - Setter
 - (void)setView:(UIView *)view
 {
     _view = view;
@@ -248,15 +263,35 @@
     return -1;
 }
 
--(NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
-{
-    return 0;
-}
-
 #pragma mark - Layout Item callbacks
 - (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem
 {
     [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
+}
+
+#pragma mark - Separator management
+- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
+{
+    NSInteger numberOfSeparators = 0;
+    
+    for (MKLayoutItem *item in self.items) {
+        if (item.sublayout) {
+            MKLayout *layout = (MKLayout *)item.sublayout;
+            numberOfSeparators += [layout numberOfSeparatorsForSeparatorOrientation:orientation];
+        }
+    }
+    
+    return numberOfSeparators;
+}
+
+- (void)callSeparatorDelegate
+{
+    for (MKLayoutItem *item in self.items) {
+        if (item.sublayout && [item.sublayout respondsToSelector:@selector(callSeparatorDelegate)]) {
+            id sublayout = item.sublayout;
+            [sublayout callSeparatorDelegate];
+        }
+    }
 }
 
 @end

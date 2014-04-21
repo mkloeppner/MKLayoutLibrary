@@ -14,6 +14,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
 @interface MKLayout (APIAccessor)
 
 - (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem;
+- (void)runLayout:(CGRect)rect;
 
 @end
 
@@ -96,7 +97,7 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
         rect = [self.layout rectRoundedToGridWithRect:rect];
         self.subview.frame = rect;
     } else if (self.sublayout) {
-        [self.sublayout layoutBounds:rect];
+        [self.sublayout runLayout:rect];
     }
 }
 

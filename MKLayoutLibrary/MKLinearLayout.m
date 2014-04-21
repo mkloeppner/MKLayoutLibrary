@@ -101,10 +101,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         currentPos += itemLength;
         
     }
-    
-    if (!self.item.layout) {
-        [self callSeparatorDelegate];
-    }
 }
 
 /**
