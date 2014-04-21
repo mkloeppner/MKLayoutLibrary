@@ -32,11 +32,14 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
 {
     self.bounds = bounds;
     
+    
+    NSArray *rowHeights = [self calculateRowHeights];
+    
     // Globals for movement
     CGFloat currentPositionX = 0.0f;
     CGFloat currentPositionY = 0.0f;
     
-    CGFloat maximumOppositeLengthOfRow = 0.0f;
+    NSUInteger rowIndex = 0;
     
     for (MKFlowLayoutItem *item in self.items) {
         
@@ -50,31 +53,102 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         CGFloat *currentLengthOfOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthHorizontal : &currentLengthVertical;
         CGFloat *currentLengthOfOppositeOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthVertical : &currentLengthHorizontal;
         
-        CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? bounds.size.width : bounds.size.height;
+        CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? self.bounds.size.width : self.bounds.size.height;
+        
+        BOOL needsLineBreak = *currentOrientationPosition + *currentLengthOfOrientation > totalAvailableLength;
         
         // If the current position exeeds the maximum available space jump to the next line
-        if (*currentOrientationPosition + *currentLengthOfOrientation >= totalAvailableLength) {
+        if (needsLineBreak) {
             *currentOrientationPosition = 0.0f; // Carriage
-            *currentOppositePosition += maximumOppositeLengthOfRow; // Return
+            
+            NSNumber *rowHeightNumber = rowHeights[rowIndex];
+            CGFloat rowHeight = rowHeightNumber.floatValue;
+            
+            *currentOppositePosition += rowHeight; // Return;
+            rowIndex += 1;
+        }
+        
+        // Get current rows height
+        NSNumber *rowHeightNumber = rowHeights[rowIndex];
+        CGFloat rowHeight = rowHeightNumber.floatValue;
+        
+        
+        // The total available space
+        CGRect outerRect = CGRectMake(currentPositionX,
+                                      currentPositionY,
+                                      self.orientation == MKLayoutOrientationHorizontal ? currentLengthHorizontal : rowHeight,
+                                      self.orientation == MKLayoutOrientationVertical ? currentLengthVertical : rowHeight);
+        
+        // Make a padding rect within the item is being placed
+        CGRect paddingRect = UIEdgeInsetsInsetRect(outerRect, item.padding);
+        
+        // The item rect needs to apply padding
+        CGRect itemRect = outerRect;
+        if (item.size.width != kMKLayoutItemSizeValueMatchParent) {
+            itemRect.size.width = item.size.width;
+        }
+        if (item.size.height != kMKLayoutItemSizeValueMatchParent) {
+            itemRect.size.height = item.size.height;
+        }
+        itemRect = UIEdgeInsetsInsetRect(itemRect, item.padding);
+        
+        itemRect = [self applyGravity:item.gravity withRect:itemRect withinRect:paddingRect];
+        
+        [item setFrame:itemRect];
+        
+        *currentOrientationPosition += *currentLengthOfOrientation;
+        
+    }
+}
+
+- (NSArray *)calculateRowHeights
+{
+    // Globals for movement
+    CGFloat currentPositionX = 0.0f;
+    CGFloat currentPositionY = 0.0f;
+    
+    CGFloat maximumOppositeLengthOfRow = 0.0f;
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (NSUInteger i = 0; i < self.items.count; i++) {
+        
+        MKFlowLayoutItem *item = self.items[i];
+        
+        // Get item sizes
+        CGFloat currentLengthHorizontal = [self horizontalLengthForItem:item];
+        CGFloat currentLengthVertical = [self verticalLengthForItem:item];
+        
+        // Get pointer to the right values
+        CGFloat *currentOrientationPosition = self.orientation == MKLayoutOrientationHorizontal ? &currentPositionX : &currentPositionY;
+        CGFloat *currentLengthOfOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthHorizontal : &currentLengthVertical;
+        CGFloat *currentLengthOfOppositeOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthVertical : &currentLengthHorizontal;
+        
+        CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? self.bounds.size.width : self.bounds.size.height;
+        
+        // If the current position exeeds the maximum available space jump to the next line
+        
+        BOOL isLastItemInCurrentRow = *currentOrientationPosition + *currentLengthOfOrientation >= totalAvailableLength;
+        if (i < self.items.count - 1) {
+            MKFlowLayoutItem *nextItem = self.items[i + 1];
+            isLastItemInCurrentRow |= *currentOrientationPosition + *currentLengthOfOrientation + nextItem.size.width >= totalAvailableLength;
+        }
+        
+        if (isLastItemInCurrentRow || [self.items lastObject] == item) {
+            *currentOrientationPosition = 0.0f; // Carriage
+            maximumOppositeLengthOfRow = MAX(maximumOppositeLengthOfRow, *currentLengthOfOppositeOrientation);
+            [array addObject:@(maximumOppositeLengthOfRow)];
             
             maximumOppositeLengthOfRow = 0.0f; // Reset length
         }
-        
-        
-        CGRect outerRect = CGRectMake(currentPositionX,
-                                  currentPositionY,
-                                  currentLengthHorizontal,
-                                  currentLengthVertical);
-        
-        CGRect paddingRect = UIEdgeInsetsInsetRect(outerRect, item.padding);
-        
-        [item setFrame:paddingRect];
         
         maximumOppositeLengthOfRow = MAX(maximumOppositeLengthOfRow, *currentLengthOfOppositeOrientation);
         
         *currentOrientationPosition += *currentLengthOfOrientation;
         
     }
+    
+    return [NSArray arrayWithArray:array];
 }
 
 - (CGFloat)horizontalLengthForItem:(MKLayoutItem *)item
