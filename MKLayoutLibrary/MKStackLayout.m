@@ -25,22 +25,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)
     
     for (NSUInteger i = 0; i < self.items.count; i++) {
         MKStackLayoutItem *item = self.items[i];
-        
-        CGRect rect = [self rectForItem:item];
-        
-        rect.origin.x += self.bounds.origin.x;
-        rect.origin.y += self.bounds.origin.y;
-        
-        // In order to generate the inner margins we already reduced the size of the inner rect
-        rect = UIEdgeInsetsInsetRect(rect, item.padding);
-        
-        // Now we move the view to the edges of the outer rectange so we have to apply the margin on the outer rect too
-        rect = [self applyGravity:item.gravity withRect:rect withinRect:UIEdgeInsetsInsetRect(self.bounds, item.padding)];
-        
-        rect.origin.x += item.offset.horizontal;
-        rect.origin.y += item.offset.vertical;
-        
-        [item setFrame:rect];
+        [item applyPositionWithinLayoutFrame:self.bounds];
     }
     
     if (!self.item.layout) {
@@ -48,30 +33,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)
     }
     
     self.bounds = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-}
-
-- (CGRect)rectForItem:(MKStackLayoutItem *)item
-{
-    CGRect rect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-    rect.size.width = [self widthForItem:item];
-    rect.size.height = [self heightForItem:item];
-    return rect;
-}
-
-- (CGFloat)widthForItem:(MKStackLayoutItem *)item
-{
-    if (item.size.width == kMKLayoutItemSizeValueMatchParent) {
-        return self.bounds.size.width;
-    }
-    return item.size.width;
-}
-
-- (CGFloat)heightForItem:(MKStackLayoutItem *)item
-{
-    if (item.size.height == kMKLayoutItemSizeValueMatchParent) {
-        return self.bounds.size.height;
-    }
-    return item.size.height;
 }
 
 - (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation

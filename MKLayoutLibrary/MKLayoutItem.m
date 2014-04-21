@@ -71,8 +71,27 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
     }
 }
 
-- (void)setFrame:(CGRect)rect
+- (void)applyPositionWithinLayoutFrame:(CGRect)itemOuterRect
 {
+    CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, self.padding);
+    
+    // Apply items size value if beeing set
+    CGRect itemRect = itemOuterRect; // Take the outer rect without margin applied to prevent applying margin twice
+    if (self.size.width != kMKLayoutItemSizeValueMatchParent) {
+        itemRect.size.width = self.size.width;
+    }
+    if (self.size.height != kMKLayoutItemSizeValueMatchParent) {
+        itemRect.size.height = self.size.height;
+    }
+    
+    itemRect = UIEdgeInsetsInsetRect(itemRect, self.padding);
+    
+    // Move it within the margin bounds if there is a gravity
+    CGRect rect = [self.layout applyGravity:self.gravity withRect:itemRect withinRect:marginRect];
+    
+    rect.origin.x += self.offset.horizontal;
+    rect.origin.y += self.offset.vertical;
+    
     if (self.subview) {
         rect = [self.layout rectRoundedToGridWithRect:rect];
         self.subview.frame = rect;
