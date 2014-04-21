@@ -13,7 +13,8 @@
 @property (strong, nonatomic, readwrite) MKLayoutItem *item;
 
 @property (strong, nonatomic) NSMutableArray *mutableItems;
-
+@property (assign, nonatomic) CGRect bounds;
+ 
 @end
 
 @implementation MKLayout
@@ -119,10 +120,23 @@
     if ([self.delegate respondsToSelector:@selector(layoutDidStartToLayout:)]) {
         [self.delegate layoutDidStartToLayout:self];
     }
-    [self layoutBounds:self.view.bounds];
+    [self runLayout:self.view.bounds];
     if ([self.delegate respondsToSelector:@selector(layoutDidFinishToLayout:)]) {
         [self.delegate layoutDidFinishToLayout:self];
     }
+}
+
+- (void)runLayout:(CGRect)bounds
+{
+    self.bounds = UIEdgeInsetsInsetRect(bounds, self.margin);
+    
+    [self layoutBounds:bounds];
+    
+    if (!self.item.layout) {
+        [self callSeparatorDelegate];
+    }
+    
+    self.bounds = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 - (void)layoutBounds:(CGRect)bounds
@@ -130,6 +144,7 @@
     
 }
 
+#pragma mark - Setter
 - (void)setView:(UIView *)view
 {
     _view = view;
@@ -163,9 +178,16 @@
     }
 }
 
-// Layout helper
-- (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect
-{
+/**
+ * Moves an rect within an other rect and uses the gravity to align it within.
+ *
+ *      Note: If gravity is MKLayoutGravityNone the method exits immediately with return the rect param.
+ *
+ * @param gravity Specifies to which edge an inner rectangle is bound of an outer rectangle in horizontal and vertical manner
+ * @param rect The inner rect that is beeing moved by a gravity
+ *
+ */
+- (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity {
     if (MKLayoutGravityNone == gravity) {
         return rect;
     }
@@ -228,7 +250,7 @@
     return rect;
 }
 
-- (CGRect)rectRoundedToGridWithRect:(CGRect)rect
+- (CGRect)roundedRect:(CGRect)rect
 {
     return CGRectMake(roundf(rect.origin.x * self.contentScaleFactor) / self.contentScaleFactor,
                       roundf(rect.origin.y * self.contentScaleFactor) / self.contentScaleFactor,
@@ -248,15 +270,35 @@
     return -1;
 }
 
--(NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
-{
-    return 0;
-}
-
 #pragma mark - Layout Item callbacks
 - (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem
 {
     [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
+}
+
+#pragma mark - Separator management
+- (NSInteger)numberOfBordersForOrientation:(MKLayoutOrientation)orientation
+{
+    NSInteger numberOfSeparators = 0;
+    
+    for (MKLayoutItem *item in self.items) {
+        if (item.sublayout) {
+            MKLayout *layout = (MKLayout *)item.sublayout;
+            numberOfSeparators += [layout numberOfBordersForOrientation:orientation];
+        }
+    }
+    
+    return numberOfSeparators;
+}
+
+- (void)callSeparatorDelegate
+{
+    for (MKLayoutItem *item in self.items) {
+        if (item.sublayout && [item.sublayout respondsToSelector:@selector(callSeparatorDelegate)]) {
+            id sublayout = item.sublayout;
+            [sublayout callSeparatorDelegate];
+        }
+    }
 }
 
 @end

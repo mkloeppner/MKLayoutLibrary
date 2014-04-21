@@ -1229,7 +1229,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [linearLayout addSubview:subview2];
         layoutItem2.insertBorder = YES;
         
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationVertical]).to.equal(1);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationVertical]).to.equal(1);
         
     });
     
@@ -1246,7 +1246,7 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *layoutItem2 = [linearLayout addSubview:subview2];
         layoutItem2.insertBorder = YES;
         
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
         
     });
     
@@ -1275,8 +1275,8 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *sublayout1Item = [linearLayout addSublayout:sublayout1];
         sublayout1Item.insertBorder = YES;
         
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationVertical]).to.equal(1);
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(2);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationVertical]).to.equal(1);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationHorizontal]).to.equal(2);
         
     });
     
@@ -1305,8 +1305,8 @@ describe(@"MKLinearLayout", ^{
         MKLinearLayoutItem *sublayout1Item = [layout addSublayout:sublayout1];
         sublayout1Item.insertBorder = YES;
         
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationVertical]).to.equal(2);
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationVertical]).to.equal(2);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
         
     });
     

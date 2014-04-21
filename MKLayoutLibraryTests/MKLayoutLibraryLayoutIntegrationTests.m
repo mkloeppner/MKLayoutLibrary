@@ -62,8 +62,8 @@ describe(@"MKLayoutLibraryIntegration", ^{
         
         [layout addSublayout:linearLayout];
         
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationVertical]).to.equal(2);
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationVertical]).to.equal(2);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationHorizontal]).to.equal(1);
         
     });
     
@@ -94,8 +94,8 @@ describe(@"MKLayoutLibraryIntegration", ^{
         
         [layout addSublayout:linearLayout];
         
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationVertical]).to.equal(1);
-        expect([layout numberOfSeparatorsForSeparatorOrientation:MKLayoutOrientationHorizontal]).to.equal(2);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationVertical]).to.equal(1);
+        expect([layout numberOfBordersForOrientation:MKLayoutOrientationHorizontal]).to.equal(2);
         
     });
     

@@ -670,6 +670,23 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
     
+    it(@"should throw an exception of it contains a view with a size that never matches the available space", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f)];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(150.0f, 100.0f); // Never fits within the container
+        
+        expect(^{
+             [layout layout];
+        }).to.raise(@"MKFlowLayoutInvalidStateException");
+
+        
+    });
+    
 });
 
 SpecEnd

@@ -204,30 +204,39 @@
  */
 - (void)layoutBounds:(CGRect)bounds;
 
-/**
- * Moves an rect within an other rect and uses the gravity to align it within.
- *
- *      Note: If gravity is MKLayoutGravityNone the method exits immediately with return the rect param.
- *
- * @param gravity Specifies to which edge an inner rectangle is bound of an outer rectangle in horizontal and vertical manner
- * @param rect The inner rect that is beeing moved by a gravity
- *
- */
-- (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect;
 
-/**
- * Rounds the given rects values with the specified content scale factor in order to round to the pixel grid.
- */
-- (CGRect)rectRoundedToGridWithRect:(CGRect)rect;
-
+#pragma mark - Border API
 /**
  * Returns the amount of separators for a specific orientation
  */
-- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation;
+- (NSInteger)numberOfBordersForOrientation:(MKLayoutOrientation)orientation;
 
 /**
  * Flips the orientation to the opposit
  */
 - (MKLayoutOrientation)flipOrientation:(MKLayoutOrientation)orientation;
+
+#pragma mark - Helper
+/**
+ *  Moves a frame within another frame edges by gravity
+ *
+ *  @param rect      The inner frame thats
+ *  @param outerRect The outer frame within rect is beeing moved
+ *  @param gravity   The gravity to which edge the rect should be moved.
+ *
+ *  @see MKLayoutGravity
+ *
+ *  @return The aligned and modified rect
+ */
+- (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity;
+
+/**
+ *  Rounds the rects values to numbers within a grid matches the content scale factor
+ *
+ *  @param rect Any rect with uneven numbers
+ *
+ *  @return The given rect with grid matching values. Grid of 1 mean even numbers, Grid of 2 (Retina) means half even numbers and so on.
+ */
+- (CGRect)roundedRect:(CGRect)rect;
 
 @end

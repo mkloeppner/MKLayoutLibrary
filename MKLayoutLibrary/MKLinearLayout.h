@@ -10,6 +10,9 @@
 #import "MKLinearLayoutItem.h"
 #import "MKLinearLayoutSeparatorDelegate.h"
 
+/**
+ *  A linear layout places all its children view side by side in a specified direction.
+ */
 @interface MKLinearLayout : MKLayout
 
 DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
