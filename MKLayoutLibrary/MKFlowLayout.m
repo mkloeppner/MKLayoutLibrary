@@ -30,14 +30,13 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
 
 - (void)layoutBounds:(CGRect)bounds
 {
-    self.bounds = bounds;
-    
+    self.bounds = UIEdgeInsetsInsetRect(bounds, self.margin);
     
     NSArray *rowHeights = [self preCalculateRowHeights];
     
     // Globals for movement
-    CGFloat currentPositionX = 0.0f;
-    CGFloat currentPositionY = 0.0f;
+    CGFloat currentPositionX = self.margin.left;
+    CGFloat currentPositionY = self.margin.top;
     
     NSUInteger rowIndex = 0;
     
@@ -54,11 +53,13 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         
         CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? self.bounds.size.width : self.bounds.size.height;
         
-        BOOL needsLineBreak = *currentOrientationPosition + *currentLengthOfOrientation > totalAvailableLength;
+        CGFloat layoutMargin = self.orientation == MKLayoutOrientationHorizontal ? self.margin.left : self.margin.top;
+        
+        BOOL needsLineBreak = *currentOrientationPosition + *currentLengthOfOrientation > totalAvailableLength + layoutMargin;
         
         // If the current position exeeds the maximum available space jump to the next line
         if (needsLineBreak) {
-            *currentOrientationPosition = 0.0f; // Carriage
+            *currentOrientationPosition = self.orientation == MKLayoutOrientationHorizontal ? self.margin.left : self.margin.top; // Carriage
             
             NSNumber *rowHeightNumber = rowHeights[rowIndex];
             CGFloat rowHeight = rowHeightNumber.floatValue;
@@ -103,8 +104,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
 - (NSArray *)preCalculateRowHeights
 {
     // Globals for movement
-    CGFloat currentPositionX = 0.0f;
-    CGFloat currentPositionY = 0.0f;
+    CGFloat currentPositionX = self.margin.left;
+    CGFloat currentPositionY = self.margin.top;
     
     CGFloat maximumOppositeLengthOfRow = 0.0f;
     
@@ -124,8 +125,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         CGFloat *currentLengthOfOppositeOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthVertical : &currentLengthHorizontal;
         
         CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? self.bounds.size.width : self.bounds.size.height;
-        
-        // If the current position exeeds the maximum available space jump to the next line
         
         BOOL isLastItemInCurrentRow = *currentOrientationPosition + *currentLengthOfOrientation >= totalAvailableLength;
         if (i < self.items.count - 1) {

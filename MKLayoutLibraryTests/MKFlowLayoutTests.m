@@ -99,7 +99,6 @@ describe(@"MKFlowLayoutTests", ^{
         
         layout.orientation = MKLayoutOrientationVertical;
         
-        
         [layout addSubview:view1];
         [layout addSubview:view2];
         
@@ -114,6 +113,63 @@ describe(@"MKFlowLayoutTests", ^{
         expect(view2.frame.origin.y).to.equal(0);
         expect(view2.frame.size.width).to.equal(container.frame.size.width);
         expect(view2.frame.size.height).to.equal(container.frame.size.height);
+        
+    });
+    
+    it(@"should layout two single items and keep the line if the second item matches the remaining space perfectly", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f)];
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(99.0f, 10.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(1.0f, 10.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0);
+        expect(view1.frame.origin.y).to.equal(0);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(item.size.width);
+        expect(view2.frame.origin.y).to.equal(0);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
+    
+    it(@"should layout two single items and start a new line if the second item is one pixel over the available space", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f)];
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(99.0f, 10.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(2.0f, 10.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0);
+        expect(view1.frame.origin.y).to.equal(0);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(0.0f);
+        expect(view2.frame.origin.y).to.equal(10.0f);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+
         
     });
     
@@ -205,7 +261,32 @@ describe(@"MKFlowLayoutTests", ^{
         expect(view2.frame.size.height).to.equal(item2.size.height);
         
     });
-
+    
+    it(@"should layout a smaller item with gravity bottom next to a bigger item which causes a bigger row height with gravity bottom", ^{
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 30.0f);
+        item.gravity = MKLayoutGravityBottom;
+        item.padding = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 4.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(20.0f, 50.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0 + item.padding.left);
+        expect(view1.frame.origin.y).to.equal(item2.size.height - item.size.height + item.padding.top);
+        expect(view1.frame.size.width).to.equal(item.size.width - item.padding.left - item.padding.right);
+        expect(view1.frame.size.height).to.equal(item.size.height - item.padding.top - item.padding.bottom);
+        
+        expect(view2.frame.origin.x).to.equal(item.size.width);
+        expect(view2.frame.origin.y).to.equal(0);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
+    
+    
     it(@"should layout a smaller item with gravity bottom next to a bigger item which causes a bigger row height with gravity right in a vertical layout", ^{
         
         layout.orientation = MKLayoutOrientationVertical;
@@ -230,6 +311,135 @@ describe(@"MKFlowLayoutTests", ^{
         expect(view2.frame.size.height).to.equal(item2.size.height);
         
     });
+    
+    it(@"should apply a padding when it layout a smaller item with gravity bottom next to a bigger item which causes a bigger row height with gravity right in a vertical layout", ^{
+        
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 100.0f);
+        item.gravity = MKLayoutGravityRight;
+        item.padding = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 4.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(50.0f, 50.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(item2.size.width - item.size.width + item.padding.left);
+        expect(view1.frame.origin.y).to.equal(0 + item.padding.top);
+        expect(view1.frame.size.width).to.equal(item.size.width - item.padding.left - item.padding.right);
+        expect(view1.frame.size.height).to.equal(item.size.height - item.padding.top - item.padding.bottom);
+        
+        expect(view2.frame.origin.x).to.equal(0);
+        expect(view2.frame.origin.y).to.equal(item.size.height);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
+    
+    it(@"should apply layout margin", ^{
+        
+        [layout addSubview:view1];
+        layout.margin = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 5.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(layout.margin.left);
+        expect(view1.frame.origin.y).to.equal(layout.margin.top);
+        expect(view1.frame.size.width).to.equal(container.frame.size.width - layout.margin.left - layout.margin.right);
+        expect(view1.frame.size.height).to.equal(container.frame.size.height - layout.margin.top - layout.margin.bottom);
+        
+    });
+    
+    it(@"should apply layout margin for item with size", ^{
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 30.0f);
+        layout.margin = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 5.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(layout.margin.left);
+        expect(view1.frame.origin.y).to.equal(layout.margin.top);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+    });
+    
+    it(@"should apply layout margin for item with size and padding", ^{
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 30.0f);
+        item.padding = UIEdgeInsetsMake(3.0f, 5.0f, 1.0f, 2.0f);
+        layout.margin = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 5.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(layout.margin.left + item.padding.left);
+        expect(view1.frame.origin.y).to.equal(layout.margin.top + item.padding.top);
+        expect(view1.frame.size.width).to.equal(item.size.width - item.padding.left - item.padding.right);
+        expect(view1.frame.size.height).to.equal(item.size.height - item.padding.top - item.padding.bottom);
+        
+    });
+    
+    it(@"should apply layout margin for two items and consider the layout margin for line breaks for a horizontal layout and keep row if the space perfectly fits", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 170.0f) ];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        
+        layout.margin = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 5.0f);
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(100.0f, 30.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(13.0f, 30.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(layout.margin.left);
+        expect(view1.frame.origin.y).to.equal(layout.margin.top);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(layout.margin.left + item.size.width);
+        expect(view2.frame.origin.y).to.equal(layout.margin.top);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
+    
+    it(@"should apply layout margin for two items and consider the layout margin for line breaks for a horizontal layout and break the line if the space is exceeded", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 170.0f) ];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        
+        layout.margin = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 5.0f);
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(100.0f, 30.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(14.0f, 30.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(layout.margin.left);
+        expect(view1.frame.origin.y).to.equal(layout.margin.top);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(layout.margin.left);
+        expect(view2.frame.origin.y).to.equal(layout.margin.top + item.size.height);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
+    
+    
 });
 
 SpecEnd
