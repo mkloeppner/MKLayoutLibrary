@@ -83,7 +83,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
             
             CGRect separatorRect = [self separatorRectForContentRect:contentRect separatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:currentPos];
             
-            [self.separators addObject:[NSValue valueWithCGRect:[self rectRoundedToGridWithRect:separatorRect]]];
+            [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
             
             currentPos += self.spacing;
             
@@ -191,7 +191,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     return 0.0f;
 }
 
-- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
+- (NSInteger)numberOfBordersForOrientation:(MKLayoutOrientation)orientation
 {
     NSInteger numberOfSeparators = 0;
     
@@ -205,7 +205,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         MKLayoutItem *item = self.items[i];
         if (item.sublayout) {
             MKLinearLayout *linearLayout = (MKLinearLayout *)item.sublayout;
-            numberOfSeparators += [linearLayout numberOfSeparatorsForSeparatorOrientation:orientation];
+            numberOfSeparators += [linearLayout numberOfBordersForOrientation:orientation];
         }
     }
     

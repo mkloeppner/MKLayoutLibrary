@@ -179,8 +179,7 @@
 }
 
 // Layout helper
-- (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect
-{
+- (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity {
     if (MKLayoutGravityNone == gravity) {
         return rect;
     }
@@ -243,7 +242,7 @@
     return rect;
 }
 
-- (CGRect)rectRoundedToGridWithRect:(CGRect)rect
+- (CGRect)roundedRect:(CGRect)rect
 {
     return CGRectMake(roundf(rect.origin.x * self.contentScaleFactor) / self.contentScaleFactor,
                       roundf(rect.origin.y * self.contentScaleFactor) / self.contentScaleFactor,
@@ -270,14 +269,14 @@
 }
 
 #pragma mark - Separator management
-- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
+- (NSInteger)numberOfBordersForOrientation:(MKLayoutOrientation)orientation
 {
     NSInteger numberOfSeparators = 0;
     
     for (MKLayoutItem *item in self.items) {
         if (item.sublayout) {
             MKLayout *layout = (MKLayout *)item.sublayout;
-            numberOfSeparators += [layout numberOfSeparatorsForSeparatorOrientation:orientation];
+            numberOfSeparators += [layout numberOfBordersForOrientation:orientation];
         }
     }
     

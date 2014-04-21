@@ -88,13 +88,13 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
     itemRect = UIEdgeInsetsInsetRect(itemRect, self.padding);
     
     // Move it within the margin bounds if there is a gravity
-    CGRect rect = [self.layout applyGravity:self.gravity withRect:itemRect withinRect:marginRect];
+    CGRect rect = [self.layout moveRect:itemRect withinRect:marginRect gravity:self.gravity];
     
     rect.origin.x += self.offset.horizontal;
     rect.origin.y += self.offset.vertical;
     
     if (self.subview) {
-        rect = [self.layout rectRoundedToGridWithRect:rect];
+        rect = [self.layout roundedRect:rect];
         self.subview.frame = rect;
     } else if (self.sublayout) {
         [self.sublayout runLayout:rect];

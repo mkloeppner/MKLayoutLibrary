@@ -213,17 +213,17 @@
  * @param rect The inner rect that is beeing moved by a gravity
  *
  */
-- (CGRect)applyGravity:(MKLayoutGravity)gravity withRect:(CGRect)rect withinRect:(CGRect)outerRect;
+- (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity;
 
 /**
  * Rounds the given rects values with the specified content scale factor in order to round to the pixel grid.
  */
-- (CGRect)rectRoundedToGridWithRect:(CGRect)rect;
+- (CGRect)roundedRect:(CGRect)rect;
 
 /**
  * Returns the amount of separators for a specific orientation
  */
-- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation;
+- (NSInteger)numberOfBordersForOrientation:(MKLayoutOrientation)orientation;
 
 /**
  * Flips the orientation to the opposit
