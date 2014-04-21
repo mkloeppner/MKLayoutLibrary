@@ -9,6 +9,9 @@
 #import "MKLayout.h"
 #import "MKStackLayoutItem.h"
 
+/**
+ *  A stack layout creates for every single view its own layer which creates "overlays"
+ */
 @interface MKStackLayout : MKLayout
 
 DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)

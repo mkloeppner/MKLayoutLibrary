@@ -9,6 +9,13 @@
 #import "MKLayout.h"
 #import "MKFlowLayoutItem.h"
 
+/**
+ *  A flow layout tries fill either the width or the height with subviews. 
+ * If the space of a row or column is full the flow layout continues in another row or column.
+ *
+ * The distinction if the layout tries to fill either rows or column is made by orientation.
+ *
+ */
 @interface MKFlowLayout : MKLayout
 
 DECLARE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);

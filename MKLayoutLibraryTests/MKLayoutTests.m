@@ -149,7 +149,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultHorizontalOnly = [layout applyGravity:MKLayoutGravityNone withRect:itemRect withinRect:rect];
+        CGRect resultHorizontalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityNone];
         
         expect(resultHorizontalOnly).to.equal(itemRect);
         
@@ -160,7 +160,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultHorizontalOnly = [layout applyGravity:MKLayoutGravityCenterHorizontal withRect:itemRect withinRect:rect];
+        CGRect resultHorizontalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterHorizontal];
         
         expect(resultHorizontalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f, 0.0f, itemRect.size.width, itemRect.size.height));
         
@@ -171,7 +171,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterVertical withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterVertical];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(0.0f, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
         
@@ -182,7 +182,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(0.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultCentered = [layout applyGravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityCenterVertical withRect:itemRect withinRect:rect];
+        CGRect resultCentered = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityCenterVertical];
         
         expect(resultCentered).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
         
@@ -193,7 +193,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(0.0f, 10.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultHorizontalOnly = [layout applyGravity:MKLayoutGravityCenterHorizontal withRect:itemRect withinRect:rect];
+        CGRect resultHorizontalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterHorizontal];
         
         expect(resultHorizontalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f, itemRect.origin.y, itemRect.size.width, itemRect.size.height));
         
@@ -204,7 +204,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterVertical withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterVertical];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(itemRect.origin.x, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
     });
@@ -214,7 +214,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityTop | MKLayoutGravityLeft withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityTop | MKLayoutGravityLeft];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.origin.x, rect.origin.y, itemRect.size.width, itemRect.size.height));
     });
@@ -224,7 +224,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityTop | MKLayoutGravityRight withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityTop | MKLayoutGravityRight];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width + rect.origin.x, rect.origin.y, itemRect.size.width, itemRect.size.height));
     });
@@ -234,7 +234,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityTop | MKLayoutGravityCenterHorizontal withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityTop | MKLayoutGravityCenterHorizontal];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f + rect.origin.x, rect.origin.y, itemRect.size.width, itemRect.size.height));
     });
@@ -244,7 +244,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityBottom | MKLayoutGravityLeft withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityBottom | MKLayoutGravityLeft];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.origin.x, rect.size.height - itemRect.size.height, itemRect.size.width, itemRect.size.height));
     });
@@ -254,7 +254,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityBottom | MKLayoutGravityRight withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityBottom | MKLayoutGravityRight];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width + rect.origin.x, rect.size.height - itemRect.size.height + rect.origin.y, itemRect.size.width, itemRect.size.height));
     });
@@ -264,7 +264,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityBottom | MKLayoutGravityCenterHorizontal withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityBottom | MKLayoutGravityCenterHorizontal];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f + rect.origin.x, rect.size.height - itemRect.size.height + rect.origin.y, itemRect.size.width, itemRect.size.height));
     });
@@ -274,7 +274,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterVertical | MKLayoutGravityLeft withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterVertical | MKLayoutGravityLeft];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.origin.x, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
     });
@@ -284,7 +284,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterVertical | MKLayoutGravityRight withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterVertical | MKLayoutGravityRight];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width - itemRect.size.width + rect.origin.x, rect.size.height / 2.0f - itemRect.size.height / 2.0f, itemRect.size.width, itemRect.size.height));
     });
@@ -294,7 +294,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityTop withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityTop];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f + rect.origin.x, rect.origin.y, itemRect.size.width, itemRect.size.height));
     });
@@ -304,7 +304,7 @@ describe(@"MKLayout", ^{
         CGRect rect = CGRectMake(10.0f, 0.0f, 100.0f, 100.0f);
         CGRect itemRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
         
-        CGRect resultVerticalOnly = [layout applyGravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityBottom withRect:itemRect withinRect:rect];
+        CGRect resultVerticalOnly = [layout moveRect:itemRect withinRect:rect gravity:MKLayoutGravityCenterHorizontal | MKLayoutGravityBottom];
         
         expect(resultVerticalOnly).to.equal(CGRectMake(rect.size.width / 2.0f - itemRect.size.width / 2.0f + rect.origin.x, rect.size.height - itemRect.size.height, itemRect.size.width, itemRect.size.height));
     });

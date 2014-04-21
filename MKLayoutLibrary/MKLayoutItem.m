@@ -14,6 +14,8 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
 @interface MKLayout (APIAccessor)
 
 - (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem;
+- (void)runLayout:(CGRect)rect;
+- (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity;
 
 @end
 
@@ -71,13 +73,32 @@ const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
     }
 }
 
-- (void)setFrame:(CGRect)rect
+- (void)applyPositionWithinLayoutFrame:(CGRect)itemOuterRect
 {
+    CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, self.padding);
+    
+    // Apply items size value if beeing set
+    CGRect itemRect = itemOuterRect; // Take the outer rect without margin applied to prevent applying margin twice
+    if (self.size.width != kMKLayoutItemSizeValueMatchParent) {
+        itemRect.size.width = self.size.width;
+    }
+    if (self.size.height != kMKLayoutItemSizeValueMatchParent) {
+        itemRect.size.height = self.size.height;
+    }
+    
+    itemRect = UIEdgeInsetsInsetRect(itemRect, self.padding);
+    
+    // Move it within the margin bounds if there is a gravity
+    CGRect rect = [self.layout moveRect:itemRect withinRect:marginRect gravity:self.gravity];
+    
+    rect.origin.x += self.offset.horizontal;
+    rect.origin.y += self.offset.vertical;
+    
     if (self.subview) {
-        rect = [self.layout rectRoundedToGridWithRect:rect];
+        rect = [self.layout roundedRect:rect];
         self.subview.frame = rect;
     } else if (self.sublayout) {
-        [self.sublayout layoutBounds:rect];
+        [self.sublayout runLayout:rect];
     }
 }
 
