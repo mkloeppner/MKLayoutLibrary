@@ -51,6 +51,35 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
     
+    it(@"should apply an offset to a single view with match parent in width and height", ^{
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.offset = UIOffsetMake(-3.0f, 2.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(item.offset.horizontal);
+        expect(view1.frame.origin.y).to.equal(item.offset.vertical);
+        expect(view1.frame.size.width).to.equal(container.frame.size.width);
+        expect(view1.frame.size.height).to.equal(container.frame.size.height);
+        
+    });
+    
+    it(@"should apply an offset to a single view with fixed size in width and height", ^{
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 3.0f);
+        item.offset = UIOffsetMake(-3.0f, 2.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(item.offset.horizontal);
+        expect(view1.frame.origin.y).to.equal(item.offset.vertical);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+    });
+    
     it(@"should layout a single sublayout with match parent in width and height", ^{
         
         MKFlowLayout *flowLayout = [[MKFlowLayout alloc] init];
@@ -559,6 +588,78 @@ describe(@"MKFlowLayoutTests", ^{
         
         expect(view2.frame.origin.x).to.equal(item.size.width);
         expect(view2.frame.origin.y).to.equal(0.0f);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+        expect(view3.frame.origin.x).to.equal(item.size.width + item2.size.width);
+        expect(view3.frame.origin.y).to.equal(0.0f);
+        expect(view3.frame.size.width).to.equal(item3.size.width);
+        expect(view3.frame.size.height).to.equal(item3.size.height);
+        
+    });
+    
+    it(@"should create 3 rows with items matching the width perfecly for a horizontal layout and apply an offset", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f) ];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(100.0f, 200.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(100.0f, 200.0f);
+        item2.offset = UIOffsetMake(30.0f, 3.0f);
+        
+        MKFlowLayoutItem *item3 = [layout addSubview:view3];
+        item3.size = CGSizeMake(100.0f, 200.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0.0f);
+        expect(view1.frame.origin.y).to.equal(0.0f);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(0.0f + item2.offset.horizontal);
+        expect(view2.frame.origin.y).to.equal(item.size.height + item2.offset.vertical);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+        expect(view3.frame.origin.x).to.equal(0.0f);
+        expect(view3.frame.origin.y).to.equal(item.size.height + item2.size.height);
+        expect(view3.frame.size.width).to.equal(item3.size.width);
+        expect(view3.frame.size.height).to.equal(item3.size.height);
+        
+    });
+    
+    it(@"should create 3 columns with items matching the height perfecly for a vertical layout and apply an offset", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f) ];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(200.0f, 100.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(200.0f, 100.0f);
+                item2.offset = UIOffsetMake(30.0f, 3.0f);
+        
+        MKFlowLayoutItem *item3 = [layout addSubview:view3];
+        item3.size = CGSizeMake(200.0f, 100.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0.0f);
+        expect(view1.frame.origin.y).to.equal(0.0f);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(item.size.width + item2.offset.horizontal);
+        expect(view2.frame.origin.y).to.equal(0.0f + item2.offset.vertical);
         expect(view2.frame.size.width).to.equal(item2.size.width);
         expect(view2.frame.size.height).to.equal(item2.size.height);
         

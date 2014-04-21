@@ -83,18 +83,21 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         CGRect paddingRect = UIEdgeInsetsInsetRect(outerRect, item.padding);
         
         // The item rect needs to apply padding
-        CGRect itemRect = outerRect;
+        CGRect rect = outerRect;
         if (item.size.width != kMKLayoutItemSizeValueMatchParent) {
-            itemRect.size.width = item.size.width;
+            rect.size.width = item.size.width;
         }
         if (item.size.height != kMKLayoutItemSizeValueMatchParent) {
-            itemRect.size.height = item.size.height;
+            rect.size.height = item.size.height;
         }
-        itemRect = UIEdgeInsetsInsetRect(itemRect, item.padding);
+        rect = UIEdgeInsetsInsetRect(rect, item.padding);
         
-        itemRect = [self applyGravity:item.gravity withRect:itemRect withinRect:paddingRect];
+        rect = [self applyGravity:item.gravity withRect:rect withinRect:paddingRect];
         
-        [item setFrame:itemRect];
+        rect.origin.x += item.offset.horizontal;
+        rect.origin.y += item.offset.vertical;
+        
+        [item setFrame:rect];
         
         *currentOrientationPosition += *currentLengthOfOrientation;
         
