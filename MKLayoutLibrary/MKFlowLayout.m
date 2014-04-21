@@ -33,7 +33,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
     self.bounds = bounds;
     
     
-    NSArray *rowHeights = [self calculateRowHeights];
+    NSArray *rowHeights = [self preCalculateRowHeights];
     
     // Globals for movement
     CGFloat currentPositionX = 0.0f;
@@ -51,7 +51,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         CGFloat *currentOrientationPosition = self.orientation == MKLayoutOrientationHorizontal ? &currentPositionX : &currentPositionY;
         CGFloat *currentOppositePosition  = self.orientation == MKLayoutOrientationHorizontal ? &currentPositionY : &currentPositionX;
         CGFloat *currentLengthOfOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthHorizontal : &currentLengthVertical;
-        CGFloat *currentLengthOfOppositeOrientation = self.orientation == MKLayoutOrientationHorizontal ? &currentLengthVertical : &currentLengthHorizontal;
         
         CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? self.bounds.size.width : self.bounds.size.height;
         
@@ -101,7 +100,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
     }
 }
 
-- (NSArray *)calculateRowHeights
+- (NSArray *)preCalculateRowHeights
 {
     // Globals for movement
     CGFloat currentPositionX = 0.0f;

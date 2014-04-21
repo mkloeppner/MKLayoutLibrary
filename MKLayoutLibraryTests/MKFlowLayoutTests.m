@@ -206,7 +206,30 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
 
-    
+    it(@"should layout a smaller item with gravity bottom next to a bigger item which causes a bigger row height with gravity right in a vertical layout", ^{
+        
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 100.0f);
+        item.gravity = MKLayoutGravityRight;
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(50.0f, 50.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(item2.size.width - item.size.width);
+        expect(view1.frame.origin.y).to.equal(0);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(0);
+        expect(view2.frame.origin.y).to.equal(item.size.height);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
 });
 
 SpecEnd
