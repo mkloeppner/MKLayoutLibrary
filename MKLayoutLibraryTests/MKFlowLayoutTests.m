@@ -439,7 +439,67 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
     
-    it(@"should create 3 rows for a horizontal flow layout with items matching the width perfecly", ^{
+    it(@"should apply layout margin for two items and consider the layout margin for line breaks for a horizontal layout and keep row if the space perfectly fits", ^{
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 170.0f) ];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        layout.margin = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 5.0f);
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(100.0f, 130.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(13.0f, 36.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(layout.margin.left);
+        expect(view1.frame.origin.y).to.equal(layout.margin.top);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(layout.margin.left);
+        expect(view2.frame.origin.y).to.equal(layout.margin.top + item.size.height);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+        
+    });
+    
+    it(@"should apply layout margin for two items and consider the layout margin for line breaks for a horizontal layout and break the line if the space is exceeded", ^{
+        
+        
+        container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 120.0f, 170.0f) ];
+        
+        layout = [[MKFlowLayout alloc] initWithView:container];
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        layout.margin = UIEdgeInsetsMake(1.0f, 2.0f, 3.0f, 5.0f);
+        
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(100.0f, 130.0f);
+        
+        MKFlowLayoutItem *item2 = [layout addSubview:view2];
+        item2.size = CGSizeMake(13.0f, 37.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(layout.margin.left);
+        expect(view1.frame.origin.y).to.equal(layout.margin.top);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+        expect(view2.frame.origin.x).to.equal(layout.margin.left + item.size.width);
+        expect(view2.frame.origin.y).to.equal(layout.margin.top);
+        expect(view2.frame.size.width).to.equal(item2.size.width);
+        expect(view2.frame.size.height).to.equal(item2.size.height);
+
+        
+    });
+    
+    it(@"should create 3 rows with items matching the width perfecly for a horizontal layout", ^{
         
         container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f) ];
         
@@ -474,7 +534,7 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
 
-    it(@"should create 3 rows for a horizontal flow layout with items matching the height perfecly for a vertical layout", ^{
+    it(@"should create 3 columns with items matching the height perfecly for a vertical layout", ^{
         
         container = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 100.0f) ];
         
