@@ -64,8 +64,8 @@ Here is an example of view with a vertical linear layout:
         UILabel *titleLabel = [[UILabel alloc] init];
         self.titleItem = [self.layout addSubview:titleLabel];
 
-        // Once the layout items exists, it can be used to configure layout specifics such as margins or sizes
-        self.titleItem.margin = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
+        // Once the layout items exists, it can be used to configure layout specifics such as paddings or sizes
+        self.titleItem.padding = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f);
 
         // Specifies 30 px height but streches the width to the full available layout size so it matches the parent view
         self.titleItem.size = CGSizeMake(kMKLayoutItemSizeValueMatchParent, 30.0f);
@@ -134,46 +134,46 @@ This section introduces the most important properties and their consistent behav
 
 ### Size
 
-A size is a specified length in a vertical and horizontal direction. It can only be affected by layout items margin.
+A size is a specified length in a vertical and horizontal direction. It can only be affected by layout items padding.
 Otherwise, the views size must match the layout items size.
 
 This configuration of an item must result in a view.bounds.size with a width of 10 points and a height of 10 points:
 
     item.size = CGSizeMake(10.0f, 10.0f);
 
-### Margin
+### Padding
 
-Margin is the only property that can and must affect the resulting bounds of a layout items view or sublayout.
+Padding is the only property that can and must affect the resulting bounds of a layout items view or sublayout.
 
 The following configuration of an item must result in a view.bounds.size with a width of 9 points and height of 9 points:
 
     item.size = CGSizeMake(10.0f, 10.0f);
-    item.margin = UIEdgeInsetsMake(0.0f, 0.0f, 1.0f, 1.0f); // Just shrink the view by reducing width and height
+    item.padding = UIEdgeInsetsMake(0.0f, 0.0f, 1.0f, 1.0f); // Just shrink the view by reducing width and height
 
 The following configuration of an item must result in a view.bounds.size with a width of 9 points and height of 9 points must move the resulting frame by x of 1 point and y of 1 point:
 
       item.size = CGSizeMake(10.0f, 10.0f);
-      item.margin = UIEdgeInsetsMake(1.0f, 1.0f, 0.0f, 0.0f); // Shrink the view and move it by 1 point on x and y axis
+      item.padding = UIEdgeInsetsMake(1.0f, 1.0f, 0.0f, 0.0f); // Shrink the view and move it by 1 point on x and y axis
 
 The next configuration is a combination of the previous ones and must result in a view.bounds.size with a width of 8 points and height of 8 points and must move the resulting frame by x of 1 point and y of 1 point:
 
     item.size = CGSizeMake(10.0f, 10.0f);
-    item.margin = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f); // Shrink the view on all edges and move it
+    item.padding = UIEdgeInsetsMake(1.0f, 1.0f, 1.0f, 1.0f); // Shrink the view on all edges and move it
 
-#### Margin and Offset  
+#### Padding and Offset
 
-Margin should be assumed to an inset to an outer box.
+Padding should be assumed to an inset to an outer box.
 If it is just necessary to move a item view to ensure offsets to a specific edge layout item,
 offsets could be a more reasonable approach.
 Here an example:
 
-This is a margin definition that should be represented as offset:
+This is a padding definition that should be represented as offset:
 So these lines:
 
-    UIEdgeInsets margin = UIEdgeInsetsMake(0.0f, 0.0f, 5.0f, 5.0f); // Define margin to calculate the overall item size
+    UIEdgeInsets padding = UIEdgeInsetsMake(0.0f, 0.0f, 5.0f, 5.0f); // Define padding to calculate the overall item size
     item.gravity = MKLayoutGravityTop | MKLayoutGravityRight;
-    item.margin = margin;
-    item.size = CGSizeMake(30.0f + margin.right, 30.0f + margin.bottom); // Ensure the 30.0f pixels size by splitting up the margin definition
+    item.padding = padding;
+    item.size = CGSizeMake(30.0f + padding.right, 30.0f + padding.bottom); // Ensure the 30.0f pixels size by splitting up the padding definition
 
 can be refactored to this:
 
@@ -197,11 +197,11 @@ Therefore gravity is a bitmask and allows us to:
 - Stick it to the right
 - and all the reasonable combinations out of these options
 
-Gravity must keep any offsets provided by layout items margin when moving the view or sublayout.
+Gravity must keep any offsets provided by layout items padding when moving the view or sublayout.
 
 ### Offset
 
-After size, margin and gravity may have made changes to the views position (center), offset provides us to
+After size, padding and gravity may have made changes to the views position (center), offset provides us to
 move the resulting view or sublayout.
 
 An offset helps us to specify a padding between edges of the item box and the items view.
@@ -301,3 +301,7 @@ for the overall layout size.
 ### XML Support
 
 There are plans for including a markup language for layouts.
+
+## Build status
+
+[![Build Status](https://travis-ci.org/mkloeppner/MKLayoutLibrary.svg?branch=master)](https://travis-ci.org/mkloeppner/MKLayoutLibrary)

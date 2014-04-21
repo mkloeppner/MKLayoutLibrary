@@ -8,6 +8,7 @@
 
 #import "MKLinearLayout.h"
 #import "MKLinearLayoutSeparatorDelegate.h"
+#import "MKLayout_SubclassAccessors.h"
 
 @interface MKLinearLayout ()
 
@@ -93,7 +94,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         
         // Move it just within the margin bounds
         CGRect itemOuterRect = [self itemOuterRectForContentRect:contentRect currentPos:currentPos itemLength:itemLength];
-        CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, item.margin);
+        CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, item.padding);
         
         // Apply items size value if beeing set
         CGRect itemRect = itemOuterRect; // Take the outer rect without margin applied to prevent applying margin twice
@@ -104,7 +105,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
             itemRect.size.height = item.size.height;
         }
         
-        itemRect = UIEdgeInsetsInsetRect(itemRect, item.margin);
+        itemRect = UIEdgeInsetsInsetRect(itemRect, item.padding);
         
         // Move it within the margin bounds if there is a gravity
         CGRect rect = [self applyGravity:item.gravity withRect:itemRect withinRect:marginRect];
@@ -113,11 +114,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         rect.origin.y += item.offset.vertical;
         
         // Recursive layout
-        if (item.subview) {
-            item.subview.frame = [self rectRoundedToGridWithRect:rect];
-        } else if (item.sublayout) {
-            [item.sublayout layoutBounds:rect];
-        }
+        [item setFrame:rect];
         
         // Increase the currentPos with the item length
         currentPos += itemLength;

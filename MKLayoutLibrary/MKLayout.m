@@ -23,28 +23,22 @@
     self = [super init];
     if (self) {
         self.view = view;
-        [self setDefaultValues];
+        self.contentScaleFactor = [[UIScreen mainScreen] scale];
+        self.mutableItems = [[NSMutableArray alloc] init];
+        self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     }
     return self;
 }
 
 - (id)init
 {
-    self = [super init];
+    self = [self initWithView:nil];
     if (self) {
-        self.view = nil;
-        [self setDefaultValues];
     }
     return self;
 }
 
-- (void)setDefaultValues
-{
-    self.contentScaleFactor = [[UIScreen mainScreen] scale];
-    self.mutableItems = [[NSMutableArray alloc] init];
-    self.margin = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
-}
-
+#pragma mark - UIView and Layout
 - (MKLayoutItem *)addSubview:(UIView *)subview
 {
     return [self insertSubview:subview atIndex:self.items.count];
@@ -69,15 +63,7 @@
     return layoutItem;
 }
 
-- (void)removeLayoutItemAtIndex:(NSInteger)index
-{
-    MKLayoutItem *item = self.items[index];
-    [self.mutableItems removeObjectAtIndex:index];
-    if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
-        [self.delegate layout:self didRemoveLayoutItem:item];
-    }
-}
-
+#pragma mark - MKLayoutItem
 - (void)clear
 {
     NSArray *layoutItems = [self.items copy];
@@ -103,9 +89,23 @@
     }
 }
 
+- (void)removeLayoutItemAtIndex:(NSInteger)index
+{
+    MKLayoutItem *item = self.items[index];
+    [self.mutableItems removeObjectAtIndex:index];
+    if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
+        [self.delegate layout:self didRemoveLayoutItem:item];
+    }
+}
+
+- (void)addLayoutItem:(MKLayoutItem *)layoutItem
+{
+    [self insertLayoutItem:layoutItem atIndex:self.items.count];
+}
+
 - (void)removeLayoutItem:(MKLayoutItem *)layoutItem
 {
-    [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
+    [self removeLayoutItemAtIndex:[self.items indexOfObjectIdenticalTo:layoutItem]];
 }
 
 - (NSArray *)items
@@ -113,6 +113,7 @@
     return [NSArray arrayWithArray:self.mutableItems];
 }
 
+#pragma mark - Layouting
 - (void)layout
 {
     if ([self.delegate respondsToSelector:@selector(layoutDidStartToLayout:)]) {
@@ -250,6 +251,12 @@
 -(NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
 {
     return 0;
+}
+
+#pragma mark - Layout Item callbacks
+- (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem
+{
+    [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
 }
 
 @end

@@ -372,6 +372,69 @@ describe(@"MKLayout", ^{
         
     });
     
+    it(@"should provide a method to remove a layout item", ^{
+        
+        MKLayoutItem *item = [layout addSubview:subview1];
+        
+        expect(layout.items.count).to.equal(1);
+        
+        [layout removeLayoutItem:item];
+        
+        expect(layout.items.count).to.equal(0);
+        
+    });
+    
+    it(@"should provide a method to add a layout item", ^{
+        
+        MKLayoutItem *item = [layout addSubview:subview1];
+        [item removeFromLayout];
+        
+        expect(layout.items.count).to.equal(0);
+        
+        [layout addLayoutItem:item];
+        
+        expect(layout.items.count).to.equal(1);
+        
+    });
+    
+    it(@"should provide a method to append layout item at the end of the layout", ^{
+        
+        MKLayoutItem *item = [layout addSubview:subview1];
+        [layout addSubview:subview2];
+        [layout addSubview:subview3];
+        [layout addSubview:subview4];
+        
+        expect(layout.items.count).to.equal(4);
+        
+        [item removeFromLayout];
+        
+        expect(layout.items.count).to.equal(3);
+        
+        [layout addLayoutItem:item];
+        
+        expect(layout.items.count).to.equal(4);
+        
+        MKLayoutItem *itemAtLastPosition = layout.items[layout.items.count - 1];
+        
+        expect(itemAtLastPosition).to.equal(item);
+        
+    });
+    
+    it(@"should provide a method to delete all child items", ^{
+        
+        [layout addSubview:subview1];
+        [layout addSubview:subview2];
+        [layout addSubview:subview3];
+        [layout addSubview:subview4];
+        
+        expect(layout.items.count).to.equal(4);
+        
+        [layout clear];
+        
+        expect(layout.items.count).to.equal(0);
+        
+    });
+    
 });
 
 SpecEnd

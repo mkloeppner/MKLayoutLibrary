@@ -61,6 +61,11 @@
 @interface MKLayout : NSObject
 
 /**
+ * Allows to store meta data for debugging, layout introspection ...
+ */
+@property (strong, nonatomic) NSDictionary *userInfo;
+
+/**
  * The layouts content scale factor
  *
  * The views frames will be set in points. With specifying the contentScaleFactor this frames will be round to perfectly match the grid.
@@ -112,6 +117,7 @@
  */
 - (instancetype)initWithView:(UIView *)view;
 
+#pragma mark - UIView and Layout API
 /**
  * Adds a subview to the layout.
  *
@@ -146,13 +152,7 @@
  */
 - (MKLayoutItem *)insertSublayout:(MKLayout *)sublayout atIndex:(NSInteger)index;
 
-/**
- * Removes a layout item with a specified index
- *
- * @param index the index of the item that will be removed
- */
-- (void)removeLayoutItemAtIndex:(NSInteger)index;
-
+#pragma mark - MKLayoutItem API
 /**
  * Removed all subviews and sublayouts
  *
@@ -165,6 +165,30 @@
  */
 - (void)insertLayoutItem:(MKLayoutItem *)layoutItem atIndex:(NSInteger)index;
 
+/**
+ * Removes a layout item with a specified index
+ *
+ * @param index the index of the item that will be removed
+ */
+- (void)removeLayoutItemAtIndex:(NSInteger)index;
+
+/**
+ *  Inserts a layout item at the end of the layout
+ *
+ *  @param layoutItem the item, that will be added at the end of the layout
+ */
+- (void)addLayoutItem:(MKLayoutItem *)layoutItem;
+
+/**
+ *  Removes a layout item from a layout.
+ *
+ * Additionally it removes its assoicated view, if its a view layout item or its associated sublayout views if its a sublayout item.
+ *
+ *  @param layoutItem The layout item to be removed from the layout
+ */
+- (void)removeLayoutItem:(MKLayoutItem *)layoutItem;
+
+#pragma mark - Layouting API
 /**
  * Calls layoutBounds with the associated view bounds
  */

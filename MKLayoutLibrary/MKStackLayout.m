@@ -7,6 +7,7 @@
 //
 
 #import "MKStackLayout.h"
+#import "MKLayout_SubclassAccessors.h"
 
 @interface MKStackLayout ()
 
@@ -31,19 +32,15 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKStackLayoutItem)
         rect.origin.y += self.bounds.origin.y;
         
         // In order to generate the inner margins we already reduced the size of the inner rect
-        rect = UIEdgeInsetsInsetRect(rect, item.margin);
+        rect = UIEdgeInsetsInsetRect(rect, item.padding);
         
         // Now we move the view to the edges of the outer rectange so we have to apply the margin on the outer rect too
-        rect = [self applyGravity:item.gravity withRect:rect withinRect:UIEdgeInsetsInsetRect(self.bounds, item.margin)];
+        rect = [self applyGravity:item.gravity withRect:rect withinRect:UIEdgeInsetsInsetRect(self.bounds, item.padding)];
         
         rect.origin.x += item.offset.horizontal;
         rect.origin.y += item.offset.vertical;
         
-        if (item.subview) {
-            item.subview.frame = [self rectRoundedToGridWithRect:rect];
-        } else if (item.sublayout) {
-            [item.sublayout layoutBounds:rect];
-        }
+        [item setFrame:rect];
     }
     
     if (!self.item.layout) {

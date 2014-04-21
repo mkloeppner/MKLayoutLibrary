@@ -7,6 +7,6 @@
 //
 
 typedef enum {
-    MKLayoutOrientationHorizontal,
-    MKLayoutOrientationVertical
+    MKLayoutOrientationHorizontal, // Positionates views on the horizontal axis
+    MKLayoutOrientationVertical // Positionates views on the vertical axis
 } MKLayoutOrientation;
