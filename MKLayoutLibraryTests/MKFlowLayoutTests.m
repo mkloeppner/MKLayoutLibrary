@@ -117,6 +117,20 @@ describe(@"MKFlowLayoutTests", ^{
         
     });
     
+    it(@"should apply fixed size for a single item", ^{
+       
+        MKFlowLayoutItem *item = [layout addSubview:view1];
+        item.size = CGSizeMake(30.0f, 30.0f);
+        
+        [layout layout];
+        
+        expect(view1.frame.origin.x).to.equal(0);
+        expect(view1.frame.origin.y).to.equal(0);
+        expect(view1.frame.size.width).to.equal(item.size.width);
+        expect(view1.frame.size.height).to.equal(item.size.height);
+        
+    });
+    
 });
 
 SpecEnd

@@ -9,6 +9,12 @@
 #import "MKFlowLayout.h"
 #import "MKLayout_SubclassAccessors.h"
 
+@interface MKFlowLayout ()
+
+@property (assign, nonatomic) CGRect bounds;
+
+@end
+
 @implementation MKFlowLayout
 
 SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
@@ -24,6 +30,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
 
 - (void)layoutBounds:(CGRect)bounds
 {
+    self.bounds = bounds;
+    
     // Globals for movement
     CGFloat currentPositionX = 0.0f;
     CGFloat currentPositionY = 0.0f;
@@ -33,8 +41,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
     for (MKFlowLayoutItem *item in self.items) {
         
         // Get item sizes
-        CGFloat currentLengthHorizontal = bounds.size.width;
-        CGFloat currentLengthVertical = bounds.size.height;
+        CGFloat currentLengthHorizontal = [self horizontalLengthForItem:item];
+        CGFloat currentLengthVertical = [self verticalLengthForItem:item];
         
         // Get pointer to the right values
         CGFloat *currentOrientationPosition = self.orientation == MKLayoutOrientationHorizontal ? &currentPositionX : &currentPositionY;
@@ -65,6 +73,24 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         *currentOrientationPosition += *currentLengthOfOrientation;
         
     }
+}
+
+- (CGFloat)horizontalLengthForItem:(MKLayoutItem *)item
+{
+    CGFloat width = item.size.width;
+    if (width == kMKLayoutItemSizeValueMatchParent) {
+        return self.bounds.size.width;
+    }
+    return width;
+}
+
+- (CGFloat)verticalLengthForItem:(MKLayoutItem *)item
+{
+    CGFloat height = item.size.height;
+    if (height == kMKLayoutItemSizeValueMatchParent) {
+        return self.bounds.size.height;
+    }
+    return height;
 }
 
 @end
