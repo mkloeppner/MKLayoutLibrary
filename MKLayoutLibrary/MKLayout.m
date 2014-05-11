@@ -94,6 +94,10 @@
 
 - (void)removeLayoutItemAtIndex:(NSInteger)index
 {
+    if (NSNotFound != index) {
+        return;
+    }
+    
     MKLayoutItem *item = self.items[index];
     [self.mutableItems removeObjectAtIndex:index];
     if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
@@ -276,9 +280,7 @@
 - (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem
 {
     NSInteger itemIndex = [self.mutableItems indexOfObject:layoutItem];
-    if (NSNotFound != itemIndex) {
-        [self removeLayoutItemAtIndex:itemIndex];
-    }
+    [self removeLayoutItemAtIndex:itemIndex];
 }
 
 #pragma mark - Separator management
