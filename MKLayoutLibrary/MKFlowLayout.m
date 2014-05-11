@@ -79,25 +79,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
                                       self.orientation == MKLayoutOrientationHorizontal ? currentLengthHorizontal : rowHeight,
                                       self.orientation == MKLayoutOrientationVertical ? currentLengthVertical : rowHeight);
         
-        // Make a padding rect within the item is being placed
-        CGRect paddingRect = UIEdgeInsetsInsetRect(outerRect, item.padding);
-        
-        // The item rect needs to apply padding
-        CGRect rect = outerRect;
-        if (item.size.width != kMKLayoutItemSizeValueMatchParent) {
-            rect.size.width = item.size.width;
-        }
-        if (item.size.height != kMKLayoutItemSizeValueMatchParent) {
-            rect.size.height = item.size.height;
-        }
-        rect = UIEdgeInsetsInsetRect(rect, item.padding);
-        
-        rect = [self applyGravity:item.gravity withRect:rect withinRect:paddingRect];
-        
-        rect.origin.x += item.offset.horizontal;
-        rect.origin.y += item.offset.vertical;
-        
-        [item setFrame:rect];
+        [item applyPositionWithinLayoutFrame:outerRect];
         
         *currentOrientationPosition += *currentLengthOfOrientation;
         
@@ -118,6 +100,10 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKFlowLayoutItem);
         CGFloat totalAvailableLength = self.orientation == MKLayoutOrientationHorizontal ? self.bounds.size.width : self.bounds.size.height;
         CGFloat currentLength = self.orientation == MKLayoutOrientationHorizontal ? [self horizontalLengthForItem:item] : [self verticalLengthForItem:item];
         CGFloat currentHeight = self.orientation == MKLayoutOrientationHorizontal ? [self verticalLengthForItem:item] : [self horizontalLengthForItem:item];
+        
+        if (currentLength > totalAvailableLength) {
+            [NSException raise:@"MKFlowLayoutInvalidStateException" format:@"Layout contains a layout item that exceeds the available state at index %lu. In a flow layout the maximum width or height needs to be within either the available width or height depending on layout direction. For example a flow layout with horizontal direction inserts a line break before an item draws outside the available space. If an item is bigger in size than the related value, it can not be drawn at any time which is a inconsistent state.", (unsigned long)i];
+        }
         
         maximum = MAX(maximum, currentHeight);
         alreadyUsedSpaceForRow += currentLength;

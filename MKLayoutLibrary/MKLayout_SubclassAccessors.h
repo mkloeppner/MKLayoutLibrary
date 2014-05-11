@@ -12,9 +12,17 @@
 /**
  *  Applies the frame to its view or sublayout
  *
- *  @param rect The frame where the subview or the sublayout is beeing placed within the container
+ *  @param frame The frame where the subview or the sublayout is beeing placed within the container
  */
-- (void)setFrame:(CGRect)frame;
+- (void)applyPositionWithinLayoutFrame:(CGRect)frame;
 
 @end
 
+@interface MKLayout ()
+
+/**
+ *  The bounds to layout
+ */
+@property (assign, nonatomic) CGRect bounds;
+
+@end

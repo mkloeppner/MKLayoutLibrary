@@ -83,7 +83,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
             
             CGRect separatorRect = [self separatorRectForContentRect:contentRect separatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:currentPos];
             
-            [self.separators addObject:[NSValue valueWithCGRect:[self rectRoundedToGridWithRect:separatorRect]]];
+            [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
             
             currentPos += self.spacing;
             
@@ -94,35 +94,12 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         
         // Move it just within the margin bounds
         CGRect itemOuterRect = [self itemOuterRectForContentRect:contentRect currentPos:currentPos itemLength:itemLength];
-        CGRect marginRect = UIEdgeInsetsInsetRect(itemOuterRect, item.padding);
         
-        // Apply items size value if beeing set
-        CGRect itemRect = itemOuterRect; // Take the outer rect without margin applied to prevent applying margin twice
-        if (item.size.width != kMKLayoutItemSizeValueMatchParent) {
-            itemRect.size.width = item.size.width;
-        }
-        if (item.size.height != kMKLayoutItemSizeValueMatchParent) {
-            itemRect.size.height = item.size.height;
-        }
-        
-        itemRect = UIEdgeInsetsInsetRect(itemRect, item.padding);
-        
-        // Move it within the margin bounds if there is a gravity
-        CGRect rect = [self applyGravity:item.gravity withRect:itemRect withinRect:marginRect];
-        
-        rect.origin.x += item.offset.horizontal;
-        rect.origin.y += item.offset.vertical;
-        
-        // Recursive layout
-        [item setFrame:rect];
+        [item applyPositionWithinLayoutFrame:itemOuterRect];
         
         // Increase the currentPos with the item length
         currentPos += itemLength;
         
-    }
-    
-    if (!self.item.layout) {
-        [self callSeparatorDelegate];
     }
 }
 
@@ -214,7 +191,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     return 0.0f;
 }
 
-- (NSInteger)numberOfSeparatorsForSeparatorOrientation:(MKLayoutOrientation)orientation
+- (NSInteger)numberOfBordersForOrientation:(MKLayoutOrientation)orientation
 {
     NSInteger numberOfSeparators = 0;
     
@@ -228,7 +205,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         MKLayoutItem *item = self.items[i];
         if (item.sublayout) {
             MKLinearLayout *linearLayout = (MKLinearLayout *)item.sublayout;
-            numberOfSeparators += [linearLayout numberOfSeparatorsForSeparatorOrientation:orientation];
+            numberOfSeparators += [linearLayout numberOfBordersForOrientation:orientation];
         }
     }
     
