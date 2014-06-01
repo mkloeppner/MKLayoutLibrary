@@ -10,6 +10,7 @@
 #import "MKLayout.h"
 
 const CGFloat kMKLayoutItemSizeValueMatchParent = -1.0f;
+const CGFloat kMKLayoutItemSizeValueWrapContent = -2.0f;
 
 @interface MKLayout (APIAccessor)
 

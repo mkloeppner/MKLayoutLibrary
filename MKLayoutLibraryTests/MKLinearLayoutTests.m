@@ -13,6 +13,13 @@
 #import "Expecta.h"
 #import "MKLinearLayoutSeparatorImpl.h"
 
+@interface MKLinearLayout ()
+
+- (CGFloat)lengthForSize:(CGSize)size;
+- (CGFloat)heightForSize:(CGSize)size;
+- (CGSize)sizeWithLength:(CGFloat)length andHeight:(CGFloat)height;
+
+@end
 
 SpecBegin(MKLinearLayoutSpecification)
 
@@ -1341,7 +1348,7 @@ describe(@"MKLinearLayout", ^{
         
         MKLinearLayoutItem *layoutItem = [layout addSubview:subview1];
         layoutItem.weight = 1.0f;
-    
+        
         layout.orientation = MKLayoutOrientationHorizontal;
         [layout layout];
         
@@ -1376,7 +1383,7 @@ describe(@"MKLinearLayout", ^{
         expect(subview2.frame.size.height).to.equal(container.frame.size.height / 2.0f - layout.spacing / 2.0f);
         
     });
-
+    
     it(@"should not insert a spacing before the first and the last item with in vertical layout even if the first and the last item is the same", ^{
         
         layout.spacing = 10.0f;
@@ -1391,6 +1398,84 @@ describe(@"MKLinearLayout", ^{
         expect(subview1.frame.origin.y).to.equal(0.0f);
         expect(subview1.frame.size.width).to.equal(container.frame.size.width);
         expect(subview1.frame.size.height).to.equal(container.frame.size.height);
+        
+    });
+    
+    it(@"should return the right length for a layout with orientation horizontal", ^{
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        CGSize size = CGSizeMake(1.0f, 2.0f);
+        
+        CGFloat horizontalLayoutLength = [layout lengthForSize:size];
+        
+        expect(horizontalLayoutLength).to.equal(size.width);
+        
+    });
+    
+    it(@"should return the right length for a layout with orientation vertical", ^{
+        
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        CGSize size = CGSizeMake(1.0f, 2.0f);
+        
+        CGFloat verticalLayoutLength = [layout lengthForSize:size];
+        
+        expect(verticalLayoutLength).to.equal(size.height);
+        
+    });
+    
+    
+    it(@"should return the right height for a layout with orientation vertical", ^{
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        CGSize size = CGSizeMake(1.0f, 2.0f);
+        
+        CGFloat horizontalLayoutHeight = [layout heightForSize:size];
+        
+        expect(horizontalLayoutHeight).to.equal(size.height);
+        
+    });
+    
+    
+    it(@"should return the right CGSize from a length and a height for a horizontal layout", ^{
+        
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        CGSize size = CGSizeMake(1.0f, 2.0f);
+        
+        CGFloat verticalLayoutHeight = [layout heightForSize:size];
+        
+        expect(verticalLayoutHeight).to.equal(size.width);
+        
+    });
+    
+    it(@"should return the right CGSize from a length and a height for a horizontal layout", ^{
+        
+        layout.orientation = MKLayoutOrientationHorizontal;
+        
+        CGFloat length = 3.0f;
+        CGFloat height = 5.0f;
+        
+        CGSize horizontalLayoutSize = [layout sizeWithLength:length andHeight:height];
+        
+        expect(horizontalLayoutSize.width).to.equal(length);
+        expect(horizontalLayoutSize.height).to.equal(height);
+        
+    });
+    
+    it(@"should return the right CGSize from a length and a height for a vertical layout", ^{
+        
+        layout.orientation = MKLayoutOrientationVertical;
+        
+        CGFloat length = 3.0f;
+        CGFloat height = 5.0f;
+        
+        CGSize horizontalLayoutSize = [layout sizeWithLength:length andHeight:height];
+        
+        expect(horizontalLayoutSize.width).to.equal(height);
+        expect(horizontalLayoutSize.height).to.equal(length);
         
     });
     

@@ -168,6 +168,9 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         itemLength = item.weight / overallWeight * (totalUseableContentLength - alreadyUsedLength);
     } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
         itemLength = totalUseableContentLength;
+    } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueWrapContent) {
+        CGSize contentSize = [item.subview sizeThatFits:[self sizeWithLength:(totalUseableContentLength - alreadyUsedLength) andHeight:[self heightForSize:self.bounds.size]]];
+        itemLength = [self lengthForSize:contentSize];
     } else {
         itemLength = [self lengthForSize:item.size];
     }
@@ -189,6 +192,42 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
             break;
     }
     return 0.0f;
+}
+
+/**
+ * Returns a float that represents the height of the item accordingly the orientation
+ */
+- (CGFloat)heightForSize:(CGSize)size
+{
+    switch (self.orientation) {
+        case MKLayoutOrientationHorizontal:
+            return size.height;
+            break;
+        case MKLayoutOrientationVertical:
+            return size.width;
+        default:
+            break;
+    }
+    return 0.0f;
+}
+
+/**
+ *  Converts layout direction values (length, height) into the approbiate width and size values of the linear layout
+ *
+ *  @param length The value in layout direction
+ *  @param height The opposite value
+ *
+ *  @return A CGSize representing a length, an height accordingly to the direction
+ */
+- (CGSize)sizeWithLength:(CGFloat)length andHeight:(CGFloat)height
+{
+    if (self.orientation == MKLayoutOrientationHorizontal) {
+        return CGSizeMake(length, height);
+    } else if (self.orientation == MKLayoutOrientationVertical) {
+        return CGSizeMake(height, length);
+    }
+    [NSException raise:@"InvalidArgumentException" format:@"The layout direction %i is invalid", self.orientation];
+    return CGSizeZero;
 }
 
 - (NSInteger)numberOfBordersForOrientation:(MKLayoutOrientation)orientation

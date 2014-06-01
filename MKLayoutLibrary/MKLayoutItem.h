@@ -16,6 +16,11 @@
 FOUNDATION_EXPORT const CGFloat kMKLayoutItemSizeValueMatchParent;
 
 /**
+ * Specifies that the item should contain the neccessary size to match the item subviews contents
+ */
+FOUNDATION_EXPORT const CGFloat kMKLayoutItemSizeValueWrapContent;
+
+/**
  * Gravity specifies how views should be positioned in ralation to their super views.
  *
  * For example a view with a size of 100x100 aligned in a view with 1000x1000 positioned with gravity top and gravity right will be positionated at position 900(1000-100)x100.
