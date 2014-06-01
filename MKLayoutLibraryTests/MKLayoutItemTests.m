@@ -12,7 +12,6 @@
 #define EXP_SHORTHAND
 #import "Expecta.h"
 
-
 SpecBegin(MKLayoutItemSpecification)
 
 describe(@"MKLayout", ^{
