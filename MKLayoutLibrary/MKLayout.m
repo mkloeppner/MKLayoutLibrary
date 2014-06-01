@@ -94,7 +94,7 @@
 
 - (void)removeLayoutItemAtIndex:(NSInteger)index
 {
-    if (NSNotFound != index) {
+    if (NSNotFound == index) {
         return;
     }
     
