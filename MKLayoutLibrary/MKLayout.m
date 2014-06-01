@@ -14,7 +14,7 @@
 
 @property (strong, nonatomic) NSMutableArray *mutableItems;
 @property (assign, nonatomic) CGRect bounds;
- 
+
 @end
 
 @implementation MKLayout
@@ -75,6 +75,8 @@
 
 - (void)insertLayoutItem:(MKLayoutItem *)layoutItem atIndex:(NSInteger)index
 {
+    [layoutItem removeFromLayout];
+    
     if (layoutItem.subview) {
         [self.view addSubview:layoutItem.subview];
     }
@@ -92,6 +94,10 @@
 
 - (void)removeLayoutItemAtIndex:(NSInteger)index
 {
+    if (NSNotFound != index) {
+        return;
+    }
+    
     MKLayoutItem *item = self.items[index];
     [self.mutableItems removeObjectAtIndex:index];
     if ([self.delegate respondsToSelector:@selector(layout:didRemoveLayoutItem:)]) {
@@ -273,7 +279,8 @@
 #pragma mark - Layout Item callbacks
 - (void)layoutItemWantsRemoval:(MKLayoutItem *)layoutItem
 {
-    [self removeLayoutItemAtIndex:[self.mutableItems indexOfObject:layoutItem]];
+    NSInteger itemIndex = [self.mutableItems indexOfObject:layoutItem];
+    [self removeLayoutItemAtIndex:itemIndex];
 }
 
 #pragma mark - Separator management

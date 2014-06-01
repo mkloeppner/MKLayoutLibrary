@@ -12,6 +12,14 @@
 #define EXP_SHORTHAND
 #import "Expecta.h"
 
+#define MOCKITO_SHORTHAND
+#import "OCMockito.h"
+
+@interface MKLayout (APIAccessors)
+
+- (void)layoutItemWantsRemoval:(MKLayoutItem *)item;
+
+@end
 
 SpecBegin(MKLayoutSpecification)
 
@@ -435,6 +443,27 @@ describe(@"MKLayout", ^{
         
     });
     
+    it(@"should automatically remove a layout item from an old layout with adding it to another one", ^{
+        
+        UIView *container2 = [[UIView alloc] init];
+        MKLayout *layout2 = [[MKLayout alloc] initWithView:container2];
+        
+        MKLayoutItem *item = [layout2 addSubview:subview1];
+        
+        [layout addLayoutItem:item];
+        
+        // Is it removed from the old layout
+        expect(layout2.items.count).to.equal(0);
+        
+        // Is it inserted in the new layout
+        expect(layout.items.count).to.equal(1);
+        expect(layout.items[0]).to.equal(item);
+    
+        // Does it changed it superview
+        expect(item.subview.superview).to.equal(container);
+    
+        
+    });
 });
 
 SpecEnd
