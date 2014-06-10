@@ -110,7 +110,7 @@ MKLayout also support sublayouts:
 
       UIImageView *backgroundPatternImage = [[UIImageView alloc] init];
       // Work with the sublayout as usal
-      MKStackLayoutItem *backgroundPatternImage = [iconLayout addSubview:iconLayout];
+      MKStackLayoutItem *backgroundPatternImageItem = [iconLayout addSubview:backgroundPatternImage];
 
     // Add the sublayout to the root layout
     MKLinearLayoutItem *iconLayoutLayoutItem = [self.layout addSublayout:iconLayout];
