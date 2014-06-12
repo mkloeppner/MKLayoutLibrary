@@ -17,7 +17,8 @@ typedef enum {
 
 @interface MKLayoutParser : NSObject
 
-+ (MKLayout *)parseXMLFromFileAtURL:(NSURL *)fileURL error:(NSError **)error;
-- (MKLayout *)parseXMLFromFileAtURL:(NSURL *)fileURL error:(NSError **)error;
++ (MKLayout *)parseXMLFromFileAtURL:(NSURL *)fileURL error:(NSError *__autoreleasing *)error;
+- (MKLayout *)parseXMLFromFileAtURL:(NSURL *)fileURL error:(NSError *__autoreleasing *)error;
+- (MKLayout *)parseLayoutFromString:(NSString *)xmlLayout error:(NSError *__autoreleasing *)error;
 
 @end

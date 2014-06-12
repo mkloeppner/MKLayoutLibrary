@@ -29,9 +29,9 @@ describe(@"MKLayoutParser", ^{
     
     it(@"should parse a linear layout", ^{
         __autoreleasing NSError *error;
-        MKLayout *layout = [_parser parseXMLFromFileAtURL:[[NSBundle bundleForClass:[self class]] URLForResource:@"SimpleLayout" withExtension:@"xml"] error:&error];
+        MKLayout *layout = [_parser parseLayoutFromString:@"<LinearLayout/>" error:&error];
         expect(layout.class).to.equal([MKLinearLayout class]);
-    });  
+    });
     
 });
 

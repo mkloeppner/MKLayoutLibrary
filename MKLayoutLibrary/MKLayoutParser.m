@@ -35,9 +35,18 @@ extern NSString *const kMKLayoutParserErrorDomain = @"MKLayoutParserErrorDomain"
     return self;
 }
 
-- (MKLayout *)parseXMLFromFileAtURL:(NSURL *)fileURL error:(NSError *__autoreleasing *)error {
+- (MKLayout *)parseXMLFromFileAtURL:(NSURL *)fileURL error:(NSError *__autoreleasing *)error
+{
     
     NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:fileURL];
+    parser.delegate = self;
+    [parser parse];
+    return self.result;
+}
+
+- (MKLayout *)parseLayoutFromString:(NSString *)xmlLayout error:(NSError *__autoreleasing *)error
+{
+    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[xmlLayout dataUsingEncoding:NSUTF8StringEncoding]];
     parser.delegate = self;
     [parser parse];
     return self.result;
