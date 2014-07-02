@@ -11,6 +11,12 @@
 
 @implementation MKLayoutView
 
+- (instancetype)initWithLayoutNamed:(NSString *)layoutName
+{
+    [NSException raise:@"UnsupportedException" format:@"This class currently does not support initilization with layouts"];
+    return nil;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame layout:(MKLayout *)layout
 {
     self = [super initWithFrame:frame];
