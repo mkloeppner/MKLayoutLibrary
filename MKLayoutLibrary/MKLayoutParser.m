@@ -9,7 +9,7 @@
 #import "MKLayoutParser.h"
 #import "MKLayoutParserAttributeRecognizer.h"
 
-extern NSString *const kMKLayoutParserErrorDomain = @"MKLayoutParserErrorDomain";
+NSString *const kMKLayoutParserErrorDomain = @"MKLayoutParserErrorDomain";
 
 @interface MKLayoutParser () <NSXMLParserDelegate>
 

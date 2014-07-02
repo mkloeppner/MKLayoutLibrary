@@ -7,6 +7,7 @@
 //
 
 #import "MKLayout.h"
+#import "MKGravity.h"
 
 @interface MKLayout ()
 
@@ -184,76 +185,12 @@
     }
 }
 
-/**
- * Moves an rect within an other rect and uses the gravity to align it within.
- *
- *      Note: If gravity is MKLayoutGravityNone the method exits immediately with return the rect param.
- *
- * @param gravity Specifies to which edge an inner rectangle is bound of an outer rectangle in horizontal and vertical manner
- * @param rect The inner rect that is beeing moved by a gravity
- *
- */
-- (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity {
-    if (MKLayoutGravityNone == gravity) {
-        return rect;
-    }
+- (CGRect)moveRect:(CGRect)rect withinRect:(CGRect)outerRect gravity:(MKLayoutGravity)gravity
+{
+    MKGravity *gravityObj = [[MKGravity alloc] initWithCGRect:rect parent:outerRect];
+    [gravityObj moveByGravity:gravity];
     
-    // Can be both, centered horizontally and vertically at the same time
-    if ((gravity & MKLayoutGravityCenterHorizontal) == MKLayoutGravityCenterHorizontal) {
-        rect = CGRectMake(outerRect.size.width / 2.0f - rect.size.width / 2.0f + outerRect.origin.x,
-                          rect.origin.y,
-                          rect.size.width,
-                          rect.size.height);
-    }
-    if ((gravity & MKLayoutGravityCenterVertical) == MKLayoutGravityCenterVertical) {
-        rect = CGRectMake(rect.origin.x,
-                          outerRect.size.height / 2.0f - rect.size.height / 2.0f + outerRect.origin.y,
-                          rect.size.width,
-                          rect.size.height);
-    }
-    
-    if (((gravity & MKLayoutGravityCenterHorizontal) != MKLayoutGravityCenterHorizontal)) {
-        
-        if ((gravity & MKLayoutGravityLeft) == MKLayoutGravityLeft) {
-            
-            rect = CGRectMake(outerRect.origin.x,
-                              rect.origin.y,
-                              rect.size.width,
-                              rect.size.height);
-            
-        } else if ((gravity & MKLayoutGravityRight) == MKLayoutGravityRight) {
-            
-            rect = CGRectMake(outerRect.origin.x + outerRect.size.width - rect.size.width,
-                              rect.origin.y,
-                              rect.size.width,
-                              rect.size.height);
-            
-        }
-        
-    }
-    
-    if (((gravity & MKLayoutGravityCenterVertical) != MKLayoutGravityCenterVertical)) {
-        
-        if ((gravity & MKLayoutGravityTop) == MKLayoutGravityTop) {
-            
-            rect = CGRectMake(rect.origin.x,
-                              outerRect.origin.y,
-                              rect.size.width,
-                              rect.size.height);
-            
-        } else if ((gravity & MKLayoutGravityBottom) == MKLayoutGravityBottom) {
-            
-            rect = CGRectMake(rect.origin.x,
-                              outerRect.origin.y + outerRect.size.height - rect.size.height,
-                              rect.size.width,
-                              rect.size.height);
-            
-        }
-        
-    }
-    
-    
-    return rect;
+    return gravityObj.CGRect;
 }
 
 - (CGRect)roundedRect:(CGRect)rect
