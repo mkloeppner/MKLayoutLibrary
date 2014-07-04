@@ -140,6 +140,21 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     self.alreadyUsedLength += [self lengthForSize:self.currentItem.size];
 }
 
+- (void)reserveSeparatorSpaceForItems
+{
+    self.totalUseableContentLength -= self.numberOfSeparators * self.separatorThickness; // Remove separator thicknesses to keep space for separators
+}
+
+- (void)reserveSpaceForSpacingArroundSeparators
+{
+    self.totalUseableContentLength -= self.numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
+}
+
+- (void)reserveSpaceForSpacingBetweenItemsWithoutSeparator
+{
+    self.totalUseableContentLength -= ((self.items.count - 1) - self.numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+}
+
 - (void)calculateAndSetCurrentItemsPosition {
     
     if ([self isItemWithBorderAndNotAFirstItem]) {
@@ -156,21 +171,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     [self placeCurrentItem];
     [self moveCorrentPointerWithItem];
     
-}
-
-- (void)reserveSeparatorSpaceForItems
-{
-    self.totalUseableContentLength -= self.numberOfSeparators * self.separatorThickness; // Remove separator thicknesses to keep space for separators
-}
-
-- (void)reserveSpaceForSpacingArroundSeparators
-{
-    self.totalUseableContentLength -= self.numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
-}
-
-- (void)reserveSpaceForSpacingBetweenItemsWithoutSeparator
-{
-    self.totalUseableContentLength -= ((self.items.count - 1) - self.numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
 }
 
 #pragma mark - Third level abstraction
