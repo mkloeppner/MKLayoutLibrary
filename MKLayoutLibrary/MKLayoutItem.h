@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MKGravity.h"
 
 @class MKLayout;
 
@@ -14,21 +15,6 @@
  * Specifies that the layout item view should match the parent views or parent layouts size.
  */
 FOUNDATION_EXPORT const CGFloat kMKLayoutItemSizeValueMatchParent;
-
-/**
- * Gravity specifies how views should be positioned in ralation to their super views.
- *
- * For example a view with a size of 100x100 aligned in a view with 1000x1000 positioned with gravity top and gravity right will be positionated at position 900(1000-100)x100.
- */
-typedef NS_OPTIONS(NSInteger, MKLayoutGravity) {
-    MKLayoutGravityNone = 1 << 0, // Specifies, that the view doesn't stick to any edge
-    MKLayoutGravityTop = 1 << 1, // Specifies that a view is aligned on top
-    MKLayoutGravityBottom = 1 << 2, // Specifies that a view is aligned on bottom
-    MKLayoutGravityLeft = 1 << 3, // Specifies that a view is aligned to the left
-    MKLayoutGravityRight = 1 << 4, // Specifies that a view is aligned to the right
-    MKLayoutGravityCenterVertical = 1 << 5, // Specifies that a views center is aligned to its superview center on the vertical axis
-    MKLayoutGravityCenterHorizontal = 1 << 6 // Specifies that a views center is aligned to its superview center on the horizontal axis
-};
 
 /**
  * MKLayoutItem contains all the necessary information for layouts in order to perform its layout implementation.
