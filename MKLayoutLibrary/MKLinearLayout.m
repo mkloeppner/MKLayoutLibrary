@@ -21,7 +21,7 @@
 @property (assign, nonatomic) NSInteger numberOfSeparators;
 @property (assign, nonatomic) CGFloat totalUseableContentLength;
 @property (assign, nonatomic) NSInteger currentIndex;
-@property (assign, nonatomic) MKLinearLayoutItem *currentItem;
+@property (strong, nonatomic) MKLinearLayoutItem *currentItem;
 @property (assign, nonatomic) CGFloat currentItemLength;
 
 @end
@@ -41,25 +41,23 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     return self;
 }
 
+#pragma mark - Highest level
 - (void)layoutBounds:(CGRect)bounds
 {
     self.contentRect = UIEdgeInsetsInsetRect(bounds, self.margin);
     
-    [self resetState];
+    [self resetCalculationState];
     [self gatherOverallWeightAndAlreadyUsedFixedItemLengths]; // In order to map weight to real points
     [self calculateTotalUseableContentLength];
     [self iterateThroughAndPlaceItems];
 }
 
-- (void)resetState
+#pragma mark - First level abstraction
+- (void)resetCalculationState
 {
-    self.currentPos = 0.0f;
-    self.overallWeight = 0.0f;
-    self.alreadyUsedLength = 0.0f;
-    self.separators = [[NSMutableArray alloc] init];
-    
-    self.separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
-    self.numberOfSeparators = [self numberOfSeparators];
+    [self resetCurrentPointer];
+    [self resetGlobalLayoutValues];
+    [self resetSeparatorInformation];
 }
 
 /**
@@ -67,41 +65,79 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
  */
 - (void)gatherOverallWeightAndAlreadyUsedFixedItemLengths
 {
-    [self.items enumerateObjectsUsingBlock:^(MKLinearLayoutItem *item, NSUInteger idx, BOOL *stop) {
-        
-        self.currentItem = item;
-        self.currentIndex = idx;
-        
-        if (item.weight != kMKLinearLayoutWeightInvalid) {
-            self.overallWeight += item.weight;
-        } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
-            self.alreadyUsedLength += [self lengthForSize:self.contentRect.size];
+    [self forEachItem:^{
+        if ([self isCurrentItemAnWeightItem]) {
+            [self increaseOverallWeightWithItemOnes];
+        } else if ([self isCurrentItemAMatchParentItem]) {
+            [self increaseAlreadyUsedLengthByParentContentSize];
         } else {
-            self.alreadyUsedLength += [self lengthForSize:item.size];
+            [self increaseAlreadyUsedLengthByCurrentItemsLength];
         }
-        
     }];
 }
 
 - (void)calculateTotalUseableContentLength
 {
     self.totalUseableContentLength = [self lengthForSize:self.contentRect.size];
-    self.totalUseableContentLength -= self.numberOfSeparators * self.separatorThickness; // Remove separator thicknesses to keep space for separators
-    self.totalUseableContentLength -= self.numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
-    self.totalUseableContentLength -= ((self.items.count - 1) - self.numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+    [self reserveSeparatorSpaceForItems];
+    [self reserveSpaceForSpacingArroundSeparators];
+    [self reserveSpaceForSpacingBetweenItemsWithoutSeparator];
 }
 
 - (void)iterateThroughAndPlaceItems {
-    
+    [self forEachItem:^{
+        [self calculateAndSetCurrentItemsPosition];
+    }];
+}
+
+#pragma mark - Second level abstraction
+- (void)resetCurrentPointer {
+    self.currentPos = 0.0f;
+}
+
+- (void)resetGlobalLayoutValues
+{
+    self.overallWeight = 0.0f;
+    self.alreadyUsedLength = 0.0f;
+}
+
+- (void)resetSeparatorInformation
+{
+    self.separators = [[NSMutableArray alloc] init];
+    self.separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
+    self.numberOfSeparators = [self numberOfSeparators];
+}
+
+- (void)forEachItem:(void (^)(void))block {
+    __strong void (^execBlock)(void) = block;
     [self.items enumerateObjectsUsingBlock:^(MKLinearLayoutItem *item, NSUInteger idx, BOOL *stop) {
-        
         self.currentIndex = idx;
         self.currentItem = item;
-        
-        [self calculateAndSetCurrentItemsPosition];
-        
+        execBlock();
     }];
-    
+}
+
+- (BOOL)isCurrentItemAnWeightItem
+{
+    return self.currentItem.weight != kMKLinearLayoutWeightInvalid;
+}
+
+- (void)increaseOverallWeightWithItemOnes
+{
+    self.overallWeight += self.currentItem.weight;
+}
+
+- (BOOL)isCurrentItemAMatchParentItem
+{
+    return [self lengthForSize:self.currentItem.size] == kMKLayoutItemSizeValueMatchParent;
+}
+
+- (void)increaseAlreadyUsedLengthByParentContentSize {
+    self.alreadyUsedLength += [self lengthForSize:self.contentRect.size];
+}
+
+- (void)increaseAlreadyUsedLengthByCurrentItemsLength {
+    self.alreadyUsedLength += [self lengthForSize:self.currentItem.size];
 }
 
 - (void)calculateAndSetCurrentItemsPosition {
@@ -122,6 +158,22 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     
 }
 
+- (void)reserveSeparatorSpaceForItems
+{
+    self.totalUseableContentLength -= self.numberOfSeparators * self.separatorThickness; // Remove separator thicknesses to keep space for separators
+}
+
+- (void)reserveSpaceForSpacingArroundSeparators
+{
+    self.totalUseableContentLength -= self.numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
+}
+
+- (void)reserveSpaceForSpacingBetweenItemsWithoutSeparator
+{
+    self.totalUseableContentLength -= ((self.items.count - 1) - self.numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+}
+
+#pragma mark - Third level abstraction
 - (BOOL)isItemWithBorderAndNotAFirstItem {
     return self.currentItem.insertBorder && [self isNotFirstItem];
 }
