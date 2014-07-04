@@ -84,7 +84,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     [self reserveSpaceForSpacingBetweenItemsWithoutSeparator];
 }
 
-- (void)iterateThroughAndPlaceItems {
+- (void)iterateThroughAndPlaceItems
+{
     [self forEachItem:^{
         [self calculateAndSetCurrentItemsPosition];
     }];
@@ -108,7 +109,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     self.numberOfSeparators = [self numberOfSeparators];
 }
 
-- (void)forEachItem:(void (^)(void))block {
+- (void)forEachItem:(void (^)(void))block
+{
     __strong void (^execBlock)(void) = block;
     [self.items enumerateObjectsUsingBlock:^(MKLinearLayoutItem *item, NSUInteger idx, BOOL *stop) {
         self.currentIndex = idx;
@@ -155,8 +157,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     self.totalUseableContentLength -= ((self.items.count - 1) - self.numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
 }
 
-- (void)calculateAndSetCurrentItemsPosition {
-    
+- (void)calculateAndSetCurrentItemsPosition
+{
     if ([self isItemWithBorderAndNotAFirstItem]) {
         [self movePointerBySeparatorThickness];
     }
@@ -174,7 +176,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 }
 
 #pragma mark - Third level abstraction
-- (BOOL)isItemWithBorderAndNotAFirstItem {
+- (BOOL)isItemWithBorderAndNotAFirstItem
+{
     return self.currentItem.insertBorder && [self isNotFirstItem];
 }
 
@@ -183,7 +186,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     self.currentPos += self.separatorThickness;
 }
 
-- (BOOL)isNotFirstItem {
+- (BOOL)isNotFirstItem
+{
     return self.currentIndex != 0;
 }
 
@@ -245,8 +249,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     }
 }
 
-- (void)placeCurrentItemOuterBox {
-    
+- (void)placeCurrentItemOuterBox
+{
     CGRect itemOuterRect;
     if (self.orientation == MKLayoutOrientationHorizontal) {
         itemOuterRect = CGRectMake(self.contentRect.origin.x + self.currentPos,
@@ -279,6 +283,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     self.currentItemLength = [self lengthForSize:self.currentItem.size];
 }
 
+#pragma mark - MKLayout subclass methods
 - (void)callSeparatorDelegate
 {
     if (self.separatorDelegate) {
@@ -292,23 +297,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
             [sublayout callSeparatorDelegate];
         }
     }
-}
-
-/**
- * Returns a float that represents the length of the item within an orientation
- */
-- (CGFloat)lengthForSize:(CGSize)size
-{
-    switch (self.orientation) {
-        case MKLayoutOrientationHorizontal:
-            return size.width;
-            break;
-        case MKLayoutOrientationVertical:
-            return size.height;
-        default:
-            break;
-    }
-    return 0.0f;
 }
 
 - (NSInteger)numberOfBordersForOrientation:(MKLayoutOrientation)orientation
@@ -349,6 +337,21 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     }
     
     return numberOfSeparators;
+}
+
+#pragma mark - Helper
+- (CGFloat)lengthForSize:(CGSize)size
+{
+    switch (self.orientation) {
+        case MKLayoutOrientationHorizontal:
+            return size.width;
+            break;
+        case MKLayoutOrientationVertical:
+            return size.height;
+        default:
+            break;
+    }
+    return 0.0f;
 }
 
 @end
