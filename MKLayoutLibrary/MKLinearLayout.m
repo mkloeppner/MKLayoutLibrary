@@ -14,6 +14,21 @@
 
 @property (strong, nonatomic) NSMutableArray *separators;
 
+@property (assign, nonatomic) CGRect contentRect;
+
+@property (assign, nonatomic) CGFloat currentPos;
+@property (assign, nonatomic) CGFloat overallWeight;
+@property (assign, nonatomic) CGFloat alreadyUsedLength;
+@property (assign, nonatomic) CGFloat separatorThickness;
+@property (assign, nonatomic) NSInteger numberOfSeparators;
+
+@property (assign, nonatomic) CGFloat totalUseableContentLength;
+
+@property (assign, nonatomic) NSInteger currentIndex;
+@property (assign, nonatomic) MKLinearLayoutItem *currentItem;
+
+@property (assign, nonatomic) CGFloat currentItemLength;
+
 @end
 
 @implementation MKLinearLayout
@@ -33,74 +48,142 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 
 - (void)layoutBounds:(CGRect)bounds
 {
+    self.contentRect = UIEdgeInsetsInsetRect(bounds, self.margin);
+    
+    [self resetState];
+    
+    [self gatherOverallWeightAndAlreadyUsedFixedItemLengths];
+    
+    [self calculateTotalUseableContentLength];
+    
+    [self iterateAndPlaceItems];
+}
+
+- (void)resetState
+{
+    self.currentPos = 0.0f;
+    self.overallWeight = 0.0f;
+    self.alreadyUsedLength = 0.0f;
     self.separators = [[NSMutableArray alloc] init];
     
-    CGRect contentRect = UIEdgeInsetsInsetRect(bounds, self.margin);
-    
-    float currentPos = 0.0f;
-    float overallWeight = 0.0f;
-    float alreadyUsedLength = 0.0f;
-    float separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
-    NSInteger numberOfSeparators = [self numberOfSeparators];
-    
-    for (NSUInteger i = 0; i < self.items.count; i++) {
-        MKLinearLayoutItem *item = self.items[i];
+    self.separatorThickness = [self.separatorDelegate separatorThicknessForLinearLayout:self];
+    self.numberOfSeparators = [self numberOfSeparators];
+}
+
+/**
+ *  In order to map weight to real points.
+ */
+- (void)gatherOverallWeightAndAlreadyUsedFixedItemLengths
+{
+    [self.items enumerateObjectsUsingBlock:^(MKLinearLayoutItem *item, NSUInteger idx, BOOL *stop) {
         if (item.weight != kMKLinearLayoutWeightInvalid) {
-            overallWeight += item.weight;
+            self.overallWeight += item.weight;
         } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
-            alreadyUsedLength += [self lengthForSize:contentRect.size];
+            self.alreadyUsedLength += [self lengthForSize:self.contentRect.size];
         } else {
-            alreadyUsedLength += [self lengthForSize:item.size];
+            self.alreadyUsedLength += [self lengthForSize:item.size];
         }
+    }];
+}
+
+- (void)iterateAndPlaceItems {
+    
+    [self.items enumerateObjectsUsingBlock:^(MKLinearLayoutItem *item, NSUInteger idx, BOOL *stop) {
+        
+        self.currentIndex = idx;
+        self.currentItem = item;
+        
+        [self calculateAndSetCurrentItemsPosition];
+        
+    }];
+    
+}
+
+- (void)calculateAndSetCurrentItemsPosition {
+    
+    if ([self isItemWithBorderAndNotAFirstItem]) {
+        [self applySeparatorThickness];
+    }
+    if ([self isNotFirstItem]) {
+        [self applySpacing];
     }
     
-    float totalUseableContentLength = [self lengthForSize:contentRect.size];
-    totalUseableContentLength -= numberOfSeparators * separatorThickness; // Remove separator thicknesses to keep space for separators
-    totalUseableContentLength -= numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
-    totalUseableContentLength -= ((self.items.count - 1) - numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+    if ([self isItemWithBorderAndNotAFirstItem] &&
+        [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
+        [self addSeparator];
+    };
     
-    for (NSUInteger i = 0; i < self.items.count; i++) {
-        
-        MKLinearLayoutItem *item = self.items[i];
-        
-        // Determinate if a separator should be added before
-        BOOL insertSeparatorBeforeCurrentItem = item.insertBorder && (i != 0);
-        
-        if (insertSeparatorBeforeCurrentItem) {
-            currentPos += separatorThickness;
-        }
-        if (i != 0) {
-            currentPos += self.spacing;
-        }
-        
-        // Calculate separator rect that is before the current item
-        if (insertSeparatorBeforeCurrentItem && [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
-            
-            UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
-            if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
-                separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
-            }
-            
-            CGRect separatorRect = [self separatorRectForContentRect:contentRect separatorThickness:separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:currentPos];
-            
-            [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
-            
-            currentPos += self.spacing;
-            
-        }
-        
-        // Get the total item length and outer rect
-        float itemLength = [self itemLengthForTotalUseableContentLength:totalUseableContentLength forItem:item overallWeight:overallWeight alreadyUsedLength:alreadyUsedLength];
-        
-        // Move it just within the margin bounds
-        CGRect itemOuterRect = [self itemOuterRectForContentRect:contentRect currentPos:currentPos itemLength:itemLength];
-        
-        [item applyPositionWithinLayoutFrame:itemOuterRect];
-        
-        // Increase the currentPos with the item length
-        currentPos += itemLength;
-        
+    [self placeCurrentItem];
+    [self moveCorrentPointerWithItem];
+    
+}
+
+- (BOOL)isItemWithBorderAndNotAFirstItem {
+    return self.currentItem.insertBorder && [self isNotFirstItem];
+}
+
+- (BOOL)isNotFirstItem {
+    return self.currentIndex != 0;
+}
+
+- (void)calculateTotalUseableContentLength
+{
+    self.totalUseableContentLength = [self lengthForSize:self.contentRect.size];
+    self.totalUseableContentLength -= self.numberOfSeparators * self.separatorThickness; // Remove separator thicknesses to keep space for separators
+    self.totalUseableContentLength -= self.numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
+    self.totalUseableContentLength -= ((self.items.count - 1) - self.numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+}
+
+- (void)applySpacing
+{
+    self.currentPos += self.spacing;
+}
+
+- (void)applySeparatorThickness
+{
+    self.currentPos += self.separatorThickness;
+}
+
+- (void)placeCurrentItem
+{
+    // Get the total item length and outer rect
+    [self calculateCurrentItemLength];
+    
+    // Move it just within the margin bounds
+    CGRect itemOuterRect = [self itemOuterRectForContentRect:self.contentRect currentPos:self.currentPos itemLength:self.currentItemLength];
+    
+    [self.currentItem applyPositionWithinLayoutFrame:itemOuterRect];
+}
+
+- (void)calculateCurrentItemLength
+{
+    self.currentItemLength = 0.0f;
+    if (self.currentItem.weight != kMKLinearLayoutWeightInvalid) {
+        self.currentItemLength = self.currentItem.weight / self.overallWeight * (self.totalUseableContentLength - self.alreadyUsedLength);
+    } else if ([self lengthForSize:self.currentItem.size] == kMKLayoutItemSizeValueMatchParent) {
+        self.currentItemLength = self.totalUseableContentLength;
+    } else {
+        self.currentItemLength = [self lengthForSize:self.currentItem.size];
     }
+}
+
+- (void)moveCorrentPointerWithItem
+{
+    self.currentPos += self.currentItemLength;
+}
+
+- (void)addSeparator
+{
+    UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+    if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
+        separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
+    }
+    
+    CGRect separatorRect = [self separatorRectForContentRect:self.contentRect separatorThickness:self.separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:self.currentPos];
+    
+    [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
+    
+    [self applySpacing];
 }
 
 /**
@@ -153,25 +236,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
             [sublayout callSeparatorDelegate];
         }
     }
-}
-
-/**
- * Calculates the length in pixels for an layout item
- *
- * @param item The item that is requested for its length in pixels within the current orientation of the linear layout
- * @param overallWeight The overallWeight specifies all weights of all relative sized items. It is used in order to calculate the items length relative to other relative layoutet items (weight is used instead of size)
- */
-- (CGFloat)itemLengthForTotalUseableContentLength:(CGFloat)totalUseableContentLength forItem:(MKLinearLayoutItem *)item overallWeight:(CGFloat)overallWeight alreadyUsedLength:(CGFloat)alreadyUsedLength
-{
-    float itemLength = 0.0f;
-    if (item.weight != kMKLinearLayoutWeightInvalid) {
-        itemLength = item.weight / overallWeight * (totalUseableContentLength - alreadyUsedLength);
-    } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
-        itemLength = totalUseableContentLength;
-    } else {
-        itemLength = [self lengthForSize:item.size];
-    }
-    return itemLength;
 }
 
 /**
