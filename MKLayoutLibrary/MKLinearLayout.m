@@ -236,12 +236,12 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 - (void)calculateCurrentItemLength
 {
     self.currentItemLength = 0.0f;
-    if (self.currentItem.weight != kMKLinearLayoutWeightInvalid) {
-        self.currentItemLength = self.currentItem.weight / self.overallWeight * (self.totalUseableContentLength - self.alreadyUsedLength);
-    } else if ([self lengthForSize:self.currentItem.size] == kMKLayoutItemSizeValueMatchParent) {
-        self.currentItemLength = self.totalUseableContentLength;
+    if ([self isCurrentItemAnWeightItem]) {
+        [self setCurrentItemLengthByWeight];
+    } else if ([self isCurrentItemAMatchParentItem]) {
+        [self setCurrentItemLengthByParentContentLength];
     } else {
-        self.currentItemLength = [self lengthForSize:self.currentItem.size];
+        [self setCurrentItemLengthByItemsFixedSize];
     }
 }
 
@@ -261,6 +261,22 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     }
     
     [self.currentItem applyPositionWithinLayoutFrame:itemOuterRect];
+}
+
+#pragma mark - Fith level abstraction
+- (void)setCurrentItemLengthByWeight
+{
+    self.currentItemLength = self.currentItem.weight / self.overallWeight * (self.totalUseableContentLength - self.alreadyUsedLength);
+}
+
+- (void)setCurrentItemLengthByParentContentLength
+{
+    self.currentItemLength = self.totalUseableContentLength;
+}
+
+- (void)setCurrentItemLengthByItemsFixedSize
+{
+    self.currentItemLength = [self lengthForSize:self.currentItem.size];
 }
 
 - (void)callSeparatorDelegate
