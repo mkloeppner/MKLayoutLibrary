@@ -158,10 +158,10 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 - (void)calculateAndSetCurrentItemsPosition {
     
     if ([self isItemWithBorderAndNotAFirstItem]) {
-        [self applySeparatorThickness];
+        [self movePointerBySeparatorThickness];
     }
     if ([self isNotFirstItem]) {
-        [self applySpacing];
+        [self movePointerBySpacing];
     }
     
     if ([self isItemWithBorderAndNotAFirstItem] && [self doesDelegateRespondsToCreateSelector]) {
@@ -169,7 +169,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     };
     
     [self placeCurrentItem];
-    [self moveCorrentPointerWithItem];
+    [self movePointerWithItem];
     
 }
 
@@ -178,7 +178,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     return self.currentItem.insertBorder && [self isNotFirstItem];
 }
 
-- (void)applySeparatorThickness
+- (void)movePointerBySeparatorThickness
 {
     self.currentPos += self.separatorThickness;
 }
@@ -187,7 +187,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     return self.currentIndex != 0;
 }
 
-- (void)applySpacing
+- (void)movePointerBySpacing
 {
     self.currentPos += self.spacing;
 }
@@ -208,7 +208,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     
     [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
     
-    [self applySpacing];
+    [self movePointerBySpacing];
 }
 
 - (void)placeCurrentItem
@@ -218,11 +218,12 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     [self placeCurrentItemOuterBox];
 }
 
-- (void)moveCorrentPointerWithItem
+- (void)movePointerWithItem
 {
     self.currentPos += self.currentItemLength;
 }
 
+#pragma mark - Fourth level abstraction
 - (void)calculateCurrentItemLength
 {
     self.currentItemLength = 0.0f;
