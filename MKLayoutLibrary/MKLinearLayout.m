@@ -163,7 +163,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     if ([self isNotFirstItem]) {
         [self movePointerBySpacing];
     }
-    
     if ([self isItemWithBorderAndNotAFirstItem] && [self doesDelegateRespondsToCreateSelector]) {
         [self addSeparator];
         [self movePointerBySpacing];
