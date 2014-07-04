@@ -165,7 +165,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     }
     
     if ([self isItemWithBorderAndNotAFirstItem] && [self doesDelegateRespondsToCreateSelector]) {
-        [self addSeparator];
+        [self addSeparatorAndMovePointer];
     };
     
     [self placeCurrentItem];
@@ -197,16 +197,9 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     return [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)];
 }
 
-- (void)addSeparator
+- (void)addSeparatorAndMovePointer
 {
-    UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
-    if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
-        separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
-    }
-    
-    CGRect separatorRect = [self separatorRectForContentRect:self.contentRect separatorThickness:self.separatorThickness separatorIntersectionOffsets:separatorIntersectionOffsets currentPos:self.currentPos];
-    
-    [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
+    [self addSeparator];
     
     [self movePointerBySpacing];
 }
@@ -224,6 +217,29 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 }
 
 #pragma mark - Fourth level abstraction
+- (void)addSeparator
+{
+    UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+    if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
+        separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
+    }
+    
+    CGRect separatorRect;
+    if (self.orientation == MKLayoutOrientationHorizontal) {
+        separatorRect = CGRectMake(self.contentRect.origin.x + self.currentPos - self.separatorThickness,
+                                   self.contentRect.origin.y - separatorIntersectionOffsets.top,
+                                   self.separatorThickness,
+                                   self.contentRect.size.height + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
+    } else {
+        separatorRect = CGRectMake(self.contentRect.origin.x - separatorIntersectionOffsets.left,
+                                   self.contentRect.origin.y + self.currentPos - self.separatorThickness,
+                                   self.contentRect.size.width + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
+                                   self.separatorThickness);
+    }
+    
+    [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
+}
+
 - (void)calculateCurrentItemLength
 {
     self.currentItemLength = 0.0f;
@@ -252,23 +268,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     }
     
     [self.currentItem applyPositionWithinLayoutFrame:itemOuterRect];
-}
-
-- (CGRect)separatorRectForContentRect:(CGRect)contentRect separatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets currentPos:(CGFloat)currentPos
-{
-    CGRect separatorRect;
-    if (self.orientation == MKLayoutOrientationHorizontal) {
-        separatorRect = CGRectMake(contentRect.origin.x + currentPos - separatorThickness,
-                                   contentRect.origin.y - separatorIntersectionOffsets.top,
-                                   separatorThickness,
-                                   contentRect.size.height + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
-    } else {
-        separatorRect = CGRectMake(contentRect.origin.x - separatorIntersectionOffsets.left,
-                                   contentRect.origin.y + currentPos - separatorThickness,
-                                   contentRect.size.width + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
-                                   separatorThickness);
-    }
-    return separatorRect;
 }
 
 - (void)callSeparatorDelegate
