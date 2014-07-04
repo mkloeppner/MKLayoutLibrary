@@ -165,7 +165,8 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     }
     
     if ([self isItemWithBorderAndNotAFirstItem] && [self doesDelegateRespondsToCreateSelector]) {
-        [self addSeparatorAndMovePointer];
+        [self addSeparator];
+        [self movePointerBySpacing];
     };
     
     [self placeCurrentItem];
@@ -197,26 +198,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     return [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)];
 }
 
-- (void)addSeparatorAndMovePointer
-{
-    [self addSeparator];
-    
-    [self movePointerBySpacing];
-}
-
-- (void)placeCurrentItem
-{
-    [self calculateCurrentItemLength];
-    
-    [self placeCurrentItemOuterBox];
-}
-
-- (void)movePointerWithItem
-{
-    self.currentPos += self.currentItemLength;
-}
-
-#pragma mark - Fourth level abstraction
 - (void)addSeparator
 {
     UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
@@ -240,6 +221,19 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
 }
 
+- (void)placeCurrentItem
+{
+    [self calculateCurrentItemLength];
+    
+    [self placeCurrentItemOuterBox];
+}
+
+- (void)movePointerWithItem
+{
+    self.currentPos += self.currentItemLength;
+}
+
+#pragma mark - Fourth level abstraction
 - (void)calculateCurrentItemLength
 {
     self.currentItemLength = 0.0f;
