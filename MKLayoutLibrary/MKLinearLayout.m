@@ -13,20 +13,15 @@
 @interface MKLinearLayout ()
 
 @property (strong, nonatomic) NSMutableArray *separators;
-
 @property (assign, nonatomic) CGRect contentRect;
-
 @property (assign, nonatomic) CGFloat currentPos;
 @property (assign, nonatomic) CGFloat overallWeight;
 @property (assign, nonatomic) CGFloat alreadyUsedLength;
 @property (assign, nonatomic) CGFloat separatorThickness;
 @property (assign, nonatomic) NSInteger numberOfSeparators;
-
 @property (assign, nonatomic) CGFloat totalUseableContentLength;
-
 @property (assign, nonatomic) NSInteger currentIndex;
 @property (assign, nonatomic) MKLinearLayoutItem *currentItem;
-
 @property (assign, nonatomic) CGFloat currentItemLength;
 
 @end
@@ -51,12 +46,9 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     self.contentRect = UIEdgeInsetsInsetRect(bounds, self.margin);
     
     [self resetState];
-    
-    [self gatherOverallWeightAndAlreadyUsedFixedItemLengths];
-    
+    [self gatherOverallWeightAndAlreadyUsedFixedItemLengths]; // In order to map weight to real points
     [self calculateTotalUseableContentLength];
-    
-    [self iterateAndPlaceItems];
+    [self iterateThroughAndPlaceItems];
 }
 
 - (void)resetState
@@ -76,6 +68,10 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 - (void)gatherOverallWeightAndAlreadyUsedFixedItemLengths
 {
     [self.items enumerateObjectsUsingBlock:^(MKLinearLayoutItem *item, NSUInteger idx, BOOL *stop) {
+        
+        self.currentItem = item;
+        self.currentIndex = idx;
+        
         if (item.weight != kMKLinearLayoutWeightInvalid) {
             self.overallWeight += item.weight;
         } else if ([self lengthForSize:item.size] == kMKLayoutItemSizeValueMatchParent) {
@@ -83,10 +79,19 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         } else {
             self.alreadyUsedLength += [self lengthForSize:item.size];
         }
+        
     }];
 }
 
-- (void)iterateAndPlaceItems {
+- (void)calculateTotalUseableContentLength
+{
+    self.totalUseableContentLength = [self lengthForSize:self.contentRect.size];
+    self.totalUseableContentLength -= self.numberOfSeparators * self.separatorThickness; // Remove separator thicknesses to keep space for separators
+    self.totalUseableContentLength -= self.numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
+    self.totalUseableContentLength -= ((self.items.count - 1) - self.numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+}
+
+- (void)iterateThroughAndPlaceItems {
     
     [self.items enumerateObjectsUsingBlock:^(MKLinearLayoutItem *item, NSUInteger idx, BOOL *stop) {
         
@@ -108,8 +113,7 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
         [self applySpacing];
     }
     
-    if ([self isItemWithBorderAndNotAFirstItem] &&
-        [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)]) {
+    if ([self isItemWithBorderAndNotAFirstItem] && [self doesDelegateRespondsToCreateSelector]) {
         [self addSeparator];
     };
     
@@ -122,16 +126,13 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     return self.currentItem.insertBorder && [self isNotFirstItem];
 }
 
-- (BOOL)isNotFirstItem {
-    return self.currentIndex != 0;
+- (void)applySeparatorThickness
+{
+    self.currentPos += self.separatorThickness;
 }
 
-- (void)calculateTotalUseableContentLength
-{
-    self.totalUseableContentLength = [self lengthForSize:self.contentRect.size];
-    self.totalUseableContentLength -= self.numberOfSeparators * self.separatorThickness; // Remove separator thicknesses to keep space for separators
-    self.totalUseableContentLength -= self.numberOfSeparators * (2.0f * self.spacing); // For every separator remove spacing left and right from it
-    self.totalUseableContentLength -= ((self.items.count - 1) - self.numberOfSeparators) * self.spacing; // For every item without separators just remove the spacing
+- (BOOL)isNotFirstItem {
+    return self.currentIndex != 0;
 }
 
 - (void)applySpacing
@@ -139,37 +140,9 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     self.currentPos += self.spacing;
 }
 
-- (void)applySeparatorThickness
+- (BOOL)doesDelegateRespondsToCreateSelector
 {
-    self.currentPos += self.separatorThickness;
-}
-
-- (void)placeCurrentItem
-{
-    // Get the total item length and outer rect
-    [self calculateCurrentItemLength];
-    
-    // Move it just within the margin bounds
-    CGRect itemOuterRect = [self itemOuterRectForContentRect:self.contentRect currentPos:self.currentPos itemLength:self.currentItemLength];
-    
-    [self.currentItem applyPositionWithinLayoutFrame:itemOuterRect];
-}
-
-- (void)calculateCurrentItemLength
-{
-    self.currentItemLength = 0.0f;
-    if (self.currentItem.weight != kMKLinearLayoutWeightInvalid) {
-        self.currentItemLength = self.currentItem.weight / self.overallWeight * (self.totalUseableContentLength - self.alreadyUsedLength);
-    } else if ([self lengthForSize:self.currentItem.size] == kMKLayoutItemSizeValueMatchParent) {
-        self.currentItemLength = self.totalUseableContentLength;
-    } else {
-        self.currentItemLength = [self lengthForSize:self.currentItem.size];
-    }
-}
-
-- (void)moveCorrentPointerWithItem
-{
-    self.currentPos += self.currentItemLength;
+    return [self.separatorDelegate respondsToSelector:@selector(linearLayout:separatorRect:type:)];
 }
 
 - (void)addSeparator
@@ -186,24 +159,46 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
     [self applySpacing];
 }
 
-/**
- * The total available item frame moved by the current position and the spacing if it exists
- */
-- (CGRect)itemOuterRectForContentRect:(CGRect)contentRect currentPos:(CGFloat)currentPos itemLength:(CGFloat)itemLength
+- (void)placeCurrentItem
 {
+    [self calculateCurrentItemLength];
+    
+    [self placeCurrentItemOuterBox];
+}
+
+- (void)moveCorrentPointerWithItem
+{
+    self.currentPos += self.currentItemLength;
+}
+
+- (void)calculateCurrentItemLength
+{
+    self.currentItemLength = 0.0f;
+    if (self.currentItem.weight != kMKLinearLayoutWeightInvalid) {
+        self.currentItemLength = self.currentItem.weight / self.overallWeight * (self.totalUseableContentLength - self.alreadyUsedLength);
+    } else if ([self lengthForSize:self.currentItem.size] == kMKLayoutItemSizeValueMatchParent) {
+        self.currentItemLength = self.totalUseableContentLength;
+    } else {
+        self.currentItemLength = [self lengthForSize:self.currentItem.size];
+    }
+}
+
+- (void)placeCurrentItemOuterBox {
+    
     CGRect itemOuterRect;
     if (self.orientation == MKLayoutOrientationHorizontal) {
-        itemOuterRect = CGRectMake(contentRect.origin.x + currentPos,
-                                   contentRect.origin.y,
-                                   itemLength,
-                                   contentRect.size.height);
+        itemOuterRect = CGRectMake(self.contentRect.origin.x + self.currentPos,
+                                   self.contentRect.origin.y,
+                                   self.currentItemLength,
+                                   self.contentRect.size.height);
     } else {
-        itemOuterRect = CGRectMake(contentRect.origin.x,
-                                   contentRect.origin.y + currentPos,
-                                   contentRect.size.width,
-                                   itemLength);
+        itemOuterRect = CGRectMake(self.contentRect.origin.x,
+                                   self.contentRect.origin.y + self.currentPos,
+                                   self.contentRect.size.width,
+                                   self.currentItemLength);
     }
-    return itemOuterRect;
+    
+    [self.currentItem applyPositionWithinLayoutFrame:itemOuterRect];
 }
 
 - (CGRect)separatorRectForContentRect:(CGRect)contentRect separatorThickness:(CGFloat)separatorThickness separatorIntersectionOffsets:(UIEdgeInsets)separatorIntersectionOffsets currentPos:(CGFloat)currentPos
