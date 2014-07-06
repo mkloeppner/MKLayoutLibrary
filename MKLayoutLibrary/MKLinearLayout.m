@@ -23,6 +23,7 @@
 @property (assign, nonatomic) NSInteger currentIndex;
 @property (strong, nonatomic) MKLinearLayoutItem *currentItem;
 @property (assign, nonatomic) CGFloat currentItemLength;
+@property (assign, nonatomic) UIEdgeInsets separatorIntersectionOffsets;
 
 @end
 
@@ -203,23 +204,9 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 
 - (void)addSeparator
 {
-    UIEdgeInsets separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
-    if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
-        separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
-    }
+    [self askDelegateForGlobalSeparatorSettings];
     
-    CGRect separatorRect;
-    if (self.orientation == MKLayoutOrientationHorizontal) {
-        separatorRect = CGRectMake(self.contentRect.origin.x + self.currentPos - self.separatorThickness,
-                                   self.contentRect.origin.y - separatorIntersectionOffsets.top,
-                                   self.separatorThickness,
-                                   self.contentRect.size.height + separatorIntersectionOffsets.top + separatorIntersectionOffsets.bottom);
-    } else {
-        separatorRect = CGRectMake(self.contentRect.origin.x - separatorIntersectionOffsets.left,
-                                   self.contentRect.origin.y + self.currentPos - self.separatorThickness,
-                                   self.contentRect.size.width + separatorIntersectionOffsets.left + separatorIntersectionOffsets.right,
-                                   self.separatorThickness);
-    }
+    CGRect separatorRect = [self separatorRect];
     
     [self.separators addObject:[NSValue valueWithCGRect:[self roundedRect:separatorRect]]];
 }
@@ -237,6 +224,26 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 }
 
 #pragma mark - Fourth level abstraction
+- (void)askDelegateForGlobalSeparatorSettings
+{
+    self.separatorIntersectionOffsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+    
+    if ([self.separatorDelegate respondsToSelector:@selector(separatorIntersectionOffsetsForLinearLayout:)]) {
+        self.separatorIntersectionOffsets = [self.separatorDelegate separatorIntersectionOffsetsForLinearLayout:self];
+    }
+}
+
+- (CGRect)separatorRect
+{
+    CGRect separatorRect = CGRectZero;
+    if (self.orientation == MKLayoutOrientationHorizontal) {
+        separatorRect = [self currentSeparatorRectForHorizontalOrientation];
+    } else {
+        separatorRect = [self currentSeparatorRectForVerticalOrientation];
+    }
+    return separatorRect;
+}
+
 - (void)calculateCurrentItemLength
 {
     self.currentItemLength = 0.0f;
@@ -253,21 +260,31 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 {
     CGRect itemOuterRect;
     if (self.orientation == MKLayoutOrientationHorizontal) {
-        itemOuterRect = CGRectMake(self.contentRect.origin.x + self.currentPos,
-                                   self.contentRect.origin.y,
-                                   self.currentItemLength,
-                                   self.contentRect.size.height);
+        itemOuterRect = [self currentItemOuterRectForHorizontalOrientation];
     } else {
-        itemOuterRect = CGRectMake(self.contentRect.origin.x,
-                                   self.contentRect.origin.y + self.currentPos,
-                                   self.contentRect.size.width,
-                                   self.currentItemLength);
+        itemOuterRect = [self currentItemOuterRectForVerticalOrientation];
     }
     
     [self.currentItem applyPositionWithinLayoutFrame:itemOuterRect];
 }
 
 #pragma mark - Fith level abstraction
+- (CGRect)currentSeparatorRectForHorizontalOrientation
+{
+    return CGRectMake(self.contentRect.origin.x + self.currentPos - self.separatorThickness,
+                               self.contentRect.origin.y - self.separatorIntersectionOffsets.top,
+                               self.separatorThickness,
+                               self.contentRect.size.height + self.separatorIntersectionOffsets.top + self.separatorIntersectionOffsets.bottom);
+}
+
+- (CGRect)currentSeparatorRectForVerticalOrientation
+{
+    return CGRectMake(self.contentRect.origin.x - self.separatorIntersectionOffsets.left,
+               self.contentRect.origin.y + self.currentPos - self.separatorThickness,
+               self.contentRect.size.width + self.separatorIntersectionOffsets.left + self.separatorIntersectionOffsets.right,
+               self.separatorThickness);
+}
+
 - (void)setCurrentItemLengthByWeight
 {
     self.currentItemLength = self.currentItem.weight / self.overallWeight * (self.totalUseableContentLength - self.alreadyUsedLength);
@@ -281,6 +298,22 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 - (void)setCurrentItemLengthByItemsFixedSize
 {
     self.currentItemLength = [self lengthForSize:self.currentItem.size];
+}
+
+- (CGRect)currentItemOuterRectForHorizontalOrientation
+{
+    return CGRectMake(self.contentRect.origin.x + self.currentPos,
+                      self.contentRect.origin.y,
+                      self.currentItemLength,
+                      self.contentRect.size.height);
+}
+
+- (CGRect)currentItemOuterRectForVerticalOrientation
+{
+    return CGRectMake(self.contentRect.origin.x,
+                      self.contentRect.origin.y + self.currentPos,
+                      self.contentRect.size.width,
+                      self.currentItemLength);
 }
 
 #pragma mark - MKLayout subclass methods
