@@ -214,7 +214,6 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 - (void)placeCurrentItem
 {
     [self calculateCurrentItemLength];
-    
     [self placeCurrentItemOuterBox];
 }
 

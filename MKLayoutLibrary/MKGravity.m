@@ -75,55 +75,55 @@
 - (CGRect)moveRectToHorizontalCenter
 {
     self.CGRect = CGRectMake(self.parentRect.size.width / 2.0f - self.CGRect.size.width / 2.0f + self.parentRect.origin.x,
-                      self.CGRect.origin.y,
-                      self.CGRect.size.width,
-                      self.CGRect.size.height);
+                             self.CGRect.origin.y,
+                             self.CGRect.size.width,
+                             self.CGRect.size.height);
     return CGRectZero;
 }
 
 - (CGRect)moveRectToVerticalCenter
 {
     self.CGRect = CGRectMake(self.CGRect.origin.x,
-                      self.parentRect.size.height / 2.0f - self.CGRect.size.height / 2.0f + self.parentRect.origin.y,
-                      self.CGRect.size.width,
-                      self.CGRect.size.height);
-        return CGRectZero;
+                             self.parentRect.size.height / 2.0f - self.CGRect.size.height / 2.0f + self.parentRect.origin.y,
+                             self.CGRect.size.width,
+                             self.CGRect.size.height);
+    return CGRectZero;
 }
 
 - (CGRect)moveRectToLeftOfParent
 {
     self.CGRect =  CGRectMake(self.parentRect.origin.x,
-                      self.CGRect.origin.y,
-                      self.CGRect.size.width,
-                      self.CGRect.size.height);
-        return CGRectZero;
+                              self.CGRect.origin.y,
+                              self.CGRect.size.width,
+                              self.CGRect.size.height);
+    return CGRectZero;
 }
 
 - (CGRect)moveRectToRightOfParent
 {
     self.CGRect =  CGRectMake(self.parentRect.origin.x + self.parentRect.size.width - self.CGRect.size.width,
-                      self.CGRect.origin.y,
-                      self.CGRect.size.width,
-                      self.CGRect.size.height);
-        return CGRectZero;
+                              self.CGRect.origin.y,
+                              self.CGRect.size.width,
+                              self.CGRect.size.height);
+    return CGRectZero;
 }
 
 - (CGRect)moveRectToTopOfParent
 {
     self.CGRect =  CGRectMake(self.CGRect.origin.x,
-                      self.parentRect.origin.y,
-                      self.CGRect.size.width,
-                      self.CGRect.size.height);
-        return CGRectZero;
+                              self.parentRect.origin.y,
+                              self.CGRect.size.width,
+                              self.CGRect.size.height);
+    return CGRectZero;
 }
 
 - (CGRect)moveRectToBottomOfParent
 {
     self.CGRect =  CGRectMake(self.CGRect.origin.x,
-                      self.parentRect.origin.y + self.parentRect.size.height - self.CGRect.size.height,
-                      self.CGRect.size.width,
-                      self.CGRect.size.height);
-        return CGRectZero;
+                              self.parentRect.origin.y + self.parentRect.size.height - self.CGRect.size.height,
+                              self.CGRect.size.width,
+                              self.CGRect.size.height);
+    return CGRectZero;
 }
 
 @end
