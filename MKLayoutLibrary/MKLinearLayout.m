@@ -271,18 +271,22 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 #pragma mark - Fith level abstraction
 - (CGRect)currentSeparatorRectForHorizontalOrientation
 {
-    return CGRectMake(self.contentRect.origin.x + self.currentPos - self.separatorThickness,
-                               self.contentRect.origin.y - self.separatorIntersectionOffsets.top,
-                               self.separatorThickness,
-                               self.contentRect.size.height + self.separatorIntersectionOffsets.top + self.separatorIntersectionOffsets.bottom);
+    CGFloat positionX = self.contentRect.origin.x + self.currentPos - self.separatorThickness;
+    CGFloat positionY = self.contentRect.origin.y - self.separatorIntersectionOffsets.top;
+    CGFloat width = self.separatorThickness;
+    CGFloat height = self.contentRect.size.height + self.separatorIntersectionOffsets.top + self.separatorIntersectionOffsets.bottom;
+    
+    return CGRectMake(positionX, positionY, width, height);
 }
 
 - (CGRect)currentSeparatorRectForVerticalOrientation
 {
-    return CGRectMake(self.contentRect.origin.x - self.separatorIntersectionOffsets.left,
-               self.contentRect.origin.y + self.currentPos - self.separatorThickness,
-               self.contentRect.size.width + self.separatorIntersectionOffsets.left + self.separatorIntersectionOffsets.right,
-               self.separatorThickness);
+    CGFloat positionX = self.contentRect.origin.x - self.separatorIntersectionOffsets.left;
+    CGFloat positionY = self.contentRect.origin.y + self.currentPos - self.separatorThickness;
+    CGFloat width = self.contentRect.size.width + self.separatorIntersectionOffsets.left + self.separatorIntersectionOffsets.right;
+    CGFloat height = self.separatorThickness;
+    
+    return CGRectMake(positionX, positionY, width, height);
 }
 
 - (void)setCurrentItemLengthByWeight
@@ -302,19 +306,26 @@ SYNTHESIZE_LAYOUT_ITEM_ACCESSORS_WITH_CLASS_NAME(MKLinearLayoutItem)
 
 - (CGRect)currentItemOuterRectForHorizontalOrientation
 {
-    return CGRectMake(self.contentRect.origin.x + self.currentPos,
-                      self.contentRect.origin.y,
-                      self.currentItemLength,
-                      self.contentRect.size.height);
+    CGFloat positionX = self.contentRect.origin.x + self.currentPos;
+    CGFloat positionY = self.contentRect.origin.y;
+    CGFloat width = self.currentItemLength;
+    CGFloat height = self.contentRect.size.height;
+    
+    return CGRectMake(positionX, positionY, width, height);
 }
 
 - (CGRect)currentItemOuterRectForVerticalOrientation
 {
-    return CGRectMake(self.contentRect.origin.x,
-                      self.contentRect.origin.y + self.currentPos,
-                      self.contentRect.size.width,
-                      self.currentItemLength);
+    CGFloat positionX = self.contentRect.origin.x;
+    CGFloat positionY = self.contentRect.origin.y + self.currentPos;
+    CGFloat width = self.contentRect.size.width;
+    CGFloat height = self.currentItemLength;
+    
+    return CGRectMake(positionX, positionY, width, height);
 }
+
+#pragma mark - Sixth level of abstraction
+
 
 #pragma mark - MKLayout subclass methods
 - (void)callSeparatorDelegate
