@@ -7,6 +7,7 @@
 //
 
 #import "MKGravity.h"
+#import "MKCGRectAdditions.h"
 
 @interface MKGravity ()
 
@@ -41,7 +42,7 @@
 }
 
 - (void)moveHorizontalByGravity {
-    if ((self.gravity & MKLayoutGravityCenterHorizontal) == MKLayoutGravityCenterHorizontal) {
+    if ([self shouldBeCenteredHorizontally]) {
         [self moveRectToHorizontalCenter];
     } else {
         [self moveToHorizontalEdgeByGravity];
@@ -49,7 +50,7 @@
 }
 
 - (void)moveVerticalByGravity {
-    if ((self.gravity & MKLayoutGravityCenterVertical) == MKLayoutGravityCenterVertical) {
+    if ([self shouldBeCenteredVertically]) {
         [self moveRectToVerticalCenter];
     } else {
         [self moveToVerticalEdgeByGravity];
@@ -57,73 +58,67 @@
 }
 
 - (void)moveToHorizontalEdgeByGravity {
-    if ((self.gravity & MKLayoutGravityLeft) == MKLayoutGravityLeft) {
+    if ([self shouldBeMovedToTheLeft]) {
         [self moveRectToLeftOfParent];
-    } else if ((self.gravity & MKLayoutGravityRight) == MKLayoutGravityRight) {
+    } else if ([self shouldBeMovedToTheRight]) {
         [self moveRectToRightOfParent];
     }
 }
 
 - (void)moveToVerticalEdgeByGravity {
-    if ((self.gravity & MKLayoutGravityTop) == MKLayoutGravityTop) {
+    if ([self shouldBeMovedToTheTop]) {
         [self moveRectToTopOfParent];
-    } else if ((self.gravity & MKLayoutGravityBottom) == MKLayoutGravityBottom) {
+    } else if ([self shouldBeMovedToTheBottom]) {
         [self moveRectToBottomOfParent];
     }
 }
 
-- (CGRect)moveRectToHorizontalCenter
-{
-    self.CGRect = CGRectMake(self.parentRect.size.width / 2.0f - self.CGRect.size.width / 2.0f + self.parentRect.origin.x,
-                             self.CGRect.origin.y,
-                             self.CGRect.size.width,
-                             self.CGRect.size.height);
-    return CGRectZero;
+- (BOOL)shouldBeCenteredHorizontally {
+    return (self.gravity & MKLayoutGravityCenterHorizontal) == MKLayoutGravityCenterHorizontal;
 }
 
-- (CGRect)moveRectToVerticalCenter
-{
-    self.CGRect = CGRectMake(self.CGRect.origin.x,
-                             self.parentRect.size.height / 2.0f - self.CGRect.size.height / 2.0f + self.parentRect.origin.y,
-                             self.CGRect.size.width,
-                             self.CGRect.size.height);
-    return CGRectZero;
+- (void)moveRectToHorizontalCenter {
+    self.CGRect = CGRectMoveHorizontallyToCenterWithinRect(self.CGRect, self.parentRect);
 }
 
-- (CGRect)moveRectToLeftOfParent
-{
-    self.CGRect =  CGRectMake(self.parentRect.origin.x,
-                              self.CGRect.origin.y,
-                              self.CGRect.size.width,
-                              self.CGRect.size.height);
-    return CGRectZero;
+- (BOOL)shouldBeCenteredVertically {
+    return (self.gravity & MKLayoutGravityCenterVertical) == MKLayoutGravityCenterVertical;
 }
 
-- (CGRect)moveRectToRightOfParent
-{
-    self.CGRect =  CGRectMake(self.parentRect.origin.x + self.parentRect.size.width - self.CGRect.size.width,
-                              self.CGRect.origin.y,
-                              self.CGRect.size.width,
-                              self.CGRect.size.height);
-    return CGRectZero;
+- (void)moveRectToVerticalCenter{
+    self.CGRect = CGRectMoveVerticallyToCenterWithinRect(self.CGRect, self.parentRect);
 }
 
-- (CGRect)moveRectToTopOfParent
-{
-    self.CGRect =  CGRectMake(self.CGRect.origin.x,
-                              self.parentRect.origin.y,
-                              self.CGRect.size.width,
-                              self.CGRect.size.height);
-    return CGRectZero;
+- (BOOL)shouldBeMovedToTheLeft {
+    return (self.gravity & MKLayoutGravityLeft) == MKLayoutGravityLeft;
 }
 
-- (CGRect)moveRectToBottomOfParent
-{
-    self.CGRect =  CGRectMake(self.CGRect.origin.x,
-                              self.parentRect.origin.y + self.parentRect.size.height - self.CGRect.size.height,
-                              self.CGRect.size.width,
-                              self.CGRect.size.height);
-    return CGRectZero;
+- (void)moveRectToLeftOfParent{
+    self.CGRect =  CGRectMoveToLeftWithinRect(self.CGRect, self.parentRect);
+}
+
+- (BOOL)shouldBeMovedToTheRight {
+    return (self.gravity & MKLayoutGravityRight) == MKLayoutGravityRight;
+}
+
+- (void)moveRectToRightOfParent{
+    self.CGRect = CGRectMoveToRightWithinRect(self.CGRect, self.parentRect);
+}
+
+- (BOOL)shouldBeMovedToTheTop {
+    return (self.gravity & MKLayoutGravityTop) == MKLayoutGravityTop;
+}
+
+- (void)moveRectToTopOfParent{
+    self.CGRect =  CGRectMoveToTopWithinRect(self.CGRect, self.parentRect);
+}
+
+- (BOOL)shouldBeMovedToTheBottom {
+    return (self.gravity & MKLayoutGravityBottom) == MKLayoutGravityBottom;
+}
+
+- (void)moveRectToBottomOfParent{
+    self.CGRect =  CGRectMoveToBottomWithinRect(self.CGRect, self.parentRect);
 }
 
 @end

@@ -81,6 +81,7 @@
 		B523005818E89237003E3494 /* MKLayoutSeparatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKLayoutSeparatorDelegate.h; sourceTree = "<group>"; };
 		B523005918E8985C003E3494 /* MKLayoutLibraryLayoutIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKLayoutLibraryLayoutIntegrationTests.m; sourceTree = "<group>"; };
 		B5381DED196482D800D08AA9 /* MKGravityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKGravityTests.m; sourceTree = "<group>"; };
+		B5381DEF1971182700D08AA9 /* MKCGRectAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKCGRectAdditions.h; sourceTree = "<group>"; };
 		B54D407C1881C5B0007270DB /* MKStackLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStackLayout.h; sourceTree = "<group>"; };
 		B54D407D1881C5B0007270DB /* MKStackLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStackLayout.m; sourceTree = "<group>"; };
 		B54D407F1881C9C1007270DB /* MKStackLayoutTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStackLayoutTests.m; sourceTree = "<group>"; };
@@ -225,6 +226,7 @@
 		B58241501881929A008A472F /* MKLayoutLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				B5381DEF1971182700D08AA9 /* MKCGRectAdditions.h */,
 				B58241531881929A008A472F /* MKLayoutLibrary.h */,
 				28E8AEF018A224ED001B5A6F /* MKLayoutDelegate.h */,
 				B5824174188192B3008A472F /* MKLayout.h */,
