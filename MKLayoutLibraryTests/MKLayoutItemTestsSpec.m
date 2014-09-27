@@ -8,6 +8,8 @@
 
 #import "Specta.h"
 #import "MKLayout.h"
+#import "MKLinearLayoutSeparatorImpl.h"
+#import "MKLayoutDelegateImpl.h"
 
 #define EXP_SHORTHAND
 #import "Expecta.h"
@@ -62,6 +64,38 @@ describe(@"MKLayoutItemTests", ^{
         [layoutItem removeFromLayout];
         
         expect(sublayout.items.count).to.equal(1);
+        
+    });
+    
+    it(@"should not retain its delegate since its holding the layout", ^{
+        
+        __weak MKLayoutDelegateImpl *weakInstanceOfLayoutDelegate = nil;
+        __strong MKLayout *layout = [[MKLayout alloc] init];
+        
+        @autoreleasepool {
+            MKLayoutDelegateImpl *createdInstanceOfLayoutDelegate = [[MKLayoutDelegateImpl alloc] init];
+            weakInstanceOfLayoutDelegate = createdInstanceOfLayoutDelegate;
+            
+            layout.delegate = weakInstanceOfLayoutDelegate;
+        }
+        
+        expect(layout.delegate).to.equal(nil);
+        
+    });
+    
+    it(@"should not retain its layout delegate since its holding the layout", ^{
+        
+        __weak MKLinearLayoutSeparatorImpl *weakInstanceOfLayoutDelegate = nil;
+        __strong MKLayout *layout = [[MKLayout alloc] init];
+        
+        @autoreleasepool {
+            MKLinearLayoutSeparatorImpl *createdInstanceOfLayoutDelegate = [[MKLinearLayoutSeparatorImpl alloc] init];
+            weakInstanceOfLayoutDelegate = createdInstanceOfLayoutDelegate;
+            
+            layout.separatorDelegate = weakInstanceOfLayoutDelegate;
+        }
+        
+        expect(layout.separatorDelegate).to.equal(nil);
         
     });
     

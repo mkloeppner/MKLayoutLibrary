@@ -11,7 +11,7 @@
 
 @interface MKLayout ()
 
-@property (strong, nonatomic, readwrite) MKLayoutItem *item;
+@property (weak, nonatomic, readwrite) MKLayoutItem *item;
 
 @property (strong, nonatomic) NSMutableArray *mutableItems;
 @property (assign, nonatomic) CGRect bounds;

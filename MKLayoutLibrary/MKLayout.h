@@ -89,7 +89,7 @@
 /**
  * The parent layout item if layout is a sublayout
  */
-@property (strong, nonatomic, readonly) MKLayoutItem *item;
+@property (weak, nonatomic, readonly) MKLayoutItem *item;
 
 /**
  * Adds spacing all around the layout contents
@@ -103,7 +103,7 @@
  *
  * For sublayouts the view property will be set automatically to parent layouts view.
  */
-@property (strong, nonatomic) UIView *view;
+@property (weak, nonatomic) UIView *view;
 
 /**
  * The layout items representing the layouts structure

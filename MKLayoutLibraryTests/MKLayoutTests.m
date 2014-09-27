@@ -19,6 +19,8 @@
 
 - (void)layoutItemWantsRemoval:(MKLayoutItem *)item;
 
+@property (weak, nonatomic, readwrite) MKLayoutItem *item;
+
 @end
 
 SpecBegin(MKLayoutSpecification)
@@ -299,6 +301,41 @@ describe(@"MKLayout", ^{
     
         
     });
+    
+    it(@"should not retain a view its view in order to prevent retain cycles", ^{
+        
+        __weak UIView *view = nil;
+        __strong MKLayout *layout = [[MKLayout alloc] init];
+        
+        @autoreleasepool {
+            UIView *localReleasedView = [[UIView alloc] init];
+            localReleasedView = [[UIView alloc] init];
+            view = localReleasedView;
+            
+            layout.view = view;
+        }
+        
+        expect(layout.view).to.equal(nil);
+        
+    });
+    
+    it(@"should not retain its item since its holding the layout", ^{
+        
+        __weak MKLayoutItem *weakLayoutItem = nil;
+        __strong MKLayout *layout = [[MKLayout alloc] init];
+        
+        @autoreleasepool {
+            MKLayoutItem *layoutItem = [[MKLayoutItem alloc] init];
+            weakLayoutItem = layoutItem;
+            
+            layout.item = weakLayoutItem;
+        }
+        
+        expect(layout.item).to.equal(nil);
+        
+    });
+    
+    
 });
 
 SpecEnd
