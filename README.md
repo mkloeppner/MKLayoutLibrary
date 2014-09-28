@@ -278,23 +278,3 @@ specific layout behavior. The class itself has the purpose the build up the obje
 tree of layout items and to translate this into the UIKits UIView hierarchy.
 
 It is also a good place to share calculation code for layout purpose.
-
-## Roadmap
-
-Until version 1.0 MKLayoutLibrary is under rapid development which means, that the API
-can slightly changed until that. However, here is a list of features planned for
-Version 1.0.
-
-### WRAP_CONTENT
-
-It is also planned to specify sizes that matches their contents. As layout items
-can contain sublayout it is necessary to provide MKLayout with pre-calculations
-for the overall layout size.
-
-### XML Support
-
-There are plans for including a markup language for layouts.
-
-## Build status
-
-[![Build Status](https://travis-ci.org/mkloeppner/MKLayoutLibrary.svg?branch=master)](https://travis-ci.org/mkloeppner/MKLayoutLibrary)
