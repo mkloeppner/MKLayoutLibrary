@@ -24,13 +24,14 @@ MKLayout library has been designed to be used within UIView subclasses.
 Here is an example of view with a vertical linear layout:
 
   __MKVerticalLayoutView.h:__
-
+```obj-c
     @interface MKVerticalLayoutView : UIView
 
     @property (weak, nonatomic, readonly) UILabel *titleLabel;
     @property (weak, nonatomic, readonly) UITextView *descriptionTextView;
 
     @end
+```
 
   __MKVerticalLayoutView.m:__
 
